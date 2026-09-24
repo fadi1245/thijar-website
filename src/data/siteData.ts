@@ -198,7 +198,7 @@ export const erpFeatureGroups = [
     },
     {
       title: 'Implementation support',
-      text: 'Work with TAJIN specialists on configuration, testing, onboarding, and operational readiness for your team.',
+      text: 'Work with THIJAR specialists on configuration, testing, onboarding, and operational readiness for your team.',
       icon: ShieldCheck,
     },
   ];

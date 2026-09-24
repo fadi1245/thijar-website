@@ -1,5 +1,13 @@
-import { Header } from "@/components/layout/Header";
+import { Hero } from "@/components/home/Hero";
 import { createFileRoute } from "@tanstack/react-router";
+import { TrustBar } from "@/components/home/TrustBar";
+import { MetricSection } from "@/components/home/MetricSection";
+import { AboutSection } from "@/components/home/AboutSection";
+import { ERPHighlight } from "@/components/home/ERPHighlight";
+import { ServiceSection } from "@/components/home/ServiceSection";
+import { TeamSection } from "@/components/home/TeamSection";
+import { ClientSection } from "@/components/home/ClientSection";
+import { CTASection } from "@/components/home/CTASection";
 
 export const Route = createFileRoute("/")({
   component: HomePage,
@@ -8,14 +16,17 @@ export const Route = createFileRoute("/")({
 function HomePage() {
     return (
       <>
-        <Header />
-        <section className="min-h-screen bg-[hsl(var(--primary))] pt-32">
-          <div className="container-tajin">
-            <h1 className="font-display text-6xl text-white">
-              Hero Section
-            </h1>
-          </div>
-        </section>
+        <main>
+        <Hero/>
+        <TrustBar/>
+        <MetricSection/>
+        <AboutSection/>
+        <ERPHighlight/>
+        <ServiceSection/>
+        <TeamSection/>
+        <ClientSection/>
+        <CTASection/>
+        </main>
       </>
     );
   }
