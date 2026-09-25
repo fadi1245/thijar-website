@@ -7,7 +7,7 @@ export function AboutSection(){
     return(
 <section className="container-tajin grid gap-14 py-24 md:grid-cols-[.8fr_1.2fr] md:py-32">
 <div className="reveal">
-  <SectionLabel>THE THIJAR APPROACH</SectionLabel>
+  {/* <SectionLabel>THE THIJAR APPROACH</SectionLabel> */}
   <h2 className="font-display mt-6 max-w-md text-4xl font-extrabold leading-[1.02] tracking-[-.055em] text-[hsl(var(--primary))] md:text-5xl">Business clarity for your most important moves.</h2>
 </div>
 <div className="reveal reveal-delay-1">

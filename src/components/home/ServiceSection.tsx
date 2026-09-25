@@ -3,6 +3,7 @@ import { SectionLabel } from "../shared/SectionLabel";
 import { services } from "@/data/siteData";
 import { Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
+import { motion } from "framer-motion";
 
 export function ServiceSection() {
   const [activeService, setActiveService] = useState(0);
@@ -39,7 +40,7 @@ export function ServiceSection() {
       <div className="container-tajin">
         <div className="flex flex-col justify-between gap-7 md:flex-row md:items-end">
           <div>
-            <SectionLabel>WHAT WE DO</SectionLabel>
+            {/* <SectionLabel>WHAT WE DO</SectionLabel> */}
             <h2 className="font-display mt-5 max-w-xl text-4xl font-extrabold leading-[1.03] tracking-[-.05em] text-[hsl(var(--primary))] md:text-5xl">
             Financial precision meets technical momentum.
             </h2>
@@ -48,44 +49,50 @@ export function ServiceSection() {
           Connected services spanning core financial foundations, enterprise systems, and product deployment.
           </p>
         </div>
-        <div className="mt-14 flex flex-col border-t border-[hsl(var(--primary)/.14)] md:flex-row">
+        <div className="mt-14 flex flex-col border-t border-[hsl(var(--primary)/.14)] md:h-[280px] md:flex-row">
           {services.map(
             ({ id, number, title, description, icon: Icon }, index) => {
               const isActive = activeService === index;
 
               return (
-                <Link
+                <motion.div
                   key={id}
-                  to={id === "erp" ? "/erp" : "/contact-us"}
-                  onPointerEnter={() => handlePointerEnter(index)}
-                  onPointerLeave={() => handlePointerLeave(index)}
-                  onPointerDown={() => handlePointerEnter(index)}
-                  onFocus={() => handlePointerEnter(index)}
-                  onBlur={() => handlePointerLeave(index)}
-                  className={`focus-ring group overflow-hidden border-b border-[hsl(var(--primary)/.14)] py-7 transition-colors duration-300 ease-out hover:bg-white/45 md:min-w-0 md:flex-1 md:border-b-0 md:border-r md:px-5 md:last:border-r-0 ${isActive ? "bg-white/35 md:flex-[2]" : "md:flex-[1]"}`}
-                  data-testid={`link-service-${id}`}
-                  data-active={isActive}
-                  aria-current={isActive ? "true" : undefined}
+                  layout
+                  transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                  className={`overflow-hidden border-b border-[hsl(var(--primary)/.14)] md:min-w-0 md:border-b-0 md:border-r md:last:border-r-0 ${isActive ? "md:flex-[2]" : "md:flex-[1]"}`}
                 >
-                  <div className="flex items-start justify-between">
-                    {/* <span className="font-mono-brand text-[10px] text-[hsl(var(--accent))]">
-                      {number}
-                    </span> */}
-                    <Icon
-                      className={`h-6 w-6 transition-transform duration-500 group-hover:-translate-y-1 group-hover:translate-x-1 ${isActive ? "text-[hsl(var(--accent))]" : "text-[hsl(var(--primary)/.55)]"}`}
-                      strokeWidth={1.6}
+                  <Link
+                    to={id === "erp" ? "/erp" : "/contact-us"}
+                    onPointerEnter={() => handlePointerEnter(index)}
+                    onPointerLeave={() => handlePointerLeave(index)}
+                    onPointerDown={() => handlePointerEnter(index)}
+                    onFocus={() => handlePointerEnter(index)}
+                    onBlur={() => handlePointerLeave(index)}
+                    className={`focus-ring group flex h-full flex-col overflow-hidden py-7 transition-colors duration-300 ease-out hover:bg-white/45 md:px-5 ${isActive ? "bg-white/35" : ""}`}
+                    data-testid={`link-service-${id}`}
+                    data-active={isActive}
+                    aria-current={isActive ? "true" : undefined}
+                  >
+                    <div className="flex items-start justify-between">
+                      {/* <span className="font-mono-brand text-[10px] text-[hsl(var(--accent))]">
+                        {number}
+                      </span> */}
+                      <Icon
+                        className={`h-6 w-6 transition-transform duration-500 group-hover:-translate-y-1 group-hover:translate-x-1 ${isActive ? "text-[hsl(var(--accent))]" : "text-[hsl(var(--primary)/.55)]"}`}
+                        strokeWidth={1.6}
+                      />
+                    </div>
+                    <h3 className="mt-9 font-display text-xl font-bold leading-tight text-[hsl(var(--primary))]">
+                      {title}
+                    </h3>
+                    <p className="mt-3 flex-1 text-sm leading-6 text-[hsl(var(--muted-foreground))]">
+                      {description}
+                    </p>
+                    <ArrowUpRight
+                      className={`mt-6 h-4 w-4 text-[hsl(var(--accent))] transition-opacity ${isActive ? "opacity-100" : "opacity-0 group-hover:opacity-100"}`}
                     />
-                  </div>
-                  <h3 className="mt-9 min-h-[2.8rem] font-display text-xl font-bold leading-tight text-[hsl(var(--primary))]">
-                    {title}
-                  </h3>
-                  <p className="mt-3 min-h-[6rem] text-sm leading-6 text-[hsl(var(--muted-foreground))]">
-                    {description}
-                  </p>
-                  <ArrowUpRight
-                    className={`mt-6 h-4 w-4 text-[hsl(var(--accent))] transition-opacity ${isActive ? "opacity-100" : "opacity-0 group-hover:opacity-100"}`}
-                  />
-                </Link>
+                  </Link>
+                </motion.div>
               );
             },
           )}

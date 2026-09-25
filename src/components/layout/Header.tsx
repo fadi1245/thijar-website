@@ -10,8 +10,9 @@ export function Header() {
   const nav = [
     ["About us", "/about-us"],
     ["ERP & software", "/erp"],
-    ["Careers", "/careers"],
     ["Services", "/service"],
+    ["Careers", "/careers"],
+
   ];
   return (
     <header className="absolute inset-x-0 top-0 z-20">

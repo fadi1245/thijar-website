@@ -65,7 +65,7 @@ import {
       number: "07",
       title: "Company formation",
       description:
-        "Cross-border incorporation, corporate structuring, and regulatory clearances.",
+        "Cross-border incorporation, corporate structuring, and regulatory clearances *wherever* your business operates.",
       tag: "ADVISORY",
       icon: Briefcase,
     },

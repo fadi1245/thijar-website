@@ -118,12 +118,12 @@ export function TimelineMilestonesSection() {
                     {item.description}
                   </p>
 
-                  <div className="mt-5 flex items-center gap-2">
+                  {/* <div className="mt-5 flex items-center gap-2">
                     <span className="h-2 w-2 rounded-full bg-[hsl(var(--accent))]" />
                     <span className="font-mono-brand text-[10px] tracking-[.18em] text-[hsl(var(--accent))]">
                       {item.tag}
                     </span>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             ))}

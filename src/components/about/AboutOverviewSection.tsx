@@ -87,8 +87,8 @@ export function AboutOverviewSection() {
             <div className="relative overflow-hidden rounded-3xl bg-[hsl(var(--primary))] p-8 md:p-12">
               {/* Background circles */}
               <div className="absolute inset-0 opacity-30">
-                <div className="absolute left-1/2 top-1/2 h-[320px] w-[320px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-[hsl(var(--accent)/.25)]" />
-                <div className="absolute left-1/2 top-1/2 h-[250px] w-[250px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-[hsl(var(--accent)/.18)]" />
+                <div className="absolute left-1/2 top-1/2 h-[320px] w-[320px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-[hsl(var(--accent)/.55)]" />
+                <div className="absolute left-1/2 top-1/2 h-[250px] w-[250px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-[hsl(var(--accent)/.45)]" />
                 <div className="absolute left-1/2 top-1/2 h-[180px] w-[180px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-[hsl(var(--accent)/.15)]" />
               </div>
 
