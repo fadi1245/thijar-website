@@ -1,5 +1,6 @@
 import { SectionLabel } from "../shared/SectionLabel";
 import logo from "../../assets/logo/logo.jpeg";
+import { RevealLeft, RevealRight } from "@/lib/revealAnimation";
 
 export function AboutOverviewSection() {
   return (
@@ -7,6 +8,7 @@ export function AboutOverviewSection() {
       <div className="container-tajin">
         <div className="grid gap-16 lg:grid-cols-[1.15fr_.85fr] lg:items-center">
           {/* Content */}
+          <RevealLeft>
           <div>
             <SectionLabel>THE FIRM / OUR ESSENCE</SectionLabel>
 
@@ -81,8 +83,9 @@ export function AboutOverviewSection() {
               </div>
             </div> */}
           </div>
-
+          </RevealLeft>
           {/* Visual */}
+          <RevealRight>
           <div>
             <div className="relative overflow-hidden rounded-3xl bg-[hsl(var(--primary))] p-8 md:p-12">
               {/* Background circles */}
@@ -119,6 +122,7 @@ export function AboutOverviewSection() {
               </div> */}
             </div>
           </div>
+          </RevealRight>
         </div>
       </div>
     </section>

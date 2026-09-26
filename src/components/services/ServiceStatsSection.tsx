@@ -1,4 +1,5 @@
 import { SectionLabel } from "../shared/SectionLabel";
+import { motion, type Variants } from "framer-motion";
 
 const stats = [
   {
@@ -32,14 +33,40 @@ const stats = [
   },
 ];
 
+const cardContainerVariants: Variants = {
+  hidden: {},
+  visible: {
+    transition: { staggerChildren: 0.09, delayChildren: 0.05 },
+  },
+};
+
+const cardItemVariants: Variants = {
+  hidden: {
+    opacity: 0,
+    y: 24,
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] as const },
+  },
+};
+
 export function ServicesStatsSection() {
   return (
     <section className="bg-[#f6f5f4] py-10">
       <div className="container-tajin">
-        <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
+        <motion.div
+          className="grid gap-6 sm:grid-cols-2 xl:grid-cols-4"
+          variants={cardContainerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
+        >
           {stats.map((item) => (
-            <div
+            <motion.div
               key={item.label}
+              variants={cardItemVariants}
               className="rounded-3xl border border-[hsl(var(--primary)/.08)] bg-white p-6 md:p-8"
             >
               {/* <p className="font-mono-brand text-[10px] tracking-[.18em] text-[hsl(var(--accent))]">
@@ -63,9 +90,9 @@ export function ServicesStatsSection() {
               <p className="mt-3 text-[15px] leading-7 text-[hsl(var(--muted-foreground))]">
                 {item.description}
               </p>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );

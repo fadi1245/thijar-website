@@ -1,5 +1,6 @@
 import { ShieldCheck } from "lucide-react";
 import { SectionLabel } from "../shared/SectionLabel";
+import { RevealLeft, RevealUp } from "@/lib/revealAnimation";
 
 export function ERPBenefits(){
     return(
@@ -13,11 +14,13 @@ export function ERPBenefits(){
               ['Cloud storage', 'Keep your business information accessible and organized wherever your teams work.'],
               ['Accountant support', 'When you need a second view, THIJAR specialists are close to the system and the numbers.'],
             ].map(([title, text]) => (
+              <RevealUp>
               <div key={title} className="rounded-2xl border border-white/15 bg-white/[.05] p-6">
                 <ShieldCheck className="h-6 w-6 text-[hsl(var(--accent))]" strokeWidth={1.5} />
                 <h3 className="mt-10 font-display text-xl font-bold">{title}</h3>
                 <p className="mt-3 text-sm leading-6 text-white/55">{text}</p>
               </div>
+              </RevealUp>
             ))}
           </div>
         </div>

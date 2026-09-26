@@ -1,11 +1,13 @@
 import { ArrowRight, Code2, Network } from "lucide-react";
 import { SectionLabel } from "../shared/SectionLabel";
 import { Link } from "@tanstack/react-router";
+import { RevealLeft, RevealRight } from "@/lib/revealAnimation";
 
 export function TeamSection() {
   return (
     <section className="overflow-hidden bg-[hsl(var(--primary))] py-24 text-white md:py-32">
       <div className="container-tajin grid gap-14 md:grid-cols-[.8fr_1.2fr] md:items-center">
+        <RevealLeft>
         <div>
           <SectionLabel light>ONE TEAM / MANY DISCIPLINES</SectionLabel>
           <h2 className="font-display mt-6 max-w-md text-4xl font-extrabold leading-[1.02] tracking-[-.05em] md:text-5xl">
@@ -24,6 +26,8 @@ export function TeamSection() {
             Meet the THIJAR team <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
+        </RevealLeft>
+        <RevealRight>
         <div className="relative min-h-[330px]">
           <div className="absolute left-[12%] top-[8%] h-44 w-44 rounded-full border border-white/15 bg-[hsl(var(--accent)/.22)] p-5">
             <div className="flex h-full flex-col justify-between rounded-full border border-white/10 p-5">
@@ -63,6 +67,7 @@ export function TeamSection() {
           <div className="absolute left-0 top-1/2 h-px w-full bg-white/10" />
           <div className="absolute left-1/2 top-0 h-full w-px bg-white/10" />
         </div>
+        </RevealRight>
       </div>
     </section>
   );

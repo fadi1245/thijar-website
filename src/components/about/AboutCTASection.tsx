@@ -1,10 +1,12 @@
 import { Link } from "@tanstack/react-router";
 import { ArrowRight, MonitorSmartphone } from "lucide-react";
 import { SectionLabel } from "../shared/SectionLabel";
+import { RevealUp } from "@/lib/revealAnimation";
 
 export function AboutCTASection() {
   return (
-    <section className="bg-[hsl(var(--primary))] py-24 md:py-32">
+    <section className="bg-[hsl(var(--primary))] py-12 md:py-12">
+      <RevealUp>
       <div className="container-tajin">
         <div className="rounded-[28px] border border-white/10 bg-white/[0.04] p-8 md:p-12 lg:p-16">
           <div className="grid gap-12 lg:grid-cols-[1.3fr_.7fr] lg:items-center">
@@ -60,6 +62,7 @@ export function AboutCTASection() {
           </div>
         </div>
       </div>
+      </RevealUp>
     </section>
   );
 }

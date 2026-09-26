@@ -3,7 +3,29 @@ import { SectionLabel } from "../shared/SectionLabel";
 import { services } from "@/data/siteData";
 import { Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
-import { motion } from "framer-motion";
+import { motion, type Variants } from "framer-motion";
+import { RevealLeft, RevealRight, RevealUp } from "@/lib/revealAnimation";
+
+const tabContainerVariants = {
+  hidden: {},
+  visible: {
+    transition: { staggerChildren: 0.12, delayChildren: 0.1 },
+  },
+};
+
+const tabItemVariants = {
+  hidden: {
+    opacity: 0,
+    clipPath: "inset(100% 0% 0% 0%)",
+    filter: "blur(6px)",
+  },
+  visible: {
+    opacity: 1,
+    clipPath: "inset(0% 0% 0% 0%)",
+    filter: "blur(0px)",
+    transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] as const },
+  },
+};
 
 export function ServiceSection() {
   const [activeService, setActiveService] = useState(0);
@@ -39,17 +61,27 @@ export function ServiceSection() {
     <section className="bg-[#eaf5f6] py-24 md:py-32">
       <div className="container-tajin">
         <div className="flex flex-col justify-between gap-7 md:flex-row md:items-end">
+          <RevealLeft>
           <div>
             {/* <SectionLabel>WHAT WE DO</SectionLabel> */}
             <h2 className="font-display mt-5 max-w-xl text-4xl font-extrabold leading-[1.03] tracking-[-.05em] text-[hsl(var(--primary))] md:text-5xl">
             Financial precision meets technical momentum.
             </h2>
           </div>
+          </RevealLeft>
+          <RevealUp>
           <p className="max-w-xs text-sm leading-6 text-[hsl(var(--muted-foreground))]">
           Connected services spanning core financial foundations, enterprise systems, and product deployment.
           </p>
+          </RevealUp>
         </div>
-        <div className="mt-14 flex flex-col border-t border-[hsl(var(--primary)/.14)] md:h-[280px] md:flex-row">
+        <motion.div
+          className="mt-14 flex flex-col border-t border-[hsl(var(--primary)/.14)] md:h-[280px] md:flex-row"
+          variants={tabContainerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
+        >
           {services.map(
             ({ id, number, title, description, icon: Icon }, index) => {
               const isActive = activeService === index;
@@ -58,7 +90,8 @@ export function ServiceSection() {
                 <motion.div
                   key={id}
                   layout
-                  transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                  variants={tabItemVariants}
+                  transition={{ layout: { duration: 0.5, ease: [0.22, 1, 0.36, 1] } }}
                   className={`overflow-hidden border-b border-[hsl(var(--primary)/.14)] md:min-w-0 md:border-b-0 md:border-r md:last:border-r-0 ${isActive ? "md:flex-[2]" : "md:flex-[1]"}`}
                 >
                   <Link
@@ -96,7 +129,7 @@ export function ServiceSection() {
               );
             },
           )}
-        </div>
+        </motion.div>
 
         <div className="mt-12 flex justify-center md:justify-start">
           <Link

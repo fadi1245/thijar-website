@@ -1,7 +1,8 @@
 import { Layers3, Smartphone, Workflow, Upload } from "lucide-react";
 import { SectionLabel } from "../shared/SectionLabel";
-import { motion } from "framer-motion";
+import { motion, type Variants } from "framer-motion";
 import { useState } from "react";
+import { RevealLeft } from "@/lib/revealAnimation";
 
 const customSoftwareServices = [
   {
@@ -30,6 +31,41 @@ const customSoftwareServices = [
   },
 ];
 
+const listContainerVariants: Variants = {
+  hidden: {},
+  visible: {
+    transition: { staggerChildren: 0.14, delayChildren: 0.1 },
+  },
+};
+
+const rowVariants: Variants = {
+  hidden: {
+    opacity: 0,
+    x: -60,
+    skewX: 8,
+  },
+  visible: {
+    opacity: 1,
+    x: 0,
+    skewX: 0,
+    transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] as const },
+  },
+};
+
+const iconVariants: Variants = {
+  hidden: {
+    opacity: 0,
+    rotate: 180,
+    scale: 0.5,
+  },
+  visible: {
+    opacity: 1,
+    rotate: 0,
+    scale: 1,
+    transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] as const },
+  },
+};
+
 export function CustomSoftwareSection() {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
 
@@ -38,6 +74,7 @@ export function CustomSoftwareSection() {
       <div className="container-tajin">
         <div className="grid gap-14 lg:grid-cols-[0.95fr_1.05fr] lg:items-start">
           {/* Left Side */}
+          <RevealLeft>
           <div>
             <SectionLabel>SERVICE 05</SectionLabel>
 
@@ -73,9 +110,15 @@ export function CustomSoftwareSection() {
               </span>
             </div>
           </div>
-
+          </RevealLeft>
           {/* Right Side: expandable list */}
-          <div className="border-t border-[hsl(var(--border))]">
+          <motion.div
+            className="border-t border-[hsl(var(--border))]"
+            variants={listContainerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+          >
             {customSoftwareServices.map((item, index) => {
               const Icon = item.icon;
               const isActive = activeIndex === index;
@@ -83,60 +126,66 @@ export function CustomSoftwareSection() {
               return (
                 <motion.div
                   key={item.title}
-                  layout
-                  onMouseEnter={() => setActiveIndex(index)}
-                  onMouseLeave={() => setActiveIndex(null)}
-                  onClick={() =>
-                    setActiveIndex(isActive ? null : index)
-                  }
-                  transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-                  className="cursor-pointer border-b border-[hsl(var(--border))] py-6"
+                  variants={rowVariants}
+                  className="border-b border-[hsl(var(--border))]"
                 >
-                  <div className="flex items-center gap-5">
-                    {/* <span className="font-mono-brand text-xs tracking-[.18em] text-[hsl(var(--muted-foreground))]">
-                      {String(index + 1).padStart(2, "0")}
-                    </span> */}
+                  <motion.div
+                    layout
+                    onMouseEnter={() => setActiveIndex(index)}
+                    onMouseLeave={() => setActiveIndex(null)}
+                    onClick={() =>
+                      setActiveIndex(isActive ? null : index)
+                    }
+                    transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                    className="cursor-pointer py-6"
+                  >
+                    <div className="flex items-center gap-5">
+                      {/* <span className="font-mono-brand text-xs tracking-[.18em] text-[hsl(var(--muted-foreground))]">
+                        {String(index + 1).padStart(2, "0")}
+                      </span> */}
 
-                    <div
-                      className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl transition-colors duration-300 ${
-                        isActive
-                          ? "bg-[hsl(var(--accent)/.15)]"
-                          : "bg-[hsl(var(--accent)/.08)]"
-                      }`}
-                    >
-                      <Icon className="h-5 w-5 text-[hsl(var(--accent))]" />
+                      <motion.div
+                        variants={iconVariants}
+                        className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl transition-colors duration-300 ${
+                          isActive
+                            ? "bg-[hsl(var(--accent)/.15)]"
+                            : "bg-[hsl(var(--accent)/.08)]"
+                        }`}
+                      >
+                        <Icon className="h-5 w-5 text-[hsl(var(--accent))]" />
+                      </motion.div>
+
+                      <h3 className="flex-1 text-xl font-bold leading-tight text-[hsl(var(--primary))] md:text-2xl">
+                        {item.title}
+                      </h3>
+
+                      <motion.span
+                        animate={{ rotate: isActive ? 45 : 0 }}
+                        transition={{ duration: 0.3 }}
+                        className="font-display text-2xl leading-none text-[hsl(var(--accent))]"
+                      >
+                        +
+                      </motion.span>
                     </div>
 
-                    <h3 className="flex-1 text-xl font-bold leading-tight text-[hsl(var(--primary))] md:text-2xl">
-                      {item.title}
-                    </h3>
-
-                    <motion.span
-                      animate={{ rotate: isActive ? 45 : 0 }}
-                      transition={{ duration: 0.3 }}
-                      className="font-display text-2xl leading-none text-[hsl(var(--accent))]"
+                    <motion.div
+                      initial={false}
+                      animate={{
+                        height: isActive ? "auto" : 0,
+                        opacity: isActive ? 1 : 0,
+                      }}
+                      transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                      className="overflow-hidden"
                     >
-                      +
-                    </motion.span>
-                  </div>
-
-                  <motion.div
-                    initial={false}
-                    animate={{
-                      height: isActive ? "auto" : 0,
-                      opacity: isActive ? 1 : 0,
-                    }}
-                    transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-                    className="overflow-hidden"
-                  >
-                    <p className="ml-16 mt-4 max-w-md text-[15px] leading-7 text-[hsl(var(--muted-foreground))]">
-                      {item.description}
-                    </p>
+                      <p className="ml-16 mt-4 max-w-md text-[15px] leading-7 text-[hsl(var(--muted-foreground))]">
+                        {item.description}
+                      </p>
+                    </motion.div>
                   </motion.div>
                 </motion.div>
               );
             })}
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>

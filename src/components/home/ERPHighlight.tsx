@@ -2,11 +2,15 @@ import { Link } from "@tanstack/react-router";
 import { SectionLabel } from "../shared/SectionLabel";
 import { ArrowRight } from "lucide-react";
 import erpDashboard from  '../../assets/images/erpDashboard.png'
+import { motion } from "framer-motion";
+import { RevealLeft, RevealRight } from "@/lib/revealAnimation";
+
 
 export function ERPHighlight(){
     return(
 <section className="overflow-hidden bg-[hsl(var(--primary))] py-24 text-white md:py-32">
 <div className="container-tajin grid gap-14 md:grid-cols-[.85fr_1.15fr] md:items-center">
+<RevealLeft>
   <div className="reveal">
     <SectionLabel light>THIJAR ERP</SectionLabel>
     <h2 className="font-display mt-6 max-w-lg text-4xl font-extrabold leading-[1.02] tracking-[-.055em] md:text-6xl">Run the numbers. Move the business.</h2>
@@ -18,12 +22,15 @@ export function ERPHighlight(){
       Explore THIJAR ERP <ArrowRight className="h-4 w-4" />
     </Link>
   </div>
+  </RevealLeft>
+  <RevealRight>
   <div className="reveal reveal-delay-1 relative">
     <div className="absolute -inset-4 rounded-[28px] bg-[hsl(var(--accent)/.14)] blur-2xl" />
     <div className="relative overflow-hidden rounded-2xl border border-white/15 bg-white/10 p-2 shadow-[0_22px_60px_rgba(0,0,0,.2)]">
       <img src={erpDashboard} alt="TAJIN ERP financial dashboard showing receivables, payables, stock, and business reports" className="w-full rounded-xl object-cover" />
     </div>
   </div>
+  </RevealRight>
 </div>
 </section>
     )

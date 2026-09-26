@@ -1,3 +1,4 @@
+import { RevealUp } from "@/lib/revealAnimation";
 import { MessageCircleMore, ClipboardCheck, Headphones } from "lucide-react";
 
 const steps = [
@@ -32,6 +33,7 @@ export function ProcessSection() {
     <section className="bg-[hsl(var(--background))] py-10md:py-12">
       <div className="container-tajin">
         {/* Header */}
+        <RevealUp>
         <div className="mx-auto max-w-3xl text-center">
           <span className="font-mono-brand text-[10px] tracking-[.22em] text-[hsl(var(--accent))]">
             SIMPLE THREE-STEP PROCESS
@@ -46,9 +48,10 @@ export function ProcessSection() {
             and efficient from day one.
           </p>
         </div>
-
+        </RevealUp>
         {/* Cards */}
-        <div className="mt-16 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+        <RevealUp>
+        <div className="mt-16 grid gap-6 md:grid-cols-2 xl:grid-cols-3 mb-10">
           {steps.map((step) => {
             const Icon = step.icon;
 
@@ -87,6 +90,7 @@ export function ProcessSection() {
             );
           })}
         </div>
+        </RevealUp>
       </div>
     </section>
   );

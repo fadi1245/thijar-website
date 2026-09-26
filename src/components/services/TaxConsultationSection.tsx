@@ -1,4 +1,6 @@
+import { RevealLeft, RevealUp } from "@/lib/revealAnimation";
 import { SectionLabel } from "../shared/SectionLabel";
+import { motion, type Variants } from "framer-motion";
 
 const taxServices = [
   {
@@ -31,10 +33,30 @@ const taxServices = [
   },
 ];
 
+const cardContainerVariants: Variants = {
+  hidden: {},
+  visible: {
+    transition: { staggerChildren: 0.09, delayChildren: 0.05 },
+  },
+};
+
+const cardItemVariants: Variants = {
+  hidden: {
+    opacity: 0,
+    y: 24,
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] as const },
+  },
+};
+
 export function TaxConsultationSection() {
   return (
-    <section className="py-24 md:py-32">
+    <section className="py-12 md:py-12">
       <div className="container-tajin">
+        <RevealLeft>
         <div className="max-w-5xl">
           {/* <SectionLabel>SERVICE 02</SectionLabel> */}
 
@@ -49,11 +71,18 @@ export function TaxConsultationSection() {
             complexity.
           </p>
         </div>
-
-        <div className="mt-5 grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
+        </RevealLeft>
+        <motion.div
+          className="mt-5 grid gap-6 sm:grid-cols-2 xl:grid-cols-4"
+          variants={cardContainerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
+        >
           {taxServices.map((service) => (
-            <div
+            <motion.div
               key={service.title}
+              variants={cardItemVariants}
               className="group flex h-full flex-col rounded-3xl border border-[hsl(var(--border))] bg-[hsl(var(--card))] p-8 transition-all duration-300 hover:-translate-y-1 hover:border-[hsl(var(--accent)/.35)] hover:shadow-lg"
             >
               <span className="font-mono-brand text-[10px] tracking-[.18em] text-[hsl(var(--accent))]">
@@ -73,9 +102,9 @@ export function TaxConsultationSection() {
                   {service.tag}
                 </span>
               </div> */}
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );
