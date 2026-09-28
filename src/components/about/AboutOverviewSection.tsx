@@ -1,5 +1,6 @@
 import { SectionLabel } from "../shared/SectionLabel";
-import logo from "../../assets/logo/logo.jpeg";
+// import logo from "../../assets/logo/logo.jpeg";
+import aboutImage from '../../assets/images/aboutImage.png'
 import { RevealLeft, RevealRight } from "@/lib/revealAnimation";
 
 export function AboutOverviewSection() {
@@ -85,44 +86,22 @@ export function AboutOverviewSection() {
           </div>
           </RevealLeft>
           {/* Visual */}
-          <RevealRight>
-          <div>
-            <div className="relative overflow-hidden rounded-3xl bg-[hsl(var(--primary))] p-8 md:p-12">
-              {/* Background circles */}
-              <div className="absolute inset-0 opacity-30">
-                <div className="absolute left-1/2 top-1/2 h-[320px] w-[320px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-[hsl(var(--accent)/.55)]" />
-                <div className="absolute left-1/2 top-1/2 h-[250px] w-[250px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-[hsl(var(--accent)/.45)]" />
-                <div className="absolute left-1/2 top-1/2 h-[180px] w-[180px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-[hsl(var(--accent)/.15)]" />
-              </div>
-
-              {/* Orbit */}
-              {/* <div className="absolute left-1/2 top-1/2 h-[240px] w-[120px] -translate-x-1/2 -translate-y-1/2 rotate-45 rounded-full border border-[hsl(var(--accent)/.35)]" />
-
-              <div className="absolute left-1/2 top-1/2 h-[240px] w-[120px] -translate-x-1/2 -translate-y-1/2 -rotate-45 rounded-full border border-[hsl(var(--accent)/.35)]" /> */}
-
-              {/* Core Image */}
-              <div className="relative flex h-[420px] items-center justify-center">
-                <img
-                  src={logo}
-                  alt="TAJIN"
-                  className="relative z-10 max-h-[180px] w-auto object-contain rounded-2xl"
-                />
-
-                {/* Optional glow behind image */}
-                <div className="absolute h-48 w-48 rounded-full bg-[hsl(var(--accent)/.15)] blur-3xl" />
-              </div>
-
-              {/* Bottom labels */}
-              {/* <div className="absolute bottom-6 left-6 font-mono-brand text-[10px] tracking-[.18em] text-[hsl(var(--accent))]">
-                ● TAJIN PRECISION
-              </div>
-
-              <div className="absolute bottom-6 right-6 font-mono-brand text-[10px] tracking-[.18em] text-white/35">
-                AXIS // 01
-              </div> */}
-            </div>
-          </div>
-          </RevealRight>
+{/* Visual */}
+<RevealRight>
+  <div>
+    <div className="relative overflow-hidden rounded-3xl bg-[linear-gradient(135deg,#0a3fa0_0%,#03257a_50%,#010f45_100%)]">
+      <div className="relative h-[420px] md:h-[480px]">
+        <img
+          src={aboutImage}
+          alt="TAJIN"
+          className="h-full w-full object-cover
+            [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_75%)]
+            [-webkit-mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_75%)]"
+        />
+      </div>
+    </div>
+  </div>
+</RevealRight>
         </div>
       </div>
     </section>
