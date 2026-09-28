@@ -17,7 +17,7 @@ export function Hero() {
   return (
     <section className="hero-slice relative h-[600px] overflow-hidden bg-[hsl(var(--primary))] text-white sm:h-[640px] lg:h-[700px]">
       <div className="hero-grid absolute inset-0 opacity-40" />
-      <div className="absolute -right-24 top-16 h-[420px] w-[420px] rounded-full border border-white/10 bg-[hsl(var(--accent)/.12)] blur-[1px]" />
+      <div className="absolute right-0 top-16 h-[420px] w-[420px] rounded-full border border-white/10 bg-[hsl(var(--accent)/.12)] blur-[1px]" />
       <div className="absolute -right-2 top-28 h-[270px] w-[270px] rounded-full border border-white/10 bg-[hsl(var(--accent)/.08)]" />
       <div className="container-tajin relative h-full">
         <div className="absolute inset-x-0 bottom-24 top-6 flex w-full max-w-[840px] items-center">
@@ -28,7 +28,7 @@ export function Hero() {
                 /{slide.index}
               </span> */}
               <div>
-                <h1 className="font-display max-w-[850px] text-[clamp(2rem,4.5vw,4rem)] font-extrabold leading-[1.02] tracking-[-.02em] text-balance">
+                <h1 className="font-display py-9 max-w-[850px] text-[clamp(2rem,4.5vw,4rem)] font-extrabold leading-[1.02] tracking-[-.02em] text-balance">
                   {slide.heading}
                 </h1>{" "}
                 <p className="mt-3 max-w-[590px] text-[15px] leading-6 text-white/66 md:text-[17px]">
@@ -36,7 +36,7 @@ export function Hero() {
                 </p>
                 <Link
                   to={slide.action}
-                  className="focus-ring group mt-5 inline-flex items-center gap-3 rounded-full bg-[hsl(var(--accent))] px-6 py-3.5 text-sm font-bold text-white shadow-[0_12px_30px_rgba(23,146,166,.26)] transition-all hover:-translate-y-0.5 hover:bg-[#36afc0]"
+                  className="focus-ring group mt-9  inline-flex items-center gap-3 rounded-full bg-[hsl(var(--accent))] px-6 py-3.5 text-sm font-bold text-white shadow-[0_12px_30px_rgba(23,146,166,.26)] transition-all hover:-translate-y-0.5 hover:bg-[#36afc0]"
                   data-testid={`link-hero-cta-${slide.index}`}
                 >
                   {slide.button}

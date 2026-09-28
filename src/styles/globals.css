@@ -67,6 +67,12 @@
   --accent: 190 78% 55%;
   --accent-foreground: 218 66% 16%;
 }
+html,
+
+body {
+  overflow-x: clip; /* better than hidden: doesn't break position: sticky */
+  max-width: 100%;
+}
 
 @layer base {
   * { @apply border-border; }

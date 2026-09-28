@@ -16,7 +16,7 @@ export const Route = createFileRoute("/")({
 function HomePage() {
     return (
       <>
-        <main>
+        <main className="overflow-x-clip">
         <Hero/>
         <TrustBar/>
         <MetricSection/>
