@@ -1,6 +1,6 @@
 import { ShieldCheck } from "lucide-react";
 import { SectionLabel } from "../shared/SectionLabel";
-import { RevealLeft, RevealUp } from "@/lib/revealAnimation";
+import { RevealUp } from "@/lib/revealAnimation";
 
 export function ERPBenefits(){
     return(

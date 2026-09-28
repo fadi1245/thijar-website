@@ -2,7 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { SectionLabel } from "../shared/SectionLabel";
 import { ArrowRight } from "lucide-react";
 import erpDashboard from  '../../assets/images/erpDashboard.png'
-import { motion } from "framer-motion";
+// import { motion } from "framer-motion";
 import { RevealLeft, RevealRight } from "@/lib/revealAnimation";
 
 

@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { SectionLabel } from "../shared/SectionLabel";
+// import { SectionLabel } from "../shared/SectionLabel";
 import { ArrowUpRight } from "lucide-react";
 
 export function CTASection() {

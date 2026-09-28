@@ -1,8 +1,7 @@
-import { SectionLabel } from "../shared/SectionLabel";
+// import { SectionLabel } from "../shared/SectionLabel";
 import { motion } from "framer-motion";
 
 export function PageHero({
-  label,
   title,
   text,
   image,

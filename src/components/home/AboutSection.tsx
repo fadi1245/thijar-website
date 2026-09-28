@@ -1,5 +1,5 @@
 import { ArrowUpRight } from "lucide-react";
-import { SectionLabel } from "../shared/SectionLabel";
+// import { SectionLabel } from "../shared/SectionLabel";
 import { Link } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 

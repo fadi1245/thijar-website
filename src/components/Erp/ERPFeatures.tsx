@@ -55,7 +55,7 @@ export function ERPFeatures(){
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
           >
-            {erpFeatureGroups.map(({ number, icon: Icon, title, text, features }) => (
+            {erpFeatureGroups.map(({ icon: Icon, title, text, features }) => (
               <motion.article
                 key={title}
                 variants={cardItemVariants}

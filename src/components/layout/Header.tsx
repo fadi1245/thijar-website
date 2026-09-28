@@ -3,7 +3,7 @@ import { Link } from "@tanstack/react-router";
 import { ArrowUpRight, Menu, X } from "lucide-react";
 import { useState } from "react";
 import logo from "../../assets/logo/logo.jpeg";
-import headerimage from "../../assets/logo/textLogo.png";
+// import headerimage from "../../assets/logo/textLogo.png";
 
 export function Header() {
   const [open, setOpen] = useState(false);

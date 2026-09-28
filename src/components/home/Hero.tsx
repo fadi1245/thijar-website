@@ -2,7 +2,7 @@ import { slides } from "@/data/siteData";
 import { Link } from "@tanstack/react-router";
 import { ArrowRight, ChevronLeft, ChevronRight, Globe2 } from "lucide-react";
 import { useEffect, useState } from "react";
-import { SectionLabel } from "../shared/SectionLabel";
+// import { SectionLabel } from "../shared/SectionLabel";
 
 export function Hero() {
   const [active, setActive] = useState(0);

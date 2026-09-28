@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Receipt, QrCode, Warehouse, ArrowRight, Plus, BarChart3 } from "lucide-react";
+import { Receipt, Warehouse, ArrowRight, Plus, BarChart3 } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { motion, AnimatePresence, type Variants } from "framer-motion";
 import { SectionLabel } from "../shared/SectionLabel";

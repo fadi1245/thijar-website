@@ -1,5 +1,5 @@
-import { RevealLeft, RevealUp } from "@/lib/revealAnimation";
-import { SectionLabel } from "../shared/SectionLabel";
+import { RevealLeft} from "@/lib/revealAnimation";
+// import { SectionLabel } from "../shared/SectionLabel";
 import { motion, type Variants } from "framer-motion";
 
 const taxServices = [

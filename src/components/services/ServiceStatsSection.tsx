@@ -1,4 +1,4 @@
-import { SectionLabel } from "../shared/SectionLabel";
+// import { SectionLabel } from "../shared/SectionLabel";
 import { motion, type Variants } from "framer-motion";
 
 const stats = [

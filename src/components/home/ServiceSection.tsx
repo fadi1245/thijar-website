@@ -1,10 +1,10 @@
 import { ArrowUpRight } from "lucide-react";
-import { SectionLabel } from "../shared/SectionLabel";
+// import { SectionLabel } from "../shared/SectionLabel";
 import { services } from "@/data/siteData";
 import { Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
-import { motion, type Variants } from "framer-motion";
-import { RevealLeft, RevealRight, RevealUp } from "@/lib/revealAnimation";
+import { motion } from "framer-motion";
+import { RevealLeft, RevealUp } from "@/lib/revealAnimation";
 
 const tabContainerVariants = {
   hidden: {},
@@ -83,7 +83,7 @@ export function ServiceSection() {
           viewport={{ once: true, margin: "-100px" }}
         >
           {services.map(
-            ({ id, number, title, description, icon: Icon }, index) => {
+            ({ id, title, description, icon: Icon }, index) => {
               const isActive = activeService === index;
 
               return (

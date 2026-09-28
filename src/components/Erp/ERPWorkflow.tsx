@@ -62,7 +62,7 @@ export function ERPWorkflow(){
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
           >
-            {erpWorkflows.map(({ number, title, text, tags }) => (
+            {erpWorkflows.map(({title, text, tags }) => (
               <motion.article
                 key={title}
                 variants={cardItemVariants}

@@ -3,7 +3,7 @@ import {
   Shield,
   Package,
 } from "lucide-react";
-import { SectionLabel } from "../shared/SectionLabel";
+// import { SectionLabel } from "../shared/SectionLabel";
 import { RevealLeft } from "@/lib/revealAnimation";
 import { motion, type Variants } from "framer-motion";
 

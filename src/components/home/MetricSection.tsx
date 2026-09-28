@@ -1,5 +1,5 @@
 import { MetricCounter } from "../sections/MetricCounter";
-import { SectionLabel } from "../shared/SectionLabel";
+// import { SectionLabel } from "../shared/SectionLabel";
 import { successMetrics } from "@/data/siteData";
 import { motion } from "framer-motion";
 

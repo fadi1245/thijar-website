@@ -1,6 +1,3 @@
-import { Link } from "@tanstack/react-router";
-import { ArrowRight } from "lucide-react";
-
 export function CareerStatusSection() {
     return (
       <section className="bg-[#eaf5f6]">
