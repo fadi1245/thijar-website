@@ -25,7 +25,7 @@ export function Header() {
           <img
             src={logo}
             alt="Thijar logo"
-            className="w-10 lg:w-15 rounded-lg object-cover"
+            className="w-13 lg:w-15 rounded-lg object-cover"
           />
           <h2 className="text-white font-extrabold text-3xl">THIJAR</h2>
         </Link>
