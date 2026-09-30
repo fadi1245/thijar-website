@@ -13,7 +13,12 @@ export function PageHero({
   illustration?: React.ReactNode;
 }) {
   return (
-    <section className="hero-slice relative h-[520px] overflow-hidden bg-[hsl(var(--primary))] text-white sm:h-[640px] lg:h-[720px] xl:h-[780px]">
+    <section
+      className="hero-slice relative min-h-[520px] overflow-hidden bg-[hsl(var(--primary))] text-white lg:min-h-[560px]"
+      // fills the first screen on every viewport. If your header is NOT overlaying
+      // the hero, set --header-h (e.g. 80px) so hero + header = exactly one screen.
+      style={{ height: "calc(100svh - var(--header-h, 0px))" }}
+    >
       <div className="hero-grid absolute inset-0 opacity-35" />
       <div className="absolute -right-24 top-20 h-72 w-72 rounded-full border border-white/10 bg-[hsl(var(--accent)/.12)] md:h-96 md:w-96" />
 
@@ -50,7 +55,7 @@ export function PageHero({
         <Globe2 className="absolute bottom-12 right-12 h-7 w-7 text-[hsl(var(--accent))]" />
       </div>
 
-      <div className="container-tajin relative flex h-full items-center">
+      <div className="container-tajin relative flex h-full items-center lg:pb-24 lg:pt-20">
         <div className="flex w-full items-center gap-8 lg:gap-6 xl:gap-10">
           {/* ------------------------------ TEXT ------------------------------ */}
           <motion.div
@@ -68,12 +73,12 @@ export function PageHero({
               }
             >
               {/* label chip: now on mobile AND desktop */}
-              {label && (
+              {/* {label && (
                 <span className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1.5 font-mono-brand text-[10px] uppercase tracking-[.18em] text-white/80 backdrop-blur-sm lg:mb-7 lg:px-4 lg:py-2 lg:text-xs">
                   <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[hsl(var(--accent))]" />
                   {label}
                 </span>
-              )}
+              )} */}
 
               {/* mobile size untouched, desktop scales up */}
               <h1 className="font-display mt-0 text-[clamp(2rem,4.5vw,4rem)] font-extrabold leading-[1.02] tracking-[-.02em] text-balance lg:text-[clamp(3rem,5vw,5.25rem)] lg:leading-[1]">
@@ -94,9 +99,9 @@ export function PageHero({
             <motion.div
               className="
                 relative hidden flex-1 lg:block
-                lg:-mr-10 lg:h-[520px]
-                xl:-mr-24 xl:h-[620px]
-                2xl:-mr-32 2xl:h-[680px]
+                lg:-mr-10 lg:h-[62svh] lg:max-h-[720px]
+                xl:-mr-24
+                2xl:-mr-32
                 [&_svg]:h-full [&_svg]:w-full [&_svg]:max-w-none
                 [&_svg]:drop-shadow-[0_30px_60px_rgba(0,0,0,.35)]
               "

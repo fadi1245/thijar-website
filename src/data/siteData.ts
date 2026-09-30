@@ -15,7 +15,7 @@ export const slides = [
       subheading:
         'Professional accounting, auditing, taxation, and business advisory services backed by experienced teams across the Middle East and India.',
       button: 'Get Started',
-      action: '/contact-us',
+      action: '/about-us',
       index: '01',
       accent: 'ACCOUNTING · TAX · ADVISORY',
     },
