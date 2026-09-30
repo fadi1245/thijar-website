@@ -1,5 +1,5 @@
 import { PageHero } from "../shared/PageHero";
-import HeroImage from '../../assets/images/erp.png'
+// import HeroImage from '../../assets/images/erp.png'
 import ERPIllustration from "../ui/ERPIllustration";
 
 export function ERPHero(){

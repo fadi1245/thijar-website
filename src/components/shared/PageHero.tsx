@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { Globe2 } from "lucide-react";
 
 export function PageHero({
-  label,
+  // label,
   title,
   text,
   illustration,

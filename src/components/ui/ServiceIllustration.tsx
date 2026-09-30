@@ -1,4 +1,4 @@
-import { useId } from "react";
+import { useId, type ReactElement } from "react";
 
 /* -------------------------------------------------------------------------- */
 /*  Animations (scoped with the "sv-" prefix, no global CSS needed)           */
@@ -205,7 +205,7 @@ function Building({
 }) {
   const top = 410 - h;
   const cell = (w - 12) / cols;
-  const wins: JSX.Element[] = [];
+  const wins: ReactElement[] = [];
   for (let r = 0; r < rows; r++) {
     for (let c = 0; c < cols; c++) {
       wins.push(
