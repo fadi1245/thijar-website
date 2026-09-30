@@ -10,7 +10,8 @@ import { SoftwareSection } from "@/components/services/SoftwareSection";
 import { TaxConsultationSection } from "@/components/services/TaxConsultationSection";
 import { PageHero } from "@/components/shared/PageHero";
 import { createFileRoute } from "@tanstack/react-router";
-import HeroImage from '../assets/images/service.jpeg'
+// import HeroImage from '../assets/images/service.jpeg'
+import ServicesIllustration from "@/components/ui/ServiceIllustration";
 
 
 export const Route = createFileRoute("/service")({
@@ -25,7 +26,7 @@ function ServicesPage() {
         label="Services / INDIA & GCC"
         title="Clear, reliable business services for india & GCC"
         text="Practical accounting, tax, audit, software and company setup tailored specifically for growing businesses and enterprise across india and Gulf region."
-        image={HeroImage}
+        illustration={<ServicesIllustration/>}
       />
 
       <ServicesStatsSection/>
