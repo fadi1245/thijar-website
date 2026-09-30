@@ -10,7 +10,7 @@ import { SoftwareSection } from "@/components/services/SoftwareSection";
 import { TaxConsultationSection } from "@/components/services/TaxConsultationSection";
 import { PageHero } from "@/components/shared/PageHero";
 import { createFileRoute } from "@tanstack/react-router";
-import HeroImage from '../assets/images/service.jpeg'
+// import HeroImage from '../assets/images/service.jpeg'
 import ServicesIllustration from "@/components/ui/ServiceIllustration";
 
 

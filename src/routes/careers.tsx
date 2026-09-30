@@ -3,7 +3,7 @@ import { CareerStatusSection } from "@/components/carrers/CareerStatusSection";
 import { CareerCultureSection } from "@/components/carrers/CarrerCultureSection";
 import { PageHero } from "@/components/shared/PageHero";
 import { createFileRoute } from "@tanstack/react-router";
-import HeroImage from '../assets/images/career.avif'
+// import HeroImage from '../assets/images/career.avif'
 import CultureIllustration from "@/components/ui/CareerIllustration";
 export const Route = createFileRoute("/careers")({
   component: CareersPage,
