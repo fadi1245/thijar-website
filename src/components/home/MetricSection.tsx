@@ -7,7 +7,7 @@ import { motion } from "framer-motion";
 export function MetricSection() {
   return (
     <section
-      className="bg-[#eaf5f6] py-20 md:py-24"
+      className="bg-[#eaf5f6] py-10 md:py-14"
       aria-label="TAJIN success metrics"
     >
       <div className="container-tajin">

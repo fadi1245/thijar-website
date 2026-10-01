@@ -1,7 +1,8 @@
 import { SectionLabel } from "../shared/SectionLabel";
 // import logo from "../../assets/logo/logo.jpeg";
-import aboutImage from '../../assets/images/aboutImage.png'
+// import aboutImage from '../../assets/images/aboutImage.png'
 import { RevealLeft, RevealRight } from "@/lib/revealAnimation";
+import HeroAnimation from "@/styles/three";
 
 export function AboutOverviewSection() {
   return (
@@ -85,34 +86,13 @@ export function AboutOverviewSection() {
             </div> */}
           </div>
           </RevealLeft>
-          {/* Visual */}
-{/* Visual */}
-{/* Visual */}
-<RevealRight>
-  <div className="mx-auto w-full max-w-xl lg:max-w-none">
-    <div className="relative overflow-hidden rounded-3xl bg-[linear-gradient(135deg,#0a3fa0_0%,#03257a_50%,#010f45_100%)]">
-      <div className="relative aspect-[4/3] md:aspect-auto md:h-[480px]">
-        <img
-          src={aboutImage}
-          alt="TAJIN"
-          className="h-full w-full object-cover object-center
 
-            /* mobile + tablet: fade only the outer edges, keep the logo crisp */
-            [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent),linear-gradient(to_bottom,transparent,black_12%,black_88%,transparent)]
-            [-webkit-mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent),linear-gradient(to_bottom,transparent,black_12%,black_88%,transparent)]
-            [mask-composite:intersect]
-            [-webkit-mask-composite:source-in]
-
-            /* desktop: your original radial fade */
-            lg:[mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_75%)]
-            lg:[-webkit-mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_75%)]
-            lg:[mask-composite:add]
-            lg:[-webkit-mask-composite:source-over]"
-        />
-      </div>
-    </div>
-  </div>
-</RevealRight>
+          {/* Visual: no box around it, the animation sits directly on the page */}
+          <RevealRight>
+            <div className="mx-auto h-[360px] w-full max-w-xl sm:h-[420px] md:h-[480px] lg:h-[560px] lg:max-w-none">
+              <HeroAnimation className="h-full w-full" />
+            </div>
+          </RevealRight>
         </div>
       </div>
     </section>
