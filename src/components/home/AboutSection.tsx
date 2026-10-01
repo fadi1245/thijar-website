@@ -36,35 +36,35 @@ const pillars = [
   },
 ];
 
-const steps = [
-  {
-    icon: Search,
-    title: "Understand",
-    text: "We learn your business, your goals and your pain points before recommending anything.",
-  },
-  {
-    icon: ClipboardList,
-    title: "Plan",
-    text: "A practical roadmap with clear priorities, ownership and milestones.",
-  },
-  {
-    icon: Rocket,
-    title: "Deliver",
-    text: "Specialists get to work with regular updates, so you always know where things stand.",
-  },
-  {
-    icon: LifeBuoy,
-    title: "Support",
-    text: "We stay on hand as you grow, refining processes and systems over time.",
-  },
-];
+// const steps = [
+//   {
+//     icon: Search,
+//     title: "Understand",
+//     text: "We learn your business, your goals and your pain points before recommending anything.",
+//   },
+//   {
+//     icon: ClipboardList,
+//     title: "Plan",
+//     text: "A practical roadmap with clear priorities, ownership and milestones.",
+//   },
+//   {
+//     icon: Rocket,
+//     title: "Deliver",
+//     text: "Specialists get to work with regular updates, so you always know where things stand.",
+//   },
+//   {
+//     icon: LifeBuoy,
+//     title: "Support",
+//     text: "We stay on hand as you grow, refining processes and systems over time.",
+//   },
+// ];
 
-const clients = [
-  "Growing companies setting up their first books",
-  "Established businesses tightening compliance and reporting",
-  "Multi-market operations rolling out an ERP",
-  "Founders forming and structuring new companies",
-];
+// const clients = [
+//   "Growing companies setting up their first books",
+//   "Established businesses tightening compliance and reporting",
+//   "Multi-market operations rolling out an ERP",
+//   "Founders forming and structuring new companies",
+// ];
 
 const services = [
   "Accounting",
