@@ -76,7 +76,7 @@ body {
 
 @layer base {
   * { @apply border-border; }
-  html { scroll-behavior: smooth; }
+  html { scroll-behavior: auto; }
   body {
     @apply bg-background text-foreground antialiased;
     font-family: var(--app-font-sans);

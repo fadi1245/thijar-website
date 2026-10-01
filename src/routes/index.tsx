@@ -19,10 +19,10 @@ function HomePage() {
         <main className="overflow-x-clip">
         <Hero/>
         <TrustBar/>
-        <MetricSection/>
         <AboutSection/>
         <ERPHighlight/>
         <ServiceSection/>
+        <MetricSection/>
         <TeamSection/>
         <ClientSection/>
         <CTASection/>

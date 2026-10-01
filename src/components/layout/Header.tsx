@@ -26,7 +26,7 @@ export function Header() {
 
   return (
     <header
-      className={`fixed py-5 inset-x-0 top-0 z-50 border-b transition-all duration-300 ${
+      className={`fixed py-3 inset-x-0 top-0 z-50 border-b transition-all duration-300 ${
         solid
           ? "border-white/10 bg-[hsl(var(--primary)/0.72)] shadow-[0_8px_30px_rgba(0,0,0,.12)] backdrop-blur-xl backdrop-saturate-150"
           : "border-transparent bg-transparent"

@@ -73,72 +73,9 @@ function useDotTexture() {
   );
 }
 
-/** Horizontal soft beam for the light sweep */
-function useBeamTexture() {
-  return useMemo(
-    () =>
-      makeTexture((ctx, s) => {
-        const g = ctx.createLinearGradient(0, 0, s, 0);
-        g.addColorStop(0, "rgba(255,255,255,0)");
-        g.addColorStop(0.5, "rgba(190,225,255,1)");
-        g.addColorStop(1, "rgba(255,255,255,0)");
-        ctx.fillStyle = g;
-        ctx.fillRect(0, 0, s, s);
-      }),
-    []
-  );
-}
-
 /* -------------------------------------------------------------------------- */
 /*  Background layers                                                         */
 /* -------------------------------------------------------------------------- */
-
-/** Big glowing globe behind the logo */
-function GlobeGlow() {
-  const glow = useGlowTexture();
-  const speed = useContext(SpeedContext);
-  const haze = useRef<THREE.MeshBasicMaterial>(null!);
-  const disk = useRef<THREE.MeshBasicMaterial>(null!);
-
-  useFrame(({ clock }) => {
-    const t = clock.elapsedTime * speed;
-    haze.current.opacity = 0.55 + Math.sin(t * 0.9) * 0.12;
-    disk.current.opacity = 0.16 + Math.sin(t * 0.9 + 1) * 0.04;
-  });
-
-  return (
-    <group position={[0, 0, -2.2]}>
-      <mesh>
-        <planeGeometry args={[13, 13]} />
-        <meshBasicMaterial
-          ref={haze}
-          map={glow}
-          transparent
-          depthWrite={false}
-          blending={THREE.AdditiveBlending}
-        />
-      </mesh>
-      <mesh position={[0, 0, 0.1]}>
-        <circleGeometry args={[4, 96]} />
-        <meshBasicMaterial
-          ref={disk}
-          color="#0a45b8"
-          transparent
-          depthWrite={false}
-        />
-      </mesh>
-      <mesh position={[0, 0, 0.2]}>
-        <ringGeometry args={[3.98, 4.02, 128]} />
-        <meshBasicMaterial
-          color="#3b82f6"
-          transparent
-          opacity={0.25}
-          depthWrite={false}
-        />
-      </mesh>
-    </group>
-  );
-}
 
 /** Pulsing floor glow under the card */
 function GlowPlane() {
@@ -161,14 +98,13 @@ function GlowPlane() {
         map={glow}
         transparent
         depthWrite={false}
-        blending={THREE.AdditiveBlending}
       />
     </mesh>
   );
 }
 
 /** Hundreds of drifting, twinkling particles */
-function Particles({ count = 380 }: { count?: number }) {
+function Particles({ count = 120 }: { count?: number }) {
   const dot = useDotTexture();
   const speed = useContext(SpeedContext);
   const ref = useRef<THREE.Points>(null!);
@@ -204,85 +140,13 @@ function Particles({ count = 380 }: { count?: number }) {
       </bufferGeometry>
       <pointsMaterial
         map={dot}
-        color="#6cb4ff"
+        color="#3b82f6"
         size={0.07}
         sizeAttenuation
         transparent
         depthWrite={false}
-        blending={THREE.AdditiveBlending}
       />
     </points>
-  );
-}
-
-/** Nodes joined by thin connection lines */
-function Network() {
-  const speed = useContext(SpeedContext);
-  const dot = useDotTexture();
-  const group = useRef<THREE.Group>(null!);
-
-  const { nodes, lines } = useMemo(() => {
-    const n = 64;
-    const nodes = new Float32Array(n * 3);
-    for (let i = 0; i < n; i++) {
-      const a = Math.random() * Math.PI * 2;
-      const r = 2.8 + Math.random() * 3.2;
-      nodes[i * 3] = Math.cos(a) * r * 1.25;
-      nodes[i * 3 + 1] = Math.sin(a) * r * 0.75;
-      nodes[i * 3 + 2] = (Math.random() - 0.5) * 3 - 1;
-    }
-    const segs: number[] = [];
-    for (let i = 0; i < n; i++) {
-      for (let j = i + 1; j < n; j++) {
-        const dx = nodes[i * 3] - nodes[j * 3];
-        const dy = nodes[i * 3 + 1] - nodes[j * 3 + 1];
-        const dz = nodes[i * 3 + 2] - nodes[j * 3 + 2];
-        if (Math.sqrt(dx * dx + dy * dy + dz * dz) < 2.2) {
-          segs.push(
-            nodes[i * 3], nodes[i * 3 + 1], nodes[i * 3 + 2],
-            nodes[j * 3], nodes[j * 3 + 1], nodes[j * 3 + 2]
-          );
-        }
-      }
-    }
-    return { nodes, lines: new Float32Array(segs) };
-  }, []);
-
-  useFrame(({ clock }) => {
-    const t = clock.elapsedTime * speed;
-    group.current.rotation.y = Math.sin(t * 0.15) * 0.15;
-    group.current.rotation.z = Math.sin(t * 0.1) * 0.05;
-  });
-
-  return (
-    <group ref={group}>
-      <lineSegments frustumCulled={false}>
-        <bufferGeometry>
-          <bufferAttribute attach="attributes-position" args={[lines, 3]} />
-        </bufferGeometry>
-        <lineBasicMaterial
-          color="#3b82f6"
-          transparent
-          opacity={0.22}
-          depthWrite={false}
-          blending={THREE.AdditiveBlending}
-        />
-      </lineSegments>
-      <points frustumCulled={false}>
-        <bufferGeometry>
-          <bufferAttribute attach="attributes-position" args={[nodes, 3]} />
-        </bufferGeometry>
-        <pointsMaterial
-          map={dot}
-          color="#9fd0ff"
-          size={0.11}
-          sizeAttenuation
-          transparent
-          depthWrite={false}
-          blending={THREE.AdditiveBlending}
-        />
-      </points>
-    </group>
   );
 }
 
@@ -290,30 +154,17 @@ function Network() {
 /*  Foreground layers                                                         */
 /* -------------------------------------------------------------------------- */
 
-/** Floating glass logo card with the white "T" mark and a light sweep */
+/** Floating glass logo card with the white "T" mark */
 function LogoCard() {
   const speed = useContext(SpeedContext);
   const glow = useGlowTexture();
-  const beamTex = useBeamTexture();
   const group = useRef<THREE.Group>(null!);
-  const beam = useRef<THREE.Mesh>(null!);
 
   useFrame(({ clock }) => {
     const t = clock.elapsedTime * speed;
     group.current.position.y = Math.sin(t * 0.9) * 0.15;
     group.current.rotation.y = Math.sin(t * 0.5) * 0.08;
     group.current.rotation.x = Math.cos(t * 0.4) * 0.04;
-
-    // Light sweep: crosses the card, then rests for a moment
-    const p = (t * 0.2) % 1;
-    const mat = beam.current.material as THREE.MeshBasicMaterial;
-    if (p < 0.45) {
-      const k = p / 0.45;
-      beam.current.position.x = -2.4 + k * 4.8;
-      mat.opacity = Math.max(0, 1 - Math.abs(beam.current.position.x) / 1.9) * 0.45;
-    } else {
-      mat.opacity = 0;
-    }
   });
 
   const white = { color: "#ffffff", toneMapped: false };
@@ -328,7 +179,6 @@ function LogoCard() {
           transparent
           opacity={0.55}
           depthWrite={false}
-          blending={THREE.AdditiveBlending}
         />
       </mesh>
 
@@ -338,7 +188,6 @@ function LogoCard() {
           color="#4aa3ff"
           transparent
           opacity={0.4}
-          blending={THREE.AdditiveBlending}
           depthWrite={false}
         />
       </RoundedBox>
@@ -369,18 +218,6 @@ function LogoCard() {
         <boxGeometry args={[0.48, 0.41, 0.02]} />
         <meshBasicMaterial {...white} />
       </mesh>
-
-      {/* light sweep */}
-      <mesh ref={beam} position={[0, 0, 0.16]} rotation={[0, 0, 0.35]}>
-        <planeGeometry args={[0.7, 4.6]} />
-        <meshBasicMaterial
-          map={beamTex}
-          transparent
-          opacity={0}
-          depthWrite={false}
-          blending={THREE.AdditiveBlending}
-        />
-      </mesh>
     </group>
   );
 }
@@ -407,8 +244,7 @@ function OrbitRing() {
             transparent
             opacity={0.14}
             depthWrite={false}
-            blending={THREE.AdditiveBlending}
-          />
+            />
         </mesh>
         {/* bright core line */}
         <mesh>
@@ -426,8 +262,7 @@ function OrbitRing() {
               map={glow}
               transparent
               depthWrite={false}
-              blending={THREE.AdditiveBlending}
-            />
+                />
           </sprite>
         </group>
       </group>
@@ -464,7 +299,6 @@ function GlassSquare({
           transparent
           opacity={0.3}
           depthWrite={false}
-          blending={THREE.AdditiveBlending}
         />
       </RoundedBox>
       <RoundedBox args={[size, size, 0.06]} radius={size * 0.2} smoothness={4}>
@@ -524,30 +358,14 @@ function FloatingSquares() {
 }
 
 /* -------------------------------------------------------------------------- */
-/*  Scene with mouse parallax                                                 */
+/*  Scene                                                                     */
 /* -------------------------------------------------------------------------- */
 
 function Scene() {
-  const speed = useContext(SpeedContext);
   const { viewport } = useThree();
-  const back = useRef<THREE.Group>(null!);
-  const front = useRef<THREE.Group>(null!);
 
   // Shrink the whole scene on narrow screens so nothing gets cropped
   const scale = THREE.MathUtils.clamp(viewport.width / 11, 0.45, 1);
-
-  useFrame((state, dt) => {
-    const k = speed > 0.5 ? 1 : 0; // no parallax for reduced motion
-    const { x, y } = state.pointer;
-    const d = THREE.MathUtils;
-
-    front.current.rotation.y = d.damp(front.current.rotation.y, x * 0.22 * k, 4, dt);
-    front.current.rotation.x = d.damp(front.current.rotation.x, -y * 0.14 * k, 4, dt);
-    front.current.position.x = d.damp(front.current.position.x, x * 0.25 * k, 4, dt);
-
-    back.current.position.x = d.damp(back.current.position.x, -x * 0.5 * k, 3, dt);
-    back.current.position.y = d.damp(back.current.position.y, -y * 0.3 * k, 3, dt);
-  });
 
   return (
     <>
@@ -556,14 +374,12 @@ function Scene() {
       <pointLight position={[0, -3, 3]} intensity={30} color="#2f7bff" />
 
       <group scale={scale}>
-        <group ref={back}>
-          <GlobeGlow />
+        <group>
           <GlowPlane />
-          <Network />
           <Particles />
         </group>
 
-        <group ref={front}>
+        <group>
           <OrbitRing />
           <LogoCard />
           <FloatingSquares />
@@ -604,10 +420,6 @@ export default function HeroAnimation({
     <div
       ref={wrapper}
       className={`relative overflow-hidden ${className}`}
-      style={{
-        background:
-          "radial-gradient(ellipse at 50% 45%, #0a4bc4 0%, #05286f 40%, #020d33 100%)",
-      }}
       aria-hidden="true"
     >
       <SpeedContext.Provider value={reduced ? 0.15 : 1}>
@@ -617,9 +429,7 @@ export default function HeroAnimation({
           frameloop={visible ? "always" : "never"}
           camera={{ position: [0, 0, 9], fov: 45 }}
           gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
-          eventSource={wrapper}
-          eventPrefix="client"
-          style={{ background: "transparent" }}
+          style={{ background: "transparent", pointerEvents: "none" }}
         >
           <Scene />
         </Canvas>

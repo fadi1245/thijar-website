@@ -58,7 +58,7 @@ export function ServiceSection() {
   };
 
   return (
-    <section className="bg-[#eaf5f6] py-24 md:py-32">
+    <section className="bg-[#eaf5f6] py-14 md:py-12">
       <div className="container-tajin">
         <div className="flex flex-col justify-between gap-7 md:flex-row md:items-end">
           <RevealLeft>
