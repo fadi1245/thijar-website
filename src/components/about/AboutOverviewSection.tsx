@@ -1,6 +1,6 @@
 import { SectionLabel } from "../shared/SectionLabel";
 // import logo from "../../assets/logo/logo.jpeg";
-import aboutImage from '../../assets/images/aboutImage.png'
+// import aboutImage from '../../assets/images/aboutImage.png'
 import { RevealLeft, RevealRight } from "@/lib/revealAnimation";
 import HeroAnimation from "@/styles/three";
 

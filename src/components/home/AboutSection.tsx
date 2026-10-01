@@ -1,7 +1,7 @@
 import {
   ArrowUpRight,
   Calculator,
-  CheckCircle2,
+  // CheckCircle2,
   ClipboardList,
   Cpu,
   LifeBuoy,
