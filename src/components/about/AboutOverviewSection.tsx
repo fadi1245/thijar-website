@@ -2,7 +2,7 @@ import { SectionLabel } from "../shared/SectionLabel";
 // import logo from "../../assets/logo/logo.jpeg";
 // import aboutImage from '../../assets/images/aboutImage.png'
 import { RevealLeft, RevealRight } from "@/lib/revealAnimation";
-import HeroAnimation from "@/styles/three";
+import DeferredHeroAnimation from "@/styles/DefferedHeroAnimation";
 
 export function AboutOverviewSection() {
   return (
@@ -21,7 +21,7 @@ export function AboutOverviewSection() {
 
             <div className="mt-8 space-y-6 text-[15px] leading-8 text-[hsl(var(--muted-foreground))]">
               <p>
-                TAJIN is a multidisciplinary business services company bringing
+                THIJAR is a multidisciplinary business services company bringing
                 together accounting, auditing, taxation, business advisory, and
                 technology under one experienced team. We help organizations
                 simplify operations, stay compliant, and build stronger
@@ -90,7 +90,7 @@ export function AboutOverviewSection() {
           {/* Visual: no box around it, the animation sits directly on the page */}
           <RevealRight>
             <div className="mx-auto h-[360px] w-full max-w-xl sm:h-[420px] md:h-[480px] lg:h-[560px] lg:max-w-none">
-              <HeroAnimation className="h-full w-full" />
+              <DeferredHeroAnimation className="h-full w-full" />
             </div>
           </RevealRight>
         </div>
