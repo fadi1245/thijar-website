@@ -10,7 +10,7 @@ import {
 } from "react";
 import * as THREE from "three";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { RoundedBox } from "@react-three/drei";
+import { RoundedBox, Preload  } from "@react-three/drei";
 
 /* -------------------------------------------------------------------------- */
 /*  Shared helpers                                                            */
@@ -395,10 +395,28 @@ function Scene() {
 
 interface HeroAnimationProps {
   className?: string;
+  onReady?: () => void;
+}
+
+function ReadySignal({ onReady }: { onReady?: () => void }) {
+  const frames = useRef(0);
+  const done = useRef(false);
+
+  useFrame(() => {
+    if (done.current) return;
+    frames.current += 1;
+    if (frames.current >= 3) {
+      done.current = true;
+      onReady?.();
+    }
+  });
+
+  return null;
 }
 
 export default function HeroAnimation({
   className = "h-[70vh] min-h-[420px] w-full",
+  onReady,
 }: HeroAnimationProps) {
   const wrapper = useRef<HTMLDivElement>(null!);
   const [visible, setVisible] = useState(true);
@@ -410,8 +428,8 @@ export default function HeroAnimation({
     if (!el) return;
     const io = new IntersectionObserver(
       ([entry]) => setVisible(entry.isIntersecting),
-      { threshold: 0 }
-    );
+      { rootMargin: "600px 0px", threshold: 0 }
+        );
     io.observe(el);
     return () => io.disconnect();
   }, []);
@@ -425,13 +443,15 @@ export default function HeroAnimation({
       <SpeedContext.Provider value={reduced ? 0.15 : 1}>
         <Canvas
           flat
-          dpr={[1, 2]}
+          dpr={[1, 1.5]}
           frameloop={visible ? "always" : "never"}
           camera={{ position: [0, 0, 9], fov: 45 }}
           gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
           style={{ background: "transparent", pointerEvents: "none" }}
         >
           <Scene />
+          <Preload all /> 
+          <ReadySignal onReady={onReady} />
         </Canvas>
       </SpeedContext.Provider>
     </div>
