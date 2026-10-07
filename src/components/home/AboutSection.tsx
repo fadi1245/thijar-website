@@ -17,7 +17,7 @@ const pillars = [
   {
     icon: Calculator,
     title: "Financial specialists",
-    text: "Accountants, auditors and tax professionals who care about the detail, so your numbers stand up to scrutiny.",
+    text: "Accountants, auditors and tax professionals who care about the detail, so your numbers are always audit-ready.",
   },
   {
     icon: Cpu,
@@ -27,12 +27,12 @@ const pillars = [
   {
     icon: ShieldCheck,
     title: "Accountable delivery",
-    text: "Clear scope, clear timelines and one team that answers for the outcome.",
+    text: "Clear goals. strict timelines, and a single team that takes full ownership of the result.",
   },
   {
     icon: Users,
     title: "A team that stays close",
-    text: "Direct access to the people doing the work, from the first conversation to long after go-live.",
+    text: "Direct access to the experts doing the work, from day one and long after launch.",
   },
 ];
 
@@ -72,7 +72,7 @@ export function AboutSection() {
               THE THIJAR APPROACH
             </span>
             <h2 className="font-display mt-6 max-w-md text-4xl font-extrabold leading-[1.02] tracking-[-.055em] text-[hsl(var(--primary))] md:text-5xl">
-              Business clarity for your most important moves.
+            Clear direction for your biggest business decisions.
             </h2>
           </div>
         </motion.div>
@@ -85,14 +85,10 @@ export function AboutSection() {
         >
           <div className="reveal reveal-delay-1">
             <p className="max-w-[620px] text-xl leading-8 text-[hsl(var(--foreground)/.78)]">
-              THIJAR brings the right people into the room — financial
-              specialists who understand the detail, and technology teams who
-              know how to turn it into progress.
+            THIJAR brings experts together—financial pros who know the numbers and tech teams who build real solutions.
             </p>
             <p className="mt-6 max-w-[570px] text-[15px] leading-7 text-[hsl(var(--muted-foreground))]">
-              From a growing company&apos;s first books to a multi-market
-              operation&apos;s ERP rollout, we make complexity more useful.
-              Clear advice. Accountable delivery. A team that stays close.
+            Whether you are setting up early-stage books or launching a global ERP system, we make complex challenges simple and actionable. Straightforward guidance, reliable results, and a partner you can trust.
             </p>
             <Link
               to="/about-us"

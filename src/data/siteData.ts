@@ -53,7 +53,7 @@ export const slides = [
       id: 'tax',
       number: '02',
       title: 'Tax & consultation',
-      description: 'Clear advice for complex tax landscapes, from compliance and planning to cross-border questions.',
+      description: 'Straightforward guidance on complex tax rules, from daily compliance to cross-border planning.',
       icon: Landmark,
     },
     {

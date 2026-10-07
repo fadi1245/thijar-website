@@ -99,7 +99,7 @@ export function Footer() {
             data-testid="link-footer-email"
           >
             <Mail className="h-4 w-4 text-[hsl(var(--accent))]" />
-            hello@tajin.com
+            thijarerp@gmail.com
           </a>
 
           <div className="mt-4 grid gap-2.5">

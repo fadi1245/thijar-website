@@ -17,13 +17,13 @@ function AboutPage() {
       <PageHero
         label="ABOUT THIJAR"
         title="A Steady hand for businesses in motion."
-        text="THIJAR is a business servbices company for leaders building across markets. We bring financial rigor, local insight, and practical technology inot one conversation."
+        text="THIJAR helps leaders expand across markets. We bring financial discipline, local knowledge, and practical tech solutions together into one simple conversation."
         illustration={<HeroIllustration/>}
       />
 
       <AboutOverviewSection />
-      <AboutServicesSection />
       <TimelineMilestonesSection />
+      <AboutServicesSection />
       <TeamExpertiseSection />
       <AboutCTASection />
     </main>

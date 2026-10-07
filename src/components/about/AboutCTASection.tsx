@@ -17,13 +17,11 @@ export function AboutCTASection() {
               </SectionLabel>
 
               <h2 className="font-display mt-6 max-w-3xl text-4xl font-extrabold leading-[1.02] tracking-[-.05em] text-white md:text-5xl">
-                Ready to bring clarity to your regulatory and digital landscape?
+                Ready to simplify your business and tech operations
               </h2>
 
               <p className="mt-6 max-w-2xl text-[15px] leading-8 text-white/60">
-                Engage our multidisciplinary teams of chartered accountants,
-                tax auditors, and cloud architects to configure your enterprise
-                operations across the GCC and South Asia.
+              Work with our experts—including chartered accountants, tax auditors, and cloud engineers—to set up your operations smoothly across the GCC and South Asia.
               </p>
             </div>
 
@@ -41,7 +39,7 @@ export function AboutCTASection() {
                 to="/erp"
                 className="focus-ring inline-flex items-center justify-center gap-2 rounded-full border border-white/15 bg-white/[0.05] px-8 py-4 text-sm font-bold text-white/80 transition-all hover:bg-white/[0.08] hover:text-white"
               >
-                Explore TAJIN ERP
+                Explore THIJAR ERP
                 <MonitorSmartphone className="h-4 w-4" />
               </Link>
             </div>

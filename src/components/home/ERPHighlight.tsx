@@ -39,12 +39,12 @@ const modules = [
   {
     icon: Boxes,
     title: "Inventory & Stock",
-    text: "See what you hold, what is moving and what needs reordering before it runs out.",
+    text: "Monitor your stock levels, track item movement, and get alerts before items run out.",
   },
   {
     icon: ShoppingCart,
     title: "Purchasing",
-    text: "Manage suppliers and purchase orders, and watch costs build up as they happen.",
+    text: "Manage suppliers and purchase orders while keeping a close eye on incoming costs.",
   },
   {
     icon: BarChart3,
@@ -62,7 +62,7 @@ const highlights = [
   {
     icon: Cloud,
     title: "Cloud-based",
-    text: "Open it from the office, home or on the road, on any device.",
+    text: "Access your work securely from anywhere—office, home, or on the go, on any device.",
   },
   {
     icon: ShieldCheck,

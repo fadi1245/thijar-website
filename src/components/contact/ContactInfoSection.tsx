@@ -24,7 +24,7 @@ export function ContactInfoSection() {
             </span>
 
             <span className="mt-1 block text-sm font-bold text-[hsl(var(--primary))]">
-              hello@tajin.com
+            thijarerp@gmail.com
             </span>
           </span>
         </a>

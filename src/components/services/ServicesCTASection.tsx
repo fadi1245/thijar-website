@@ -33,7 +33,7 @@ export function ServicesCTASection() {
             </Link>
 
             <a
-              href="mailto:hello@tajin.com"
+              href="thijarerp@gmail.com"
               className="focus-ring inline-flex items-center gap-3 rounded-full bg-white/8 px-8 py-4 text-sm font-semibold text-white backdrop-blur-sm transition-all hover:bg-white/12"
             >
               <Mail className="h-4 w-4" />
