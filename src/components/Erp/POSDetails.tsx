@@ -8,7 +8,7 @@ import {
   Undo2,
 } from "lucide-react";
 import { SectionLabel } from "../shared/SectionLabel";
-import { RevealLeft, RevealRight } from "@/lib/revealAnimation";
+import { RevealLeft} from "@/lib/revealAnimation";
 import posImage from "../../assets/images/pos-screen.png";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 
