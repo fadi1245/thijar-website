@@ -2,6 +2,7 @@
 
 import {
   createContext,
+  startTransition,
   useContext,
   useEffect,
   useMemo,
@@ -10,7 +11,7 @@ import {
 } from "react";
 import * as THREE from "three";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { RoundedBox, Preload  } from "@react-three/drei";
+import { RoundedBox } from "@react-three/drei";
 
 /* -------------------------------------------------------------------------- */
 /*  Shared helpers                                                            */
@@ -423,6 +424,42 @@ function ReadySignal({ onReady }: { onReady?: () => void }) {
   return null;
 }
 
+/**
+ * Compiles every shader off the main thread (KHR_parallel_shader_compile)
+ * before the first frame. A normal first render compiles synchronously and
+ * blocks the page for a few hundred ms, freezing other animations on screen.
+ */
+function CompileGate({ onCompiled }: { onCompiled: () => void }) {
+  const gl = useThree((s) => s.gl);
+  const scene = useThree((s) => s.scene);
+  const camera = useThree((s) => s.camera);
+
+  useEffect(() => {
+    let alive = true;
+    const done = () => alive && onCompiled();
+    // falls back to rendering anyway; the first frame then compiles as before
+    gl.compileAsync(scene, camera).then(done, done);
+    return () => {
+      alive = false;
+    };
+  }, [gl, scene, camera, onCompiled]);
+
+  return null;
+}
+
+/**
+ * Mounts its children as a transition right after the canvas exists, so
+ * React builds the scene (geometries, materials) in small time slices
+ * instead of one long blocking task.
+ */
+function DeferredMount({ children }: { children: React.ReactNode }) {
+  const [show, setShow] = useState(false);
+  useEffect(() => {
+    startTransition(() => setShow(true));
+  }, []);
+  return show ? children : null;
+}
+
 export default function HeroAnimation({
   className = "h-[70vh] min-h-[420px] w-full",
   onReady,
@@ -430,6 +467,8 @@ export default function HeroAnimation({
 }: HeroAnimationProps) {
   const wrapper = useRef<HTMLDivElement>(null!);
   const [visible, setVisible] = useState(true);
+  const [compiled, setCompiled] = useState(false);
+  const onCompiled = useMemo(() => () => setCompiled(true), []);
   const reduced = usePrefersReducedMotion();
 
   // Report context loss to the caller; latest callback kept in a ref
@@ -472,8 +511,11 @@ export default function HeroAnimation({
         <Canvas
           flat
           dpr={[1, 1.5]}
+          // no frames until shaders are compiled (see CompileGate);
           // reduced motion: draw on mount / resize only, not every frame
-          frameloop={!visible ? "never" : reduced ? "demand" : "always"}
+          frameloop={
+            !visible || !compiled ? "never" : reduced ? "demand" : "always"
+          }
           camera={{ position: [0, 0, 9], fov: 45 }}
           gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
           style={{ background: "transparent", pointerEvents: "none" }}
@@ -482,9 +524,11 @@ export default function HeroAnimation({
             gl.domElement.addEventListener("webglcontextlost", onLost);
           }}
         >
-          <Scene />
-          <Preload all /> 
-          <ReadySignal onReady={onReady} />
+          <DeferredMount>
+            <Scene />
+            <CompileGate onCompiled={onCompiled} />
+            <ReadySignal onReady={onReady} />
+          </DeferredMount>
         </Canvas>
       </SpeedContext.Provider>
     </div>
