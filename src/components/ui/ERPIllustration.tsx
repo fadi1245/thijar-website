@@ -1,66 +1,5 @@
 import { useId } from "react";
-
-/* -------------------------------------------------------------------------- */
-/*  Animations (scoped with the "erp-" prefix, no global CSS needed)          */
-/* -------------------------------------------------------------------------- */
-const CSS = `
-.erp-float{animation:erp-float 6s ease-in-out infinite}
-@keyframes erp-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
-
-.erp-drift{animation:erp-drift 9s ease-in-out infinite}
-@keyframes erp-drift{0%,100%{transform:translate(0,0)}50%{transform:translate(6px,-14px)}}
-
-.erp-flow{stroke-dasharray:4 6;animation:erp-flow 1.6s linear infinite}
-@keyframes erp-flow{to{stroke-dashoffset:-20}}
-
-.erp-pulse{transform-box:fill-box;transform-origin:center;animation:erp-pulse 2.6s ease-out infinite}
-@keyframes erp-pulse{0%{transform:scale(1);opacity:.7}100%{transform:scale(3.4);opacity:0}}
-
-.erp-bar{transform-box:fill-box;transform-origin:bottom;animation:erp-bar 3.4s ease-in-out infinite}
-@keyframes erp-bar{0%,100%{transform:scaleY(1)}50%{transform:scaleY(.6)}}
-
-.erp-prog{transform-box:fill-box;transform-origin:left;animation:erp-prog 4s ease-in-out infinite}
-@keyframes erp-prog{0%,100%{transform:scaleX(1)}50%{transform:scaleX(.5)}}
-
-.erp-spin{transform-box:fill-box;transform-origin:center;animation:erp-spin 14s linear infinite}
-@keyframes erp-spin{to{transform:rotate(360deg)}}
-.erp-spin-rev{transform-box:fill-box;transform-origin:center;animation:erp-spin-rev 14s linear infinite}
-@keyframes erp-spin-rev{to{transform:rotate(-360deg)}}
-
-.erp-draw{stroke-dasharray:200;animation:erp-draw 5s ease-in-out infinite}
-@keyframes erp-draw{0%{stroke-dashoffset:200}60%,100%{stroke-dashoffset:0}}
-
-.erp-tick{stroke-dasharray:14;stroke-dashoffset:14;animation:erp-tick 5s ease-in-out infinite}
-@keyframes erp-tick{0%,8%{stroke-dashoffset:14}22%,80%{stroke-dashoffset:0}95%,100%{stroke-dashoffset:14}}
-
-.erp-slide{animation:erp-slide 12s ease-in-out infinite}
-@keyframes erp-slide{
-  0%,16%{transform:translateY(0)}
-  20%,36%{transform:translateY(30px)}
-  40%,56%{transform:translateY(60px)}
-  60%,76%{transform:translateY(90px)}
-  80%,96%{transform:translateY(120px)}
-  100%{transform:translateY(0)}
-}
-
-.erp-knob{animation:erp-knob 4s ease-in-out infinite}
-@keyframes erp-knob{0%,40%{transform:translateX(0)}50%,90%{transform:translateX(12px)}100%{transform:translateX(0)}}
-
-.erp-dot{animation:erp-dot 1.4s ease-in-out infinite}
-@keyframes erp-dot{0%,100%{opacity:.25}50%{opacity:1}}
-
-.erp-blink{animation:erp-blink 2s steps(1) infinite}
-@keyframes erp-blink{0%,55%{opacity:1}56%,75%{opacity:.25}76%,100%{opacity:1}}
-
-.erp-updown{animation:erp-updown 1.8s ease-in-out infinite}
-@keyframes erp-updown{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
-
-@media (prefers-reduced-motion:reduce){
-  .erp-float,.erp-drift,.erp-flow,.erp-pulse,.erp-bar,.erp-prog,.erp-spin,.erp-spin-rev,
-  .erp-draw,.erp-slide,.erp-knob,.erp-dot,.erp-blink,.erp-updown{animation:none!important}
-  .erp-tick{animation:none!important;stroke-dashoffset:0}
-}
-`;
+import "./ERPIllustration.css";
 
 /* -------------------------------------------------------------------------- */
 /*  Palette                                                                   */
@@ -258,7 +197,6 @@ export default function ERPIllustration({
       aria-label="An ERP platform connecting inventory, finance, purchasing, sales, reporting, CRM, HR and analytics through a central dashboard and the cloud"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <style>{CSS}</style>
 
       <defs>
         <filter id={`${uid}-sh`} x="-30%" y="-30%" width="160%" height="170%">

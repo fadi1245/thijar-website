@@ -1,0 +1,33 @@
+.cl-float{animation:cl-float 6s ease-in-out infinite}
+@keyframes cl-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+
+.cl-drift{animation:cl-drift 9s ease-in-out infinite}
+@keyframes cl-drift{0%,100%{transform:translate(0,0)}50%{transform:translate(6px,-14px)}}
+
+.cl-flow{stroke-dasharray:5 7;animation:cl-flow 1.6s linear infinite}
+@keyframes cl-flow{to{stroke-dashoffset:-24}}
+
+.cl-pulse{transform-box:fill-box;transform-origin:center;animation:cl-pulse 2.6s ease-out infinite}
+@keyframes cl-pulse{0%{transform:scale(1);opacity:.7}100%{transform:scale(3.2);opacity:0}}
+
+.cl-glow{transform-box:fill-box;transform-origin:center;animation:cl-glow 3s ease-in-out infinite}
+@keyframes cl-glow{0%,100%{transform:scale(1);opacity:.28}50%{transform:scale(1.5);opacity:.08}}
+
+.cl-sway{transform-box:fill-box;transform-origin:50% 100%;animation:cl-sway 4.5s ease-in-out infinite}
+@keyframes cl-sway{0%,100%{transform:rotate(-4deg)}50%{transform:rotate(4deg)}}
+
+.cl-cloud{animation:cl-cloud 46s linear infinite}
+@keyframes cl-cloud{from{transform:translateX(-90px)}to{transform:translateX(260px)}}
+
+.cl-wave{transform-box:fill-box;transform-origin:left center;animation:cl-wave 1.6s ease-in-out infinite}
+@keyframes cl-wave{0%,100%{transform:skewY(-7deg) scaleX(1)}50%{transform:skewY(7deg) scaleX(.9)}}
+
+.cl-dot{animation:cl-dot 1.6s ease-in-out infinite}
+@keyframes cl-dot{0%,100%{opacity:.25}50%{opacity:1}}
+
+.cl-bar{transform-box:fill-box;transform-origin:bottom;animation:cl-bar 1.2s ease-in-out infinite}
+@keyframes cl-bar{0%,100%{transform:scaleY(1)}50%{transform:scaleY(.4)}}
+
+@media (prefers-reduced-motion:reduce){
+  .cl-float,.cl-drift,.cl-flow,.cl-pulse,.cl-glow,.cl-sway,.cl-cloud,.cl-wave,.cl-dot,.cl-bar{animation:none!important}
+}

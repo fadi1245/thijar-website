@@ -77,11 +77,11 @@ export function AuditAssuranceSection() {
             </div>
 
             <div className="mt-15 flex flex-wrap gap-3">
-              <span className="rounded bg-[hsl(var(--secondary))] px-3 py-2 font-mono-brand text-[10px] tracking-[.18em] text-[hsl(var(--primary))]">
+              <span className="rounded bg-[hsl(var(--secondary))] px-3 py-2 font-mono-brand text-[11px] tracking-[.18em] text-[hsl(var(--primary))]">
                 IFRS & LOCAL STANDARDS
               </span>
 
-              <span className="rounded bg-[hsl(var(--secondary))] px-3 py-2 font-mono-brand text-[10px] tracking-[.18em] text-[hsl(var(--primary))]">
+              <span className="rounded bg-[hsl(var(--secondary))] px-3 py-2 font-mono-brand text-[11px] tracking-[.18em] text-[hsl(var(--primary))]">
                 BANK & TENDER READY
               </span>
             </div>

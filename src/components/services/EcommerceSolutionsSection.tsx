@@ -85,15 +85,15 @@ export function EcommerceSolutionsSection() {
             </div>
 
             <div className="mt-8 flex flex-wrap gap-3">
-              <span className="rounded bg-[hsl(var(--secondary))] px-3 py-2 font-mono-brand text-[10px] tracking-[.18em] text-[hsl(var(--primary))]">
+              <span className="rounded bg-[hsl(var(--secondary))] px-3 py-2 font-mono-brand text-[11px] tracking-[.18em] text-[hsl(var(--primary))]">
                 LOCAL GATEWAYS
               </span>
 
-              <span className="rounded bg-[hsl(var(--secondary))] px-3 py-2 font-mono-brand text-[10px] tracking-[.18em] text-[hsl(var(--primary))]">
+              <span className="rounded bg-[hsl(var(--secondary))] px-3 py-2 font-mono-brand text-[11px] tracking-[.18em] text-[hsl(var(--primary))]">
                 COURIER TRACKING
               </span>
 
-              <span className="rounded bg-[hsl(var(--secondary))] px-3 py-2 font-mono-brand text-[10px] tracking-[.18em] text-[hsl(var(--primary))]">
+              <span className="rounded bg-[hsl(var(--secondary))] px-3 py-2 font-mono-brand text-[11px] tracking-[.18em] text-[hsl(var(--primary))]">
                 TAX INVOICES
               </span>
             </div>

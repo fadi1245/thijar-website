@@ -97,15 +97,15 @@ export function CustomSoftwareSection() {
             </div>
 
             <div className="mt-8 flex flex-wrap gap-3">
-              <span className="rounded bg-[hsl(var(--secondary))] px-3 py-2 font-mono-brand text-[10px] tracking-[.18em] text-[hsl(var(--primary))]">
+              <span className="rounded bg-[hsl(var(--secondary))] px-3 py-2 font-mono-brand text-[11px] tracking-[.18em] text-[hsl(var(--primary))]">
                 WEB PORTALS
               </span>
 
-              <span className="rounded bg-[hsl(var(--secondary))] px-3 py-2 font-mono-brand text-[10px] tracking-[.18em] text-[hsl(var(--primary))]">
+              <span className="rounded bg-[hsl(var(--secondary))] px-3 py-2 font-mono-brand text-[11px] tracking-[.18em] text-[hsl(var(--primary))]">
                 MOBILE APPS
               </span>
 
-              <span className="rounded bg-[hsl(var(--secondary))] px-3 py-2 font-mono-brand text-[10px] tracking-[.18em] text-[hsl(var(--primary))]">
+              <span className="rounded bg-[hsl(var(--secondary))] px-3 py-2 font-mono-brand text-[11px] tracking-[.18em] text-[hsl(var(--primary))]">
                 API INTEGRATIONS
               </span>
             </div>

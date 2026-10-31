@@ -45,7 +45,7 @@ export function ServicesCTASection() {
           <div className="mt-14 flex flex-wrap items-center justify-center gap-4 border-t border-white/10 pt-8 md:gap-8">
             <div className="flex items-center gap-2">
               <Clock3 className="h-4 w-4 text-[hsl(var(--accent))]" />
-              <span className="font-mono-brand text-[10px] tracking-[.18em] text-white/55">
+              <span className="font-mono-brand text-[11px] tracking-[.18em] text-white/55">
                 FAST 24-HOUR RESPONSE
               </span>
             </div>
@@ -54,7 +54,7 @@ export function ServicesCTASection() {
 
             <div className="flex items-center gap-2">
               <BadgeCheck className="h-4 w-4 text-[hsl(var(--accent))]" />
-              <span className="font-mono-brand text-[10px] tracking-[.18em] text-white/55">
+              <span className="font-mono-brand text-[11px] tracking-[.18em] text-white/55">
                 LICENSED INDIA & GCC ADVISORS
               </span>
             </div>
@@ -63,7 +63,7 @@ export function ServicesCTASection() {
 
             <div className="flex items-center gap-2">
               <ShieldCheck className="h-4 w-4 text-[hsl(var(--accent))]" />
-              <span className="font-mono-brand text-[10px] tracking-[.18em] text-white/55">
+              <span className="font-mono-brand text-[11px] tracking-[.18em] text-white/55">
                 STRICT CONFIDENTIALITY
               </span>
             </div>

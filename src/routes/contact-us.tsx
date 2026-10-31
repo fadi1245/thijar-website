@@ -1,11 +1,19 @@
 import { ContactFormSection } from "@/components/contact/ContactFormSection";
 import { ContactInfoSection } from "@/components/contact/ContactInfoSection";
 import { PageHero } from "@/components/shared/PageHero";
-import ContactHeroIllustration from "@/components/ui/ContactUsIllustration";
 import { createFileRoute } from "@tanstack/react-router";
+import { pageHead } from "@/lib/seo";
+import { ContactUsIllustration as ContactHeroIllustration } from "@/components/ui/illustrations";
 
 
 export const Route = createFileRoute("/contact-us")({
+  head: () =>
+    pageHead({
+      path: "/contact-us",
+      title: "Contact us",
+      description:
+        "Tell us about your business and what you need. THIJAR's accounting, tax, audit and software teams will bring the right people to the first conversation.",
+    }),
   component: ContactPage,
 });
 

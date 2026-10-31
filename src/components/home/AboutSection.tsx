@@ -68,7 +68,7 @@ export function AboutSection() {
           transition={{ duration: 0.6 }}
         >
           <div className="reveal">
-            <span className="inline-flex items-center rounded-full bg-[hsl(var(--accent)/.12)] px-3 py-1 font-mono-brand text-[10px] font-semibold tracking-[.16em] text-[hsl(var(--accent))]">
+            <span className="inline-flex items-center rounded-full bg-[hsl(var(--accent)/.12)] px-3 py-1 font-mono-brand text-[11px] font-semibold tracking-[.16em] text-[hsl(var(--accent))]">
               THE THIJAR APPROACH
             </span>
             <h2 className="font-display mt-6 max-w-md text-4xl font-extrabold leading-[1.02] tracking-[-.055em] text-[hsl(var(--primary))] md:text-5xl">
@@ -137,7 +137,7 @@ export function AboutSection() {
         viewport={{ once: true, amount: 0.3 }}
         className="mt-10 flex flex-col gap-5 rounded-2xl border border-[hsl(var(--primary)/.12)] bg-white px-6 py-6 md:flex-row md:items-center md:gap-8 md:px-8"
       >
-        <span className="shrink-0 font-mono-brand text-[10px] font-semibold tracking-[.16em] text-[hsl(var(--accent))]">
+        <span className="shrink-0 font-mono-brand text-[11px] font-semibold tracking-[.16em] text-[hsl(var(--accent))]">
           ONE TEAM, MANY DISCIPLINES
         </span>
         <div className="flex flex-wrap gap-2">

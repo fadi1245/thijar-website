@@ -10,11 +10,19 @@ import { SoftwareSection } from "@/components/services/SoftwareSection";
 import { TaxConsultationSection } from "@/components/services/TaxConsultationSection";
 import { PageHero } from "@/components/shared/PageHero";
 import { createFileRoute } from "@tanstack/react-router";
+import { pageHead } from "@/lib/seo";
+import { ServiceIllustration as ServicesIllustration } from "@/components/ui/illustrations";
 // import HeroImage from '../assets/images/service.jpeg'
-import ServicesIllustration from "@/components/ui/ServiceIllustration";
 
 
 export const Route = createFileRoute("/service")({
+  head: () =>
+    pageHead({
+      path: "/service",
+      title: "Services",
+      description:
+        "Accounting, tax consultation, audit and assurance, ERP implementation, custom software, e-commerce and company setup for growing businesses in India and the GCC.",
+    }),
   component: ServicesPage,
 });
 

@@ -13,7 +13,13 @@ import {
   Pause,
   Play,
 } from "lucide-react";
-import { useCallback, useEffect, useRef, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  type KeyboardEvent,
+} from "react";
 import * as THREE from "three";
 
 /* -------------------------------------------------------------------------- */
@@ -151,6 +157,18 @@ function themeColor(name: string, fallback: string) {
 
 const pad = (n: number) => String(n).padStart(2, "0");
 
+// Shared by the live slide and its invisible height-reserving copies
+const EYEBROW =
+  "inline-flex items-center gap-2.5 rounded-full border border-white/20 bg-white/10 px-3.5 py-1.5 font-mono-brand text-[11px] tracking-[.18em] text-white/80 backdrop-blur-sm";
+const HEADING =
+  "font-display mt-6 max-w-[760px] text-[clamp(2.1rem,min(4.8vw,7.5svh),4.5rem)] font-extrabold leading-[1.02] tracking-[-.02em]";
+const SUBHEADING =
+  "mt-5 max-w-[590px] text-[15px] leading-6 text-white/70 md:text-[17px] lg:leading-7";
+const CTA =
+  "inline-flex items-center gap-3 rounded-full bg-[hsl(var(--accent))] px-6 py-3.5 text-sm font-bold text-white";
+const ROUND_BUTTON =
+  "focus-ring grid h-9 w-9 place-items-center rounded-full border border-white/20 text-white/70 transition hover:border-white/50 hover:text-white";
+
 /* -------------------------------------------------------------------------- */
 /*  Text motion                                                               */
 /* -------------------------------------------------------------------------- */
@@ -197,6 +215,7 @@ export function Hero() {
   const host = useRef<HTMLDivElement>(null);
   const stage = useRef<{ go: (i: number) => void } | null>(null);
   const bars = useRef<(HTMLSpanElement | null)[]>([]);
+  const tabs = useRef<(HTMLButtonElement | null)[]>([]);
   const elapsed = useRef(0);
   const activeRef = useRef(0);
   activeRef.current = active;
@@ -249,10 +268,9 @@ export function Hero() {
 
     let renderer: THREE.WebGLRenderer;
     try {
-      renderer = new THREE.WebGLRenderer({
-        antialias: true,
-        powerPreference: "high-performance",
-      });
+      // No MSAA: the scene is a shader quad + soft points, and AA is costly on
+      // mobile. Default powerPreference avoids forcing the discrete GPU.
+      renderer = new THREE.WebGLRenderer({ antialias: false });
     } catch {
       return; // no WebGL: the CSS background stays as a fallback
     }
@@ -262,7 +280,6 @@ export function Hero() {
     ).matches;
     const small = el.clientWidth < 768;
 
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.domElement.style.cssText =
       "position:absolute;inset:0;width:100%;height:100%;display:block";
     el.appendChild(renderer.domElement);
@@ -356,6 +373,7 @@ export function Hero() {
     const ringGeo = new THREE.TorusGeometry(2.45, 0.008, 8, 180);
     const beadGeo = new THREE.SphereGeometry(0.05, 12, 12);
     const ringMats: THREE.MeshBasicMaterial[] = [];
+    const beadMats: THREE.MeshBasicMaterial[] = [];
     const pivots: THREE.Object3D[] = [];
     (
       [
@@ -375,10 +393,9 @@ export function Hero() {
       holder.add(new THREE.Mesh(ringGeo, ringMat));
       const pivot = new THREE.Object3D();
       pivot.userData.speed = speed;
-      const bead = new THREE.Mesh(
-        beadGeo,
-        new THREE.MeshBasicMaterial({ color: "#ffffff" }),
-      );
+      const beadMat = new THREE.MeshBasicMaterial({ color: "#ffffff" });
+      beadMats.push(beadMat);
+      const bead = new THREE.Mesh(beadGeo, beadMat);
       bead.position.x = 2.45;
       pivot.add(bead);
       holder.add(pivot);
@@ -392,6 +409,7 @@ export function Hero() {
     const layout = () => {
       const w = el.clientWidth || 1;
       const h = el.clientHeight || 1;
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, w < 768 ? 1.25 : 1.5));
       renderer.setSize(w, h, false);
       camera.aspect = w / h;
       camera.updateProjectionMatrix();
@@ -410,7 +428,31 @@ export function Hero() {
       );
       ptU.uOpacity.value = desktop ? 1 : 0.55;
       ringMats.forEach((m) => (m.opacity = desktop ? 0.4 : 0.22));
+      // reduced motion has no loop, so draw the resized frame here
+      if (noMotion) {
+        group.scale.setScalar(baseScale);
+        requestRender();
+      }
     };
+
+    /* ------------------------- on-demand render ------------------------ */
+    let lost = false;
+    let pending = 0;
+    const renderOnce = () => {
+      if (!lost) renderer.render(scene, camera);
+    };
+    // coalesce several requests into one frame
+    const requestRender = () => {
+      if (!pending)
+        pending = requestAnimationFrame(() => {
+          pending = 0;
+          renderOnce();
+        });
+    };
+
+    // reduced motion: one fixed pose, no time-based movement
+    if (noMotion) group.rotation.set(0.25, 0, 0);
+
     layout();
     const ro = new ResizeObserver(layout);
     ro.observe(el);
@@ -424,7 +466,23 @@ export function Hero() {
       target.x = ((e.clientX - r.left) / r.width) * 2 - 1;
       target.y = -(((e.clientY - r.top) / r.height) * 2 - 1);
     };
-    section.addEventListener("pointermove", onMove);
+    // parallax only feeds the animation loop
+    if (!noMotion) section.addEventListener("pointermove", onMove);
+
+    /* --------------------------- context loss -------------------------- */
+    const canvas = renderer.domElement;
+    const onLost = (e: Event) => {
+      e.preventDefault(); // lets the browser restore the context later
+      lost = true;
+      canvas.style.visibility = "hidden"; // CSS hero background shows through
+    };
+    const onRestored = () => {
+      lost = false;
+      canvas.style.visibility = "";
+      requestRender();
+    };
+    canvas.addEventListener("webglcontextlost", onLost);
+    canvas.addEventListener("webglcontextrestored", onRestored);
 
     /* ---------------------------- transition --------------------------- */
     const tr = { start: -1 };
@@ -437,6 +495,7 @@ export function Hero() {
         bgU.uToPos.value.set(...FIELD_POS[index % FIELD_POS.length]);
         if (noMotion) {
           bgU.uFromPos.value.copy(bgU.uToPos.value);
+          requestRender();
           return;
         }
         tr.start = performance.now();
@@ -445,17 +504,15 @@ export function Hero() {
     };
 
     /* ------------------------------ render ----------------------------- */
-    let visible = true;
-    const io = new IntersectionObserver(
-      ([entry]) => (visible = entry.isIntersecting),
-      { threshold: 0 },
-    );
-    io.observe(el);
-
+    const FRAME_MS = 1000 / 30; // frame cap below desktop width
     let raf = 0;
+    let lastFrame = 0;
     const loop = (now: number) => {
       raf = requestAnimationFrame(loop);
-      if (!visible || document.hidden) return;
+      if (!desktop) {
+        if (now - lastFrame < FRAME_MS - 2) return;
+        lastFrame = now;
+      }
       const t = now / 1000;
 
       const p = tr.start < 0 ? 1 : Math.min((now - tr.start) / TRANSITION_MS, 1);
@@ -477,18 +534,47 @@ export function Hero() {
       group.scale.setScalar(baseScale * (1 + bump * 0.06));
       pivots.forEach((pv) => (pv.rotation.z = t * pv.userData.speed));
 
-      renderer.render(scene, camera);
+      renderOnce();
     };
-    raf = requestAnimationFrame(loop);
+
+    // run the loop only while the hero is on screen and the tab is visible
+    let visible = false;
+    const sync = () => {
+      const run = visible && !document.hidden;
+      if (noMotion) {
+        if (run) requestRender();
+        return;
+      }
+      if (run && !raf) raf = requestAnimationFrame(loop);
+      else if (!run && raf) {
+        cancelAnimationFrame(raf);
+        raf = 0;
+      }
+    };
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        visible = entry.isIntersecting;
+        sync();
+      },
+      { threshold: 0 },
+    );
+    io.observe(el);
+    document.addEventListener("visibilitychange", sync);
 
     return () => {
       stage.current = null;
       cancelAnimationFrame(raf);
+      cancelAnimationFrame(pending);
       io.disconnect();
       ro.disconnect();
+      document.removeEventListener("visibilitychange", sync);
       section.removeEventListener("pointermove", onMove);
+      canvas.removeEventListener("webglcontextlost", onLost);
+      canvas.removeEventListener("webglcontextrestored", onRestored);
       [bgGeo, ptGeo, wireGeo, ringGeo, beadGeo].forEach((g) => g.dispose());
-      [bgMat, ptMat, wireMat, ...ringMats].forEach((m) => m.dispose());
+      [bgMat, ptMat, wireMat, ...ringMats, ...beadMats].forEach((m) =>
+        m.dispose(),
+      );
       renderer.dispose();
       renderer.domElement.remove();
     };
@@ -497,81 +583,119 @@ export function Hero() {
   /* ------------------------------- render ------------------------------ */
   const words = String(slide.heading).split(" ");
 
+  // WAI-ARIA tabs: arrow keys / Home / End move between slides
+  const onTabKeyDown = (e: KeyboardEvent<HTMLButtonElement>) => {
+    const targets: Record<string, number> = {
+      ArrowRight: active + 1,
+      ArrowLeft: active - 1,
+      Home: 0,
+      End: total - 1,
+    };
+    if (!(e.key in targets)) return;
+    e.preventDefault();
+    const next = (targets[e.key] + total) % total;
+    goTo(next);
+    tabs.current[next]?.focus();
+  };
+
   return (
     <section
-      className="hero-slice relative min-h-[560px] overflow-hidden bg-[hsl(var(--primary))] text-white"
-      // fills the first screen on every viewport. If your header is NOT overlaying
-      // the hero, set --header-h (e.g. 80px) so hero + header = exactly one screen.
-      style={{ height: "calc(100svh - var(--header-h, 0px))" }}
+      className="hero-slice relative flex flex-col overflow-hidden bg-[hsl(var(--primary))] text-white"
+      // At least one screen tall, but grows with the copy on short or narrow
+      // screens instead of clipping it. If the header does NOT overlay the
+      // hero, set --header-h (e.g. 80px) so hero + header = one screen.
+      style={{ minHeight: "max(560px, calc(100svh - var(--header-h, 0px)))" }}
     >
       {/* 3D stage (background field + particle globe) */}
       <div ref={host} aria-hidden className="absolute inset-0" />
       <div className="hero-grid pointer-events-none absolute inset-0 opacity-25" />
 
-      <div className="container-tajin relative h-full">
+      <div className="container-tajin relative flex flex-1 flex-col">
         {/* ---------------------------- copy ---------------------------- */}
-        <div className="absolute inset-x-0 bottom-28 top-20 flex max-w-[700px] items-center lg:bottom-40 lg:top-24">
-          <AnimatePresence mode="wait" custom={dir}>
-            <motion.div
-              key={active}
-              custom={dir}
-              variants={container}
-              initial="hidden"
-              animate="show"
-              exit="exit"
-              className="w-full"
-            >
-              <motion.span
-                variants={fadeUp}
-                className="inline-flex items-center gap-2.5 rounded-full border border-white/20 bg-white/10 px-3.5 py-1.5 font-mono-brand text-[10px] tracking-[.18em] text-white/80 backdrop-blur-sm"
+        <div
+          id="hero-slide-panel"
+          role="tabpanel"
+          aria-labelledby={`hero-tab-${active}`}
+          // announce slide changes only when they are not automatic
+          aria-live={paused || reduced ? "polite" : "off"}
+          className="flex max-w-[700px] flex-1 items-center pb-8 pt-28 lg:pb-16 lg:pt-28"
+        >
+          <div className="grid w-full">
+            {/* Invisible copies of every slide reserve the tallest one's
+                height, so the layout does not jump between slides */}
+            {slides.map((item) => (
+              <div
+                key={item.index}
+                aria-hidden
+                className="invisible col-start-1 row-start-1"
               >
-                <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[hsl(var(--accent))]" />
-                {pad(active + 1)} / {pad(total)}
-              </motion.span>
+                <span className={EYEBROW}>00 / 00</span>
+                <p className={HEADING}>{item.heading}</p>
+                <div className="mt-6 h-1" />
+                <p className={SUBHEADING}>{item.subheading}</p>
+                <span className={`${CTA} mt-8`}>
+                  {item.button}
+                  <span className="h-6 w-6" />
+                </span>
+              </div>
+            ))}
 
-              <h1 className="font-display mt-6 max-w-[760px] text-[clamp(2.1rem,min(4.8vw,7.5svh),4.5rem)] font-extrabold leading-[1.02] tracking-[-.02em]">
-                {words.map((w, i) => (
-                  <span
-                    key={i}
-                    className="-mb-[.1em] mr-[.26em] inline-block overflow-hidden pb-[.1em] align-top"
-                  >
-                    <motion.span variants={word} className="inline-block">
-                      {w}
-                    </motion.span>
-                  </span>
-                ))}
-              </h1>
-
+            <AnimatePresence mode="wait" custom={dir}>
               <motion.div
-                variants={fadeUp}
-                className="mt-6 h-1 w-14 rounded-full bg-[hsl(var(--accent))] lg:w-20"
-              />
-
-              <motion.p
-                variants={fadeUp}
-                className="mt-5 max-w-[590px] text-[15px] leading-6 text-white/70 md:text-[17px] lg:leading-7"
+                key={active}
+                custom={dir}
+                variants={container}
+                initial="hidden"
+                animate="show"
+                exit="exit"
+                className="col-start-1 row-start-1 w-full self-center"
               >
-                {slide.subheading}
-              </motion.p>
+                <motion.span variants={fadeUp} className={EYEBROW}>
+                  <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[hsl(var(--accent))]" />
+                  {pad(active + 1)} / {pad(total)}
+                </motion.span>
 
-              <motion.div variants={fadeUp}>
-                <Link
-                  to={slide.action}
-                  className="focus-ring group mt-8 inline-flex items-center gap-3 rounded-full bg-[hsl(var(--accent))] px-6 py-3.5 text-sm font-bold text-white shadow-[0_12px_30px_rgba(23,146,166,.26)] transition-all hover:-translate-y-0.5 hover:bg-[#36afc0]"
-                  data-testid={`link-hero-cta-${slide.index}`}
-                >
-                  {slide.button}
-                  <span className="grid h-6 w-6 place-items-center rounded-full bg-white/15 transition-transform group-hover:translate-x-1">
-                    <ArrowRight className="h-3.5 w-3.5" />
-                  </span>
-                </Link>
+                <h1 className={HEADING}>
+                  {words.map((w, i) => (
+                    <span
+                      key={i}
+                      className="-mb-[.1em] mr-[.26em] inline-block overflow-hidden pb-[.1em] align-top"
+                    >
+                      <motion.span variants={word} className="inline-block">
+                        {w}
+                      </motion.span>
+                    </span>
+                  ))}
+                </h1>
+
+                <motion.div
+                  variants={fadeUp}
+                  className="mt-6 h-1 w-14 rounded-full bg-[hsl(var(--accent))] lg:w-20"
+                />
+
+                <motion.p variants={fadeUp} className={SUBHEADING}>
+                  {slide.subheading}
+                </motion.p>
+
+                <motion.div variants={fadeUp}>
+                  <Link
+                    to={slide.action}
+                    className={`focus-ring group mt-8 shadow-[0_12px_30px_rgba(23,146,166,.26)] transition-all hover:-translate-y-0.5 hover:bg-[#36afc0] ${CTA}`}
+                    data-testid={`link-hero-cta-${slide.index}`}
+                  >
+                    {slide.button}
+                    <span className="grid h-6 w-6 place-items-center rounded-full bg-white/15 transition-transform group-hover:translate-x-1">
+                      <ArrowRight className="h-3.5 w-3.5" />
+                    </span>
+                  </Link>
+                </motion.div>
               </motion.div>
-            </motion.div>
-          </AnimatePresence>
+            </AnimatePresence>
+          </div>
         </div>
 
         {/* ------------------------- bottom controls ------------------------- */}
-        <div className="absolute inset-x-0 bottom-8 lg:bottom-10">
+        <div className="pb-8 lg:pb-10">
           {/* desktop: slide cards with progress */}
           <div className="hidden items-end justify-between gap-10 lg:flex">
             <div className="flex w-full max-w-[880px] gap-5" role="tablist" aria-label="Hero slides">
@@ -579,10 +703,17 @@ export function Hero() {
                 <button
                   type="button"
                   key={item.index}
+                  id={`hero-tab-${i}`}
+                  ref={(node) => {
+                    tabs.current[i] = node;
+                  }}
                   role="tab"
                   aria-selected={active === i}
-                  aria-label={`Show slide ${i + 1}`}
+                  aria-controls="hero-slide-panel"
+                  tabIndex={active === i ? 0 : -1}
+                  aria-label={`Show slide ${i + 1}: ${item.accent}`}
                   onClick={() => goTo(i)}
+                  onKeyDown={onTabKeyDown}
                   className="focus-ring group relative min-w-0 flex-1 pt-4 text-left"
                   data-testid={`button-hero-slide-${i + 1}`}
                 >
@@ -595,12 +726,12 @@ export function Hero() {
                     style={{ transform: "scaleX(0)" }}
                   />
                   <span
-                    className={`font-mono-brand text-[10px] tracking-[.18em] transition-colors ${active === i ? "text-[hsl(var(--accent))]" : "text-white/35"}`}
+                    className={`font-mono-brand text-[11px] tracking-[.18em] transition-colors ${active === i ? "text-[hsl(var(--accent))]" : "text-white/60"}`}
                   >
                     {pad(i + 1)}
                   </span>
                   <span
-                    className={`mt-1 block truncate text-sm font-semibold transition-all group-hover:text-white ${active === i ? "text-white" : "text-white/45"}`}
+                    className={`mt-1 block truncate text-sm font-semibold transition-all group-hover:text-white ${active === i ? "text-white" : "text-white/60"}`}
                   >
                     {item.accent}
                   </span>
@@ -612,7 +743,7 @@ export function Hero() {
               <button
                 type="button"
                 onClick={() => setPaused((v) => !v)}
-                className="focus-ring grid h-9 w-9 place-items-center rounded-full border border-white/20 text-white/70 transition hover:border-white/50 hover:text-white"
+                className={ROUND_BUTTON}
                 aria-label={paused ? "Play slideshow" : "Pause slideshow"}
               >
                 {paused ? (
@@ -624,7 +755,7 @@ export function Hero() {
               <button
                 type="button"
                 onClick={() => goTo(active - 1, -1)}
-                className="focus-ring grid h-9 w-9 place-items-center rounded-full border border-white/20 text-white/70 transition hover:border-white/50 hover:text-white"
+                className={ROUND_BUTTON}
                 aria-label="Previous slide"
                 data-testid="button-hero-previous"
               >
@@ -633,7 +764,7 @@ export function Hero() {
               <button
                 type="button"
                 onClick={() => goTo(active + 1, 1)}
-                className="focus-ring grid h-9 w-9 place-items-center rounded-full border border-white/20 text-white/70 transition hover:border-white/50 hover:text-white"
+                className={ROUND_BUTTON}
                 aria-label="Next slide"
                 data-testid="button-hero-next"
               >
@@ -644,14 +775,14 @@ export function Hero() {
 
           {/* mobile / tablet: compact bar */}
           <div className="flex items-center justify-between border-t border-white/15 pt-4 lg:hidden">
-            <span className="max-w-[45%] truncate font-mono-brand text-[10px] tracking-[.18em] text-white/40">
+            <span className="max-w-[45%] truncate font-mono-brand text-[11px] tracking-[.18em] text-white/60">
               {slide.accent}
             </span>
             <div className="flex items-center gap-3">
               <button
                 type="button"
                 onClick={() => goTo(active - 1, -1)}
-                className="focus-ring grid h-9 w-9 place-items-center rounded-full border border-white/20 text-white/70 transition hover:border-white/50 hover:text-white"
+                className={ROUND_BUTTON}
                 aria-label="Previous slide"
               >
                 <ChevronLeft className="h-4 w-4" />
@@ -667,7 +798,7 @@ export function Hero() {
               <button
                 type="button"
                 onClick={() => goTo(active + 1, 1)}
-                className="focus-ring grid h-9 w-9 place-items-center rounded-full border border-white/20 text-white/70 transition hover:border-white/50 hover:text-white"
+                className={ROUND_BUTTON}
                 aria-label="Next slide"
               >
                 <ChevronRight className="h-4 w-4" />

@@ -8,6 +8,8 @@ import { Check, ArrowRight } from "lucide-react";
 const GOOGLE_SHEET_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzI7P7fVYVWEDLNIeDQooqWvHtMeYyqqF_o84_J8xKYQKqKeEpGiXJb1yrgtc1EuvWD/exec";
 
 type Status = "idle" | "sending" | "sent" | "error";
+type Field = "fullName" | "email" | "phone" | "message";
+type FieldErrors = Partial<Record<Field, string>>;
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const phoneRegex = /^[0-9\s\-()+]+$/;
@@ -39,6 +41,14 @@ const inputClass =
   "focus-ring w-full rounded-lg border border-[hsl(var(--border))] bg-white px-3 py-3 text-sm font-normal outline-none focus:border-[hsl(var(--accent))]";
 const labelClass = "grid gap-2 text-xs font-semibold text-[hsl(var(--primary))]";
 const optionalTag = <span className="font-normal text-[hsl(var(--muted-foreground))]">(optional)</span>;
+const requiredTag = <span aria-hidden="true" className="text-red-700">*</span>;
+const errorClass = "text-xs font-normal text-red-700";
+
+// Props that tie an input to its error message for assistive tech
+const describe = (field: Field, errors: FieldErrors) => ({
+  "aria-invalid": errors[field] ? true : undefined,
+  "aria-describedby": errors[field] ? `${field}-error` : undefined,
+});
 
 export function ContactFormSection() {
   const [fullName, setFullName] = useState("");
@@ -52,6 +62,19 @@ export function ContactFormSection() {
   const [website, setWebsite] = useState(""); // honeypot — real users never touch this
   const [status, setStatus] = useState<Status>("idle");
   const [errorMessage, setErrorMessage] = useState("");
+  const [errors, setErrors] = useState<FieldErrors>({});
+
+  // Clear a field's error as soon as the visitor edits it
+  const clearError = (field: Field) => {
+    if (errors[field]) setErrors((prev) => ({ ...prev, [field]: undefined }));
+  };
+
+  // A number without a code is flagged live, before submit
+  const phoneError =
+    errors.phone ??
+    (phone.trim() && !countryCode
+      ? "Please select a country code for your number."
+      : undefined);
 
   const resetForm = () => {
     setFullName("");
@@ -63,6 +86,7 @@ export function ContactFormSection() {
     setMessage("");
     setConsent(false);
     setWebsite("");
+    setErrors({});
   };
 
   const fail = (msg: string) => {
@@ -70,8 +94,9 @@ export function ContactFormSection() {
     setStatus("error");
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const form = e.currentTarget;
 
     // Honeypot: if the hidden field is filled it's almost certainly a bot.
     // Pretend success so the bot learns nothing, but don't send anything.
@@ -81,17 +106,22 @@ export function ContactFormSection() {
       return;
     }
 
-    if (!fullName.trim() || !email.trim() || !message.trim()) {
-      return fail("Please fill in all required fields.");
-    }
-    if (!emailRegex.test(email.trim())) {
-      return fail("Please enter a valid email address.");
-    }
-    if (phone.trim() && !countryCode) {
-      return fail("Please select a country code.");
-    }
-    if (phone.trim() && !phoneRegex.test(phone.trim())) {
-      return fail("Please enter a valid phone number.");
+    const next: FieldErrors = {};
+    if (!fullName.trim()) next.fullName = "Please enter your full name.";
+    if (!email.trim()) next.email = "Please enter your email address.";
+    else if (!emailRegex.test(email.trim()))
+      next.email = "Please enter a valid email address.";
+    if (phone.trim() && !countryCode)
+      next.phone = "Please select a country code for your number.";
+    else if (phone.trim() && !phoneRegex.test(phone.trim()))
+      next.phone = "Please enter a valid phone number.";
+    if (!message.trim()) next.message = "Please tell us what you need help with.";
+
+    setErrors(next);
+    const firstInvalid = (Object.keys(next) as Field[])[0];
+    if (firstInvalid) {
+      (form.elements.namedItem(firstInvalid) as HTMLElement | null)?.focus();
+      return fail("Please correct the highlighted fields.");
     }
 
     setStatus("sending");
@@ -172,31 +202,61 @@ export function ContactFormSection() {
             />
           </div>
 
-          <div className="grid gap-5 sm:grid-cols-2">
-            <label className={labelClass}>
-              Full name
-              <input
-                name="fullName"
-                value={fullName}
-                onChange={(e) => setFullName(e.target.value)}
-                className={inputClass}
-                placeholder="Your full name"
-                data-testid="input-contact-name"
-              />
-            </label>
+          <p className="text-xs text-[hsl(var(--muted-foreground))]">
+            Fields marked {requiredTag} are required.
+          </p>
 
-            <label className={labelClass}>
-              Work email
-              <input
-                type="email"
-                name="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className={inputClass}
-                placeholder="you@company.com"
-                data-testid="input-contact-email"
-              />
-            </label>
+          <div className="grid gap-5 sm:grid-cols-2">
+            <div className="grid gap-2">
+              <label className={labelClass}>
+                <span>Full name {requiredTag}</span>
+                <input
+                  name="fullName"
+                  autoComplete="name"
+                  required
+                  value={fullName}
+                  onChange={(e) => {
+                    setFullName(e.target.value);
+                    clearError("fullName");
+                  }}
+                  {...describe("fullName", errors)}
+                  className={inputClass}
+                  placeholder="Your full name"
+                  data-testid="input-contact-name"
+                />
+              </label>
+              {errors.fullName && (
+                <p id="fullName-error" className={errorClass}>
+                  {errors.fullName}
+                </p>
+              )}
+            </div>
+
+            <div className="grid gap-2">
+              <label className={labelClass}>
+                <span>Work email {requiredTag}</span>
+                <input
+                  type="email"
+                  name="email"
+                  autoComplete="email"
+                  required
+                  value={email}
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                    clearError("email");
+                  }}
+                  {...describe("email", errors)}
+                  className={inputClass}
+                  placeholder="you@company.com"
+                  data-testid="input-contact-email"
+                />
+              </label>
+              {errors.email && (
+                <p id="email-error" className={errorClass}>
+                  {errors.email}
+                </p>
+              )}
+            </div>
           </div>
 
           <label className={labelClass}>
@@ -218,7 +278,10 @@ export function ContactFormSection() {
                 id="countryCode"
                 aria-label="Country code"
                 value={countryCode}
-                onChange={(e) => setCountryCode(e.target.value)}
+                onChange={(e) => {
+                  setCountryCode(e.target.value);
+                  clearError("phone");
+                }}
                 className="focus-ring w-28 shrink-0 rounded-lg border border-[hsl(var(--border))] bg-white px-2 py-3 text-sm font-normal outline-none focus:border-[hsl(var(--accent))]"
                 data-testid="select-contact-country-code"
               >
@@ -231,17 +294,24 @@ export function ContactFormSection() {
               </select>
               <input
                 id="phone"
+                name="phone"
                 type="tel"
+                autoComplete="tel-national"
                 value={phone}
-                onChange={(e) => setPhone(e.target.value)}
+                onChange={(e) => {
+                  setPhone(e.target.value);
+                  clearError("phone");
+                }}
+                aria-invalid={phoneError ? true : undefined}
+                aria-describedby={phoneError ? "phone-error" : undefined}
                 className={`${inputClass} min-w-0 flex-1`}
                 placeholder="Phone number"
                 data-testid="input-contact-phone"
               />
             </div>
-            {phone.trim() && !countryCode && (
-              <p className="text-xs font-normal text-red-500">
-                Please select a country code for your number.
+            {phoneError && (
+              <p id="phone-error" className={errorClass}>
+                {phoneError}
               </p>
             )}
           </div>
@@ -264,18 +334,30 @@ export function ContactFormSection() {
             </select>
           </label>
 
-          <label className={labelClass}>
-            What can we help with?
-            <textarea
-              name="message"
-              rows={5}
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              className={`${inputClass} resize-none`}
-              placeholder="Tell us a little about your goals or the challenge..."
-              data-testid="input-contact-message"
-            />
-          </label>
+          <div className="grid gap-2">
+            <label className={labelClass}>
+              <span>What can we help with? {requiredTag}</span>
+              <textarea
+                name="message"
+                rows={5}
+                required
+                value={message}
+                onChange={(e) => {
+                  setMessage(e.target.value);
+                  clearError("message");
+                }}
+                {...describe("message", errors)}
+                className={`${inputClass} resize-none`}
+                placeholder="Tell us a little about your goals or the challenge..."
+                data-testid="input-contact-message"
+              />
+            </label>
+            {errors.message && (
+              <p id="message-error" className={errorClass}>
+                {errors.message}
+              </p>
+            )}
+          </div>
 
           <label className="flex items-start gap-2.5 text-xs leading-relaxed text-[hsl(var(--muted-foreground))]">
             <input
@@ -289,7 +371,7 @@ export function ContactFormSection() {
           </label>
 
           {status === "error" && (
-            <p className="text-xs font-medium text-red-500" role="alert">
+            <p className="text-xs font-medium text-red-700" role="alert">
               {errorMessage}
             </p>
           )}

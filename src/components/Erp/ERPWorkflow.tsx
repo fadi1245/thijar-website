@@ -79,7 +79,7 @@ export function ERPWorkflow() {
               className="group rounded-2xl border border-[hsl(var(--border))] bg-white p-6 transition-[border-color,box-shadow] hover:-translate-y-1 hover:border-[hsl(var(--accent)/.55)] hover:shadow-[var(--shadow-md)]"
             >
               <div className="flex items-center justify-end">
-                {/* <span className="font-mono-brand text-[10px] tracking-[.16em] text-[hsl(var(--accent))]">{number}</span> */}
+                {/* <span className="font-mono-brand text-[11px] tracking-[.16em] text-[hsl(var(--accent))]">{number}</span> */}
                 <ArrowUpRight className="h-4 w-4 text-[hsl(var(--muted-foreground))] transition group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
               </div>
               <h3 className="mt-10 font-display text-xl font-bold text-[hsl(var(--primary))]">
@@ -96,7 +96,7 @@ export function ERPWorkflow() {
                   <motion.span
                     key={tag}
                     variants={tagVariants}
-                    className="rounded-full bg-[#eaf5f6] px-2.5 py-1.5 text-[10px] font-semibold text-[hsl(var(--primary))]"
+                    className="rounded-full bg-[#eaf5f6] px-2.5 py-1.5 text-[11px] font-semibold text-[hsl(var(--primary))]"
                   >
                     {tag}
                   </motion.span>

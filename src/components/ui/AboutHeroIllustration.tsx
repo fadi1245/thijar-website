@@ -1,37 +1,5 @@
 import { useId } from "react";
-
-/* -------------------------------------------------------------------------- */
-/*  Animations (scoped with the "hi-" prefix, no global CSS needed)           */
-/* -------------------------------------------------------------------------- */
-const CSS = `
-.hi-float{animation:hi-float 6s ease-in-out infinite}
-@keyframes hi-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
-
-.hi-drift{animation:hi-drift 9s ease-in-out infinite}
-@keyframes hi-drift{0%,100%{transform:translate(0,0)}50%{transform:translate(6px,-14px)}}
-
-.hi-flow{stroke-dasharray:4 6;animation:hi-flow 1.6s linear infinite}
-@keyframes hi-flow{to{stroke-dashoffset:-20}}
-
-.hi-pulse{transform-box:fill-box;transform-origin:center;animation:hi-pulse 2.6s ease-out infinite}
-@keyframes hi-pulse{0%{transform:scale(1);opacity:.7}100%{transform:scale(3.4);opacity:0}}
-
-.hi-bar{transform-box:fill-box;transform-origin:bottom;animation:hi-bar 3.4s ease-in-out infinite}
-@keyframes hi-bar{0%,100%{transform:scaleY(1)}50%{transform:scaleY(.62)}}
-
-.hi-meridian{transform-box:fill-box;transform-origin:center;animation:hi-mer 24s linear infinite}
-@keyframes hi-mer{0%,100%{transform:scaleX(1)}25%,75%{transform:scaleX(.71)}50%{transform:scaleX(.02)}}
-
-.hi-spin{transform-box:fill-box;transform-origin:center;animation:hi-spin 40s linear infinite}
-@keyframes hi-spin{to{transform:rotate(360deg)}}
-
-.hi-draw{stroke-dasharray:200;animation:hi-draw 5s ease-in-out infinite}
-@keyframes hi-draw{0%{stroke-dashoffset:200}60%,100%{stroke-dashoffset:0}}
-
-@media (prefers-reduced-motion:reduce){
-  .hi-float,.hi-drift,.hi-flow,.hi-pulse,.hi-bar,.hi-meridian,.hi-spin,.hi-draw{animation:none!important}
-}
-`;
+import "./AboutHeroIllustration.css";
 
 /* -------------------------------------------------------------------------- */
 /*  Palette                                                                   */
@@ -268,7 +236,6 @@ export default function HeroIllustration({
       aria-label="A diverse team of accountants, auditors and engineers collaborating around a digital globe"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <style>{CSS}</style>
 
       <defs>
         <filter id={`${uid}-sh`} x="-30%" y="-30%" width="160%" height="170%">

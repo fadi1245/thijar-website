@@ -69,7 +69,7 @@ export function ServicesStatsSection() {
               variants={cardItemVariants}
               className="rounded-3xl border border-[hsl(var(--primary)/.08)] bg-white p-6 md:p-8"
             >
-              {/* <p className="font-mono-brand text-[10px] tracking-[.18em] text-[hsl(var(--accent))]">
+              {/* <p className="font-mono-brand text-[11px] tracking-[.18em] text-[hsl(var(--accent))]">
                 {item.label}
               </p> */}
 

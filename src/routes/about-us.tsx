@@ -5,9 +5,17 @@ import { TeamExpertiseSection } from "@/components/about/TeamExpertiseSection";
 import { TimelineMilestonesSection } from "@/components/about/TimelineMileStone";
 import { PageHero } from "@/components/shared/PageHero";
 import { createFileRoute } from "@tanstack/react-router";
-import HeroIllustration from "@/components/ui/AboutHeroIllustration";
+import { pageHead } from "@/lib/seo";
+import { AboutHeroIllustration as HeroIllustration } from "@/components/ui/illustrations";
 
 export const Route = createFileRoute("/about-us")({
+  head: () =>
+    pageHead({
+      path: "/about-us",
+      title: "About us",
+      description:
+        "THIJAR helps leaders expand across markets, bringing financial discipline, local knowledge and practical technology together in one team across India and the GCC.",
+    }),
   component: AboutPage,
 });
 

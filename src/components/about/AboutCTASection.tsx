@@ -48,12 +48,12 @@ export function AboutCTASection() {
           {/* Divider */}
           <div className="mt-12 border-t border-white/10 pt-8">
             <div className="flex flex-col gap-4 text-center md:flex-row md:items-center md:justify-between md:text-left">
-              <div className="flex flex-wrap items-center gap-4 text-[10px] tracking-[.18em] text-white/35">
+              <div className="flex flex-wrap items-center gap-4 text-[11px] tracking-[.18em] text-white/60">
                 <span>• CONFIDENTIAL ENGAGEMENT</span>
                 <span>• DIRECT CA ADVISORY</span>
               </div>
 
-              <div className="font-mono-brand text-[10px] tracking-[.18em] text-white/35">
+              <div className="font-mono-brand text-[11px] tracking-[.18em] text-white/60">
                 ESTABLISHED 2011 — THIJAR PVT LTD
               </div>
             </div>

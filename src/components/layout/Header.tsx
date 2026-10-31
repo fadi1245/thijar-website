@@ -3,6 +3,14 @@ import { ArrowUpRight, Menu, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import logo from "../../assets/logo/logo.jpeg";
 
+// `as const` keeps the paths literal so <Link to> type-checks them
+const nav = [
+  ["About us", "/about-us"],
+  ["ERP & software", "/erp"],
+  ["Services", "/service"],
+  ["Careers", "/careers"],
+] as const;
+
 export function Header() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -13,13 +21,6 @@ export function Header() {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
-
-  const nav = [
-    ["About us", "/about-us"],
-    ["ERP & software", "/erp"],
-    ["Services", "/service"],
-    ["Careers", "/careers"],
-  ];
 
   // solid when the mobile menu is open so links stay readable
   const solid = scrolled || open;
@@ -37,13 +38,20 @@ export function Header() {
           scrolled ? "h-[68px]" : "h-[82px]"
         }`}
       >
-        <Link to="/" className="flex items-center gap-5" data-testid="link-logo-home">
+        <Link
+          to="/"
+          className="focus-ring flex items-center gap-5"
+          aria-label="THIJAR home"
+          data-testid="link-logo-home"
+        >
           <img
             src={logo}
-            alt="Thijar logo"
+            alt=""
+            width={60}
+            height={60}
             className="w-13 lg:w-15 rounded-lg object-cover"
           />
-          <h2 className="text-3xl font-extrabold text-white">THIJAR</h2>
+          <span className="text-3xl font-extrabold text-white">THIJAR</span>
         </Link>
 
         <nav className="hidden items-center gap-8 md:flex" aria-label="Primary navigation">
@@ -82,7 +90,7 @@ export function Header() {
       {open && (
         <nav
           id="mobile-navigation"
-          className="mx-5mb-4 rounded-2xl border border-white/15 bg-[hsl(var(--primary)/0.95)] p-3 shadow-2xl backdrop-blur-xl md:hidden"
+          className="mx-5 mb-4 rounded-2xl border border-white/15 bg-[hsl(var(--primary)/0.95)] p-3 shadow-2xl backdrop-blur-xl md:hidden"
           aria-label="Mobile navigation"
         >
           {nav.map(([label, href]) => (

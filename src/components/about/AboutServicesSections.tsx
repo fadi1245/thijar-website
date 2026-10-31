@@ -146,7 +146,7 @@ export function AboutServicesSection() {
                     <Icon className="h-4 w-4" strokeWidth={1.8} />
                   </span>
 
-                  {/* <span className="font-mono-brand text-[10px] tracking-[.18em] text-[hsl(var(--accent))]">
+                  {/* <span className="font-mono-brand text-[11px] tracking-[.18em] text-[hsl(var(--accent))]">
                     {service.number}
                   </span> */}
                 </div>

@@ -48,7 +48,7 @@ const ClockIcon = () => (
 /* ---------- Shared pieces ---------- */
 function Badge({ children }: { children: React.ReactNode }) {
   return (
-    <span className="inline-flex items-center rounded-full bg-[hsl(var(--accent)/.12)] px-3 py-1 font-mono-brand text-[10px] font-semibold tracking-[.16em] text-[hsl(var(--accent))]">
+    <span className="inline-flex items-center rounded-full bg-[hsl(var(--accent)/.12)] px-3 py-1 font-mono-brand text-[11px] font-semibold tracking-[.16em] text-[hsl(var(--accent))]">
       {children}
     </span>
   );

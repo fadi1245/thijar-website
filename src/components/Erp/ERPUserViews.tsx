@@ -57,7 +57,7 @@ export function ERPUserViews() {
               className="bg-[#f1f4f7] p-7 md:p-9"
             >
               <div className="flex items-center gap-3">
-                <span className="grid h-8 w-8 place-items-center rounded-full bg-[hsl(var(--accent)/.12)] font-mono-brand text-[10px] font-bold text-[hsl(var(--accent))]">
+                <span className="grid h-8 w-8 place-items-center rounded-full bg-[hsl(var(--accent)/.12)] font-mono-brand text-[11px] font-bold text-[hsl(var(--accent))]">
                   {String(index + 1).padStart(2, "0")}
                 </span>
                 <h3 className="font-display text-xl font-bold text-[hsl(var(--primary))]">

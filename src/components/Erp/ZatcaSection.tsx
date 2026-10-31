@@ -64,7 +64,7 @@ export function ZatcaSection() {
                 onboard your business and submit your certificate yourself,
                 right inside the application.
               </p>
-              <p className="mt-5 max-w-lg text-sm leading-6 text-white/45">
+              <p className="mt-5 max-w-lg text-sm leading-6 text-white/60">
                 Need a hand? Our team can help with setup and testing.
               </p>
               <Link

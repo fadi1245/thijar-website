@@ -189,7 +189,7 @@ export function TimelineMilestonesSection() {
 
                   {/* <div className="mt-5 flex items-center gap-2">
                     <span className="h-2 w-2 rounded-full bg-[hsl(var(--accent))]" />
-                    <span className="font-mono-brand text-[10px] tracking-[.18em] text-[hsl(var(--accent))]">
+                    <span className="font-mono-brand text-[11px] tracking-[.18em] text-[hsl(var(--accent))]">
                       {item.tag}
                     </span>
                   </div> */}
@@ -261,7 +261,7 @@ export function TimelineMilestonesSection() {
 
                   <div className="mt-4 flex items-center gap-2">
                     <span className="h-2 w-2 rounded-full bg-[hsl(var(--accent))]" />
-                    <span className="font-mono-brand text-[10px] tracking-[.18em] text-[hsl(var(--accent))]">
+                    <span className="font-mono-brand text-[11px] tracking-[.18em] text-[hsl(var(--accent))]">
                       {item.tag}
                     </span>
                   </div>

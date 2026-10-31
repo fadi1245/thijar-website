@@ -1,0 +1,37 @@
+.sv-float{animation:sv-float 6s ease-in-out infinite}
+@keyframes sv-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+
+.sv-drift{animation:sv-drift 9s ease-in-out infinite}
+@keyframes sv-drift{0%,100%{transform:translate(0,0)}50%{transform:translate(6px,-14px)}}
+
+.sv-flow{stroke-dasharray:4 6;animation:sv-flow 1.6s linear infinite}
+@keyframes sv-flow{to{stroke-dashoffset:-20}}
+
+.sv-pulse{transform-box:fill-box;transform-origin:center;animation:sv-pulse 2.6s ease-out infinite}
+@keyframes sv-pulse{0%{transform:scale(1);opacity:.7}100%{transform:scale(3.4);opacity:0}}
+
+.sv-bar{transform-box:fill-box;transform-origin:bottom;animation:sv-bar 3.4s ease-in-out infinite}
+@keyframes sv-bar{0%,100%{transform:scaleY(1)}50%{transform:scaleY(.6)}}
+
+.sv-spin{transform-box:fill-box;transform-origin:center;animation:sv-spin 40s linear infinite}
+@keyframes sv-spin{to{transform:rotate(360deg)}}
+
+.sv-draw{stroke-dasharray:200;animation:sv-draw 5s ease-in-out infinite}
+@keyframes sv-draw{0%{stroke-dashoffset:200}60%,100%{stroke-dashoffset:0}}
+
+.sv-tick{stroke-dasharray:14;stroke-dashoffset:14;animation:sv-tick 5s ease-in-out infinite}
+@keyframes sv-tick{0%,8%{stroke-dashoffset:14}22%,80%{stroke-dashoffset:0}95%,100%{stroke-dashoffset:14}}
+
+.sv-scan{animation:sv-scan 5s ease-in-out infinite}
+@keyframes sv-scan{0%,100%{transform:translate(0,0)}50%{transform:translate(-30px,-2px)}}
+
+.sv-beat{transform-box:fill-box;transform-origin:center;animation:sv-beat 2.4s ease-in-out infinite}
+@keyframes sv-beat{0%,100%{transform:scale(1)}50%{transform:scale(1.16)}}
+
+.sv-dot{animation:sv-dot 1.4s ease-in-out infinite}
+@keyframes sv-dot{0%,100%{opacity:.25}50%{opacity:1}}
+
+@media (prefers-reduced-motion:reduce){
+  .sv-float,.sv-drift,.sv-flow,.sv-pulse,.sv-bar,.sv-spin,.sv-draw,.sv-scan,.sv-beat,.sv-dot{animation:none!important}
+  .sv-tick{animation:none!important;stroke-dashoffset:0}
+}
