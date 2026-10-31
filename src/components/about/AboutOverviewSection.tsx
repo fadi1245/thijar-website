@@ -6,7 +6,7 @@ import DeferredHeroAnimation from "@/styles/DefferedHeroAnimation";
 
 export function AboutOverviewSection() {
   return (
-    <section className="bg-white py-24 md:py-32">
+    <section className="bg-white py-12 md:py-12">
       <div className="container-tajin">
         <div className="grid gap-16 lg:grid-cols-[1.15fr_.85fr] lg:items-center">
           {/* Content */}

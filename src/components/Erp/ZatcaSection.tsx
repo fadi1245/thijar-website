@@ -57,10 +57,10 @@ export function ZatcaSection() {
             <div>
               <SectionLabel light>SAUDI ARABIA / ZATCA PHASE 2</SectionLabel>
               <h2 className="font-display mt-6 max-w-lg text-4xl font-extrabold leading-[1.02] tracking-[-.055em] md:text-6xl">
-                ZATCA Phase 2 is already built in.
+                ZATCA Phase 2 Integrated.
               </h2>
               <p className="mt-7 max-w-lg text-base leading-7 text-white/65">
-                THIJAR ERP supports Saudi e-invoicing Phase 2 today. You can
+                THIJAR ERP supports Saudi e-invoicing Phase 2. You can
                 onboard your business and submit your certificate yourself,
                 right inside the application.
               </p>

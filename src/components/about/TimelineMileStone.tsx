@@ -41,7 +41,7 @@ const milestones = [
     description:
       "Began in-house Software Development, creating tailored solutions for clients.",
     tag: "TAJIN KERNEL",
-    active: true,
+    active: false,
   },
   {
     year: "2024",

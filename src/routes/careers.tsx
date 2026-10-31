@@ -19,8 +19,8 @@ function CareersPage() {
         illustration={<CultureIllustration/>}
       />
 
-      <CareerCultureSection />
       <CareerBenefitsSection />
+      <CareerCultureSection />
       <CareerStatusSection/>
     </main>
   );

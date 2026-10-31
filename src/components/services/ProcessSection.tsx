@@ -30,7 +30,7 @@ const steps = [
 
 export function ProcessSection() {
   return (
-    <section className="bg-[hsl(var(--background))] py-10md:py-12">
+    <section className="bg-[hsl(var(--background))] py-12 md:py-12">
       <div className="container-tajin">
         {/* Header */}
         <RevealUp>
