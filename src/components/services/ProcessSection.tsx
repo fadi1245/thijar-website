@@ -35,7 +35,7 @@ export function ProcessSection() {
         {/* Header */}
         <RevealUp>
         <div className="mx-auto max-w-3xl text-center">
-          <span className="font-mono-brand text-[10px] tracking-[.22em] text-[hsl(var(--accent))]">
+          <span className="font-mono-brand text-[11px] tracking-[.22em] text-[hsl(var(--accent))]">
             SIMPLE THREE-STEP PROCESS
           </span>
 
@@ -82,7 +82,7 @@ export function ProcessSection() {
                 </p>
 
                 <div className="mt-8 border-t border-black/5 pt-5">
-                  <span className="font-mono-brand text-[10px] tracking-[.18em] text-[hsl(var(--accent))]">
+                  <span className="font-mono-brand text-[11px] tracking-[.18em] text-[hsl(var(--accent))]">
                     {step.footer}
                   </span>
                 </div>

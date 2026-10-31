@@ -45,7 +45,7 @@ export function ERPReports(){
               variants={reportItemVariants}
               className="flex items-center gap-3 border-b border-[hsl(var(--border))] py-4 text-sm font-semibold text-[hsl(var(--primary))]"
             >
-              <span className="font-mono-brand text-[10px] text-[hsl(var(--accent))]">{String(index + 1).padStart(2, '0')}</span>
+              <span className="font-mono-brand text-[11px] text-[hsl(var(--accent))]">{String(index + 1).padStart(2, '0')}</span>
               {report}
             </motion.div>
           ))}

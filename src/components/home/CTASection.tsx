@@ -25,7 +25,7 @@ export function CTASection() {
 
           <div className="relative flex flex-col items-start justify-between gap-8 md:flex-row md:items-center">
             <div>
-              <span className="inline-flex items-center rounded-full bg-white/10 px-3 py-1 font-mono-brand text-[10px] font-semibold tracking-[.16em] text-[hsl(var(--accent))]">
+              <span className="inline-flex items-center rounded-full bg-white/10 px-3 py-1 font-mono-brand text-[11px] font-semibold tracking-[.16em] text-[hsl(var(--accent))]">
                 READY WHEN YOU ARE
               </span>
               <h2 className="font-display mt-5 max-w-xl text-3xl font-extrabold leading-[1.04] tracking-[-.05em] md:text-5xl">

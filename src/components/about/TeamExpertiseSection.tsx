@@ -152,7 +152,7 @@ export function TeamExpertiseSection() {
                   <h3 className="text-lg font-bold text-white md:text-xl">
                     {item.title}
                   </h3>
-                  <p className="mt-2 max-w-2xl text-sm leading-6 text-white/50">
+                  <p className="mt-2 max-w-2xl text-sm leading-6 text-white/60">
                     {item.description}
                   </p>
                 </div>

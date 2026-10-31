@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { Component, useEffect, useRef, useState, type ReactNode } from "react";
 
 interface DeferredHeroAnimationProps {
   className?: string;
@@ -6,7 +6,29 @@ interface DeferredHeroAnimationProps {
 
 type HeroAnimationComponent = React.ComponentType<{ className?: string;
     onReady?: () => void;
+    onError?: () => void;
  }>;
+
+/** Catches WebGL / renderer failures so the poster stays instead of a crash */
+class CanvasErrorBoundary extends Component<
+  { onError: () => void; children: ReactNode },
+  { failed: boolean }
+> {
+  state = { failed: false };
+
+  static getDerivedStateFromError() {
+    return { failed: true };
+  }
+
+  componentDidCatch(error: unknown) {
+    console.error("3D scene failed, showing static poster:", error);
+    this.props.onError();
+  }
+
+  render() {
+    return this.state.failed ? null : this.props.children;
+  }
+}
 
 let heroPromise: Promise<HeroAnimationComponent> | null = null;
 const loadHero = () =>
@@ -63,6 +85,7 @@ export default function DeferredHeroAnimation({
   const [inView, setInView] = useState(false); // actually visible
   const [settled, setSettled] = useState(false); // hero finished animating
   const [ready, setReady] = useState(false);
+  const [failed, setFailed] = useState(false); // WebGL error or context loss
 
   // 1. Start downloading right after page load
   useEffect(() => {
@@ -131,7 +154,7 @@ export default function DeferredHeroAnimation({
     if (near && settled) setMount(true);
   }, [mount, HeroAnimation, inView, near, settled]);
 
-  const shouldMount = mount && !!HeroAnimation;
+  const shouldMount = mount && !!HeroAnimation && !failed;
   // 4. Cross-fade poster -> live canvas
   // 4. Fade the live canvas in on top of the poster.
   //    Wait ~300ms after mount so the first WebGL frames are drawn.
@@ -144,10 +167,10 @@ export default function DeferredHeroAnimation({
   // 5. Remove the poster only after the canvas has fully faded in.
   const [posterGone, setPosterGone] = useState(false);
   useEffect(() => {
-    if (!ready) return;
+    if (!ready || failed) return;
     const t = window.setTimeout(() => setPosterGone(true), 800); // > duration-700
     return () => clearTimeout(t);
-  }, [ready]);
+  }, [ready, failed]);
 
   return (
     <div
@@ -155,7 +178,7 @@ export default function DeferredHeroAnimation({
       className={`relative overflow-hidden ${className ?? ""}`}
     >
       {/* Poster stays solid underneath until the 3D is fully visible */}
-      {!posterGone && (
+      {(!posterGone || failed) && (
         <div
           className="pointer-events-none absolute inset-0 flex items-center justify-center"
           aria-hidden="true"
@@ -169,8 +192,13 @@ export default function DeferredHeroAnimation({
           className="absolute inset-0 transition-opacity duration-700"
           style={{ opacity: ready ? 1 : 0 }}
         >
-          <HeroAnimation className="h-full w-full"
-          onReady={() => setReady(true)} />
+          <CanvasErrorBoundary onError={() => setFailed(true)}>
+            <HeroAnimation
+              className="h-full w-full"
+              onReady={() => setReady(true)}
+              onError={() => setFailed(true)}
+            />
+          </CanvasErrorBoundary>
         </div>
       )}
     </div>

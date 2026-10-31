@@ -1,37 +1,5 @@
 import { useId } from "react";
-
-/* -------------------------------------------------------------------------- */
-/*  Animations (scoped with the "ci-" prefix, no global CSS needed)           */
-/* -------------------------------------------------------------------------- */
-const CSS = `
-.ci-float{animation:ci-float 6s ease-in-out infinite}
-@keyframes ci-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
-
-.ci-drift{animation:ci-drift 9s ease-in-out infinite}
-@keyframes ci-drift{0%,100%{transform:translate(0,0)}50%{transform:translate(6px,-14px)}}
-
-.ci-cloud{animation:ci-cloud 30s ease-in-out infinite}
-@keyframes ci-cloud{0%,100%{transform:translateX(-14px)}50%{transform:translateX(18px)}}
-
-.ci-flow{stroke-dasharray:4 6;animation:ci-flow 1.6s linear infinite}
-@keyframes ci-flow{to{stroke-dashoffset:-20}}
-
-.ci-pulse{transform-box:fill-box;transform-origin:center;animation:ci-pulse 2.6s ease-out infinite}
-@keyframes ci-pulse{0%{transform:scale(1);opacity:.7}100%{transform:scale(3.2);opacity:0}}
-
-.ci-type{animation:ci-type 1.4s ease-in-out infinite}
-@keyframes ci-type{0%,60%,100%{opacity:.3;transform:translateY(0)}30%{opacity:1;transform:translateY(-1.6px)}}
-
-.ci-sway{transform-box:fill-box;transform-origin:50% 100%;animation:ci-sway 5s ease-in-out infinite}
-@keyframes ci-sway{0%,100%{transform:rotate(-3deg)}50%{transform:rotate(3deg)}}
-
-.ci-spin{transform-box:fill-box;transform-origin:center;animation:ci-spin 40s linear infinite}
-@keyframes ci-spin{to{transform:rotate(360deg)}}
-
-@media (prefers-reduced-motion:reduce){
-  .ci-float,.ci-drift,.ci-cloud,.ci-flow,.ci-pulse,.ci-type,.ci-sway,.ci-spin{animation:none!important}
-}
-`;
+import "./ContactUsIllustration.css";
 
 /* -------------------------------------------------------------------------- */
 /*  Palette                                                                   */
@@ -329,7 +297,6 @@ export default function ContactHeroIllustration({
       aria-label="Friendly consultants and support staff welcoming clients across India and the GCC through video meetings, chat, email and phone"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <style>{CSS}</style>
 
       <defs>
         <filter id={`${uid}-sh`} x="-30%" y="-30%" width="160%" height="170%">

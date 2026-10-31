@@ -42,7 +42,7 @@ export function AboutOverviewSection() {
             {/* <div className="mt-10 border-t border-[hsl(var(--border))] pt-8">
               <div className="grid gap-8 sm:grid-cols-3">
                 <div>
-                  <p className="font-mono-brand text-[10px] tracking-[.18em] text-[hsl(var(--accent))]">
+                  <p className="font-mono-brand text-[11px] tracking-[.18em] text-[hsl(var(--accent))]">
                     DISCIPLINE
                   </p>
 
@@ -56,7 +56,7 @@ export function AboutOverviewSection() {
                 </div>
 
                 <div>
-                  <p className="font-mono-brand text-[10px] tracking-[.18em] text-[hsl(var(--accent))]">
+                  <p className="font-mono-brand text-[11px] tracking-[.18em] text-[hsl(var(--accent))]">
                     GOVERNANCE
                   </p>
 
@@ -70,7 +70,7 @@ export function AboutOverviewSection() {
                 </div>
 
                 <div>
-                  <p className="font-mono-brand text-[10px] tracking-[.18em] text-[hsl(var(--accent))]">
+                  <p className="font-mono-brand text-[11px] tracking-[.18em] text-[hsl(var(--accent))]">
                     VELOCITY
                   </p>
 

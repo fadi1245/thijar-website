@@ -66,7 +66,7 @@ export function ERPFeatures(){
                   <span className="grid h-12 w-12 place-items-center rounded-2xl bg-[hsl(var(--primary)/.08)] text-[hsl(var(--accent))]">
                     <Icon className="h-7 w-7" strokeWidth={1.7} />
                   </span>
-                  {/* <span className="rounded-full border border-[hsl(var(--accent)/.3)] px-2.5 py-1 font-mono-brand text-[10px] font-medium tracking-[.14em] text-[hsl(var(--accent))]">{number}</span> */}
+                  {/* <span className="rounded-full border border-[hsl(var(--accent)/.3)] px-2.5 py-1 font-mono-brand text-[11px] font-medium tracking-[.14em] text-[hsl(var(--accent))]">{number}</span> */}
                 </div>
                 <h3 className="mt-8 font-display text-[1.65rem] font-bold leading-tight text-[hsl(var(--primary))]">{title}</h3>
                 <p className="mt-3 max-w-lg text-base leading-7 text-[hsl(var(--muted-foreground))]">{text}</p>

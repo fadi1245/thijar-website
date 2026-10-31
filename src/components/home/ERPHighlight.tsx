@@ -274,7 +274,7 @@ export function ERPHighlight() {
                   <span className="block text-[13px] font-bold leading-4">
                     Invoice paid
                   </span>
-                  <span className="block text-[11px] text-[hsl(var(--muted-foreground))]">
+                  <span className="block text-xs text-[hsl(var(--muted-foreground))]">
                     Receivables updated
                   </span>
                 </span>
@@ -292,7 +292,7 @@ export function ERPHighlight() {
                 <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-[hsl(var(--primary)/.1)]">
                   <div className="h-full w-2/3 rounded-full bg-[hsl(var(--accent))]" />
                 </div>
-                <span className="mt-2 block text-[11px] text-[hsl(var(--muted-foreground))]">
+                <span className="mt-2 block text-xs text-[hsl(var(--muted-foreground))]">
                   Reorder suggested soon
                 </span>
               </div> */}

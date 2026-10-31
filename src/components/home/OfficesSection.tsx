@@ -21,13 +21,13 @@ export function OfficeSection() {
           <div className="mt-8 grid grid-cols-2 border-l border-[hsl(var(--accent))] pl-5 sm:grid-cols-3">
             {offices.map((office) => (
               <div key={office.code} className="mb-6">
-                <span className="font-mono-brand text-[10px] tracking-[.12em] text-[hsl(var(--accent))]">
+                <span className="font-mono-brand text-[11px] tracking-[.12em] text-[hsl(var(--accent))]">
                   {office.code}
                 </span>
                 <p className="mt-1 text-sm font-bold text-[hsl(var(--primary))]">
                   {office.city}
                 </p>
-                <p className="mt-0.5 text-[11px] text-[hsl(var(--muted-foreground))]">
+                <p className="mt-0.5 text-xs text-[hsl(var(--muted-foreground))]">
                   {office.country}
                 </p>
               </div>

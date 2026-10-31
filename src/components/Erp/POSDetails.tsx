@@ -153,7 +153,7 @@ export function PosSection() {
               <h3 className="font-display mt-3 text-[13px] font-extrabold leading-tight tracking-[-.02em] text-[hsl(var(--primary))] sm:mt-5 sm:text-base">
                 {title}
               </h3>
-              <p className="mt-1.5 text-[11px] leading-[1.45] text-[hsl(var(--muted-foreground))] sm:mt-2 sm:text-sm sm:leading-6">
+              <p className="mt-1.5 text-xs leading-[1.45] text-[hsl(var(--muted-foreground))] sm:mt-2 sm:text-sm sm:leading-6">
                 {text}
               </p>
             </RevealCard>

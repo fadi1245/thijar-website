@@ -85,7 +85,7 @@ export function TaxConsultationSection() {
               variants={cardItemVariants}
               className="group flex h-full flex-col rounded-3xl border border-[hsl(var(--border))] bg-[hsl(var(--card))] p-8 transition-all duration-300 hover:-translate-y-1 hover:border-[hsl(var(--accent)/.35)] hover:shadow-lg"
             >
-              <span className="font-mono-brand text-[10px] tracking-[.18em] text-[hsl(var(--accent))]">
+              <span className="font-mono-brand text-[11px] tracking-[.18em] text-[hsl(var(--accent))]">
                 {service.region}
               </span>
 
@@ -98,7 +98,7 @@ export function TaxConsultationSection() {
               </p>
 
               {/* <div className="mt-8 border-t border-[hsl(var(--border))] pt-5">
-                <span className="font-mono-brand text-[10px] tracking-[.18em] text-[hsl(var(--primary))]">
+                <span className="font-mono-brand text-[11px] tracking-[.18em] text-[hsl(var(--primary))]">
                   {service.tag}
                 </span>
               </div> */}

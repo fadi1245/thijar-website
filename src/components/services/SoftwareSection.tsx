@@ -117,14 +117,14 @@ export function SoftwareSection() {
           >
             <motion.span
               variants={tagVariants}
-              className="rounded bg-[hsl(var(--accent))] px-4 py-2 font-mono-brand text-[10px] tracking-[.18em] text-[hsl(var(--primary))]"
+              className="rounded bg-[hsl(var(--accent))] px-4 py-2 font-mono-brand text-[11px] tracking-[.18em] text-[hsl(var(--primary))]"
             >
               ZATCA PHASE-2 READY
             </motion.span>
 
             <motion.span
               variants={tagVariants}
-              className="rounded bg-white/10 px-4 py-2 font-mono-brand text-[10px] tracking-[.18em] text-white"
+              className="rounded bg-white/10 px-4 py-2 font-mono-brand text-[11px] tracking-[.18em] text-white"
             >
               INDIA GST COMPLIANT
             </motion.span>
@@ -169,7 +169,7 @@ export function SoftwareSection() {
 
                   <span
                     className={`flex-1 ml-2 text-lg font-bold leading-tight transition-colors duration-300 md:text-xl ${
-                      isActive ? "text-white" : "text-white/40 group-hover:text-white/70 ml-5"
+                      isActive ? "text-white" : "text-white/60 group-hover:text-white/70 ml-5"
                     }`}
                   >
                     {item.title}
@@ -189,7 +189,7 @@ export function SoftwareSection() {
             <div className="mt-10 hidden lg:block">
               <Link
                 to="/erp"
-                className="group inline-flex items-center gap-3 rounded-full bg-[hsl(var(--accent))] px-7 py-3.5 font-mono-brand text-[11px] font-semibold tracking-[.18em] text-[hsl(var(--primary))] transition-all duration-300 hover:gap-4 hover:brightness-110"
+                className="group inline-flex items-center gap-3 rounded-full bg-[hsl(var(--accent))] px-7 py-3.5 font-mono-brand text-xs font-semibold tracking-[.18em] text-[hsl(var(--primary))] transition-all duration-300 hover:gap-4 hover:brightness-110"
               >
                 KNOW MORE
                 <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5" />
@@ -234,7 +234,7 @@ export function SoftwareSection() {
           {/* CTA (mobile) */}
           <Link
             to="/erp"
-            className="group inline-flex items-center justify-center gap-3 rounded-full bg-[hsl(var(--accent))] px-7 py-3.5 font-mono-brand text-[11px] font-semibold tracking-[.18em] text-[hsl(var(--primary))] transition-all duration-300 hover:gap-4 hover:brightness-110 lg:hidden"
+            className="group inline-flex items-center justify-center gap-3 rounded-full bg-[hsl(var(--accent))] px-7 py-3.5 font-mono-brand text-xs font-semibold tracking-[.18em] text-[hsl(var(--primary))] transition-all duration-300 hover:gap-4 hover:brightness-110 lg:hidden"
           >
             KNOW MORE
             <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5" />

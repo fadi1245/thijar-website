@@ -3,9 +3,17 @@ import { CareerStatusSection } from "@/components/carrers/CareerStatusSection";
 import { CareerCultureSection } from "@/components/carrers/CarrerCultureSection";
 import { PageHero } from "@/components/shared/PageHero";
 import { createFileRoute } from "@tanstack/react-router";
+import { pageHead } from "@/lib/seo";
+import { CareerIllustration as CultureIllustration } from "@/components/ui/illustrations";
 // import HeroImage from '../assets/images/career.avif'
-import CultureIllustration from "@/components/ui/CareerIllustration";
 export const Route = createFileRoute("/careers")({
+  head: () =>
+    pageHead({
+      path: "/careers",
+      title: "Careers",
+      description:
+        "Join THIJAR's team of chartered accountants, auditors, engineers and consultants working across India and the GCC, and see current openings.",
+    }),
   component: CareersPage,
 });
 

@@ -19,11 +19,14 @@ import { RoundedBox, Preload  } from "@react-three/drei";
 // 1 = normal, ~0.15 when the visitor prefers reduced motion
 const SpeedContext = createContext(1);
 
+const REDUCED_MOTION = "(prefers-reduced-motion: reduce)";
+
 function usePrefersReducedMotion() {
-  const [reduced, setReduced] = useState(false);
+  const [reduced, setReduced] = useState(
+    () => window.matchMedia(REDUCED_MOTION).matches
+  );
   useEffect(() => {
-    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
-    setReduced(mq.matches);
+    const mq = window.matchMedia(REDUCED_MOTION);
     const onChange = (e: MediaQueryListEvent) => setReduced(e.matches);
     mq.addEventListener("change", onChange);
     return () => mq.removeEventListener("change", onChange);
@@ -396,9 +399,12 @@ function Scene() {
 interface HeroAnimationProps {
   className?: string;
   onReady?: () => void;
+  /** Called when the WebGL context is lost, so the caller can show a fallback */
+  onError?: () => void;
 }
 
 function ReadySignal({ onReady }: { onReady?: () => void }) {
+  const invalidate = useThree((s) => s.invalidate);
   const frames = useRef(0);
   const done = useRef(false);
 
@@ -408,7 +414,10 @@ function ReadySignal({ onReady }: { onReady?: () => void }) {
     if (frames.current >= 3) {
       done.current = true;
       onReady?.();
+      return;
     }
+    // with frameloop="demand" nothing else asks for these first frames
+    invalidate();
   });
 
   return null;
@@ -417,10 +426,29 @@ function ReadySignal({ onReady }: { onReady?: () => void }) {
 export default function HeroAnimation({
   className = "h-[70vh] min-h-[420px] w-full",
   onReady,
+  onError,
 }: HeroAnimationProps) {
   const wrapper = useRef<HTMLDivElement>(null!);
   const [visible, setVisible] = useState(true);
   const reduced = usePrefersReducedMotion();
+
+  // Report context loss to the caller; latest callback kept in a ref
+  const onErrorRef = useRef(onError);
+  useEffect(() => {
+    onErrorRef.current = onError;
+  }, [onError]);
+  const glCanvas = useRef<HTMLCanvasElement | null>(null);
+  const onLost = useMemo(
+    () => (e: Event) => {
+      e.preventDefault();
+      onErrorRef.current?.();
+    },
+    []
+  );
+  useEffect(
+    () => () => glCanvas.current?.removeEventListener("webglcontextlost", onLost),
+    [onLost]
+  );
 
   // Pause rendering when the hero is scrolled out of view
   useEffect(() => {
@@ -444,10 +472,15 @@ export default function HeroAnimation({
         <Canvas
           flat
           dpr={[1, 1.5]}
-          frameloop={visible ? "always" : "never"}
+          // reduced motion: draw on mount / resize only, not every frame
+          frameloop={!visible ? "never" : reduced ? "demand" : "always"}
           camera={{ position: [0, 0, 9], fov: 45 }}
           gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
           style={{ background: "transparent", pointerEvents: "none" }}
+          onCreated={({ gl }) => {
+            glCanvas.current = gl.domElement;
+            gl.domElement.addEventListener("webglcontextlost", onLost);
+          }}
         >
           <Scene />
           <Preload all /> 

@@ -11,8 +11,16 @@ import { InstallSection } from "@/components/Erp/InstallSection";
 import { PosSection } from "@/components/Erp/POSDetails";
 import { ZatcaSection } from "@/components/Erp/ZatcaSection";
 import { createFileRoute } from "@tanstack/react-router";
+import { pageHead } from "@/lib/seo";
 
 export const Route = createFileRoute("/erp")({
+  head: () =>
+    pageHead({
+      path: "/erp",
+      title: "THIJAR ERP",
+      description:
+        "THIJAR ERP manages accounting, billing, inventory, reporting and ZATCA Phase 2 e-invoicing in one platform, on Windows desktop or the web.",
+    }),
   component: ERPPage,
 });
 

@@ -19,10 +19,12 @@ export function Footer() {
           <div className="flex items-center gap-3">
             <img
               src={logo}
-              alt="Thijar logo"
+              alt=""
+              width={60}
+              height={60}
               className="w-15 rounded-lg object-cover"
             />
-            <h2 className="text-3xl font-extrabold text-white">THIJAR</h2>
+            <span className="text-3xl font-extrabold text-white">THIJAR</span>
           </div>
 
           <p className="mt-7 max-w-xs text-[14px] leading-7 text-white/55">
@@ -41,7 +43,7 @@ export function Footer() {
 
         {/* Explore */}
         <div>
-          <p className="font-mono-brand text-[10px] tracking-[.18em] text-white/35">
+          <p className="font-mono-brand text-[11px] tracking-[.18em] text-white/60">
             EXPLORE
           </p>
 
@@ -74,7 +76,7 @@ export function Footer() {
 
         {/* Locations */}
         <div>
-          <p className="font-mono-brand text-[10px] tracking-[.18em] text-white/35">
+          <p className="font-mono-brand text-[11px] tracking-[.18em] text-white/60">
             LOCATIONS
           </p>
 
@@ -89,7 +91,7 @@ export function Footer() {
 
         {/* Contact */}
         <div>
-          <p className="font-mono-brand text-[10px] tracking-[.18em] text-white/35">
+          <p className="font-mono-brand text-[11px] tracking-[.18em] text-white/60">
             LET&apos;S CONNECT
           </p>
 
@@ -114,7 +116,7 @@ export function Footer() {
               >
                 <Phone className="h-4 w-4 shrink-0 text-[hsl(var(--accent))]" />
 
-                <span className="text-white/45">{country}:</span>
+                <span className="text-white/60">{country}:</span>
 
                 {phone}
               </a>
@@ -125,7 +127,7 @@ export function Footer() {
 
       {/* Bottom Bar */}
       <div className="border-t border-white/10">
-        <div className="container-tajin flex flex-col justify-between gap-3 py-5 text-[11px] text-white/35 sm:flex-row">
+        <div className="container-tajin flex flex-col justify-between gap-3 py-5 text-xs text-white/60 sm:flex-row">
           <span>
             © 2026 THIJAR PVT LTD. Built for the next chapter.
           </span>

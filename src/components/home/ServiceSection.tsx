@@ -107,7 +107,7 @@ export function ServiceSection() {
                     aria-current={isActive ? "true" : undefined}
                   >
                     <div className="flex items-start justify-between">
-                      {/* <span className="font-mono-brand text-[10px] text-[hsl(var(--accent))]">
+                      {/* <span className="font-mono-brand text-[11px] text-[hsl(var(--accent))]">
                         {number}
                       </span> */}
                       <Icon

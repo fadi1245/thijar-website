@@ -84,15 +84,15 @@ export function ServiceDetailSection() {
             </div>
 
             <div className="mt-10 flex flex-wrap gap-3">
-              <span className="rounded-md bg-white px-3 py-2 font-mono-brand text-[10px] tracking-[.16em] text-[hsl(var(--primary))]">
+              <span className="rounded-md bg-white px-3 py-2 font-mono-brand text-[11px] tracking-[.16em] text-[hsl(var(--primary))]">
                 INDIA & GCC COMPLIANT
               </span>
 
-              <span className="rounded-md bg-white px-3 py-2 font-mono-brand text-[10px] tracking-[.16em] text-[hsl(var(--primary))]">
+              <span className="rounded-md bg-white px-3 py-2 font-mono-brand text-[11px] tracking-[.16em] text-[hsl(var(--primary))]">
                 MONTH-END CLOSING
               </span>
 
-              <span className="rounded-md bg-white px-3 py-2 font-mono-brand text-[10px] tracking-[.16em] text-[hsl(var(--primary))]">
+              <span className="rounded-md bg-white px-3 py-2 font-mono-brand text-[11px] tracking-[.16em] text-[hsl(var(--primary))]">
                 BANK RECONCILIATIONS
               </span>
             </div>

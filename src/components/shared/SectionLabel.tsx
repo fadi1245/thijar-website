@@ -11,7 +11,7 @@ export function SectionLabel({
 }: SectionLabelProps) {
   return (
     <div
-      className={`inline-flex items-center gap-2 rounded-full border px-3 py-1.5 font-mono-brand text-[10px] font-medium tracking-[.13em]
+      className={`inline-flex items-center gap-2 rounded-full border px-3 py-1.5 font-mono-brand text-[11px] font-medium tracking-[.13em]
       ${
         light
           ? "border-white/20 bg-white/6 text-white/65"

@@ -1,0 +1,11 @@
+.cs-row{animation:cs-run 50s linear infinite}
+@keyframes cs-run{from{transform:translateX(-50%)}to{transform:translateX(0)}}
+
+.cs-bob{animation:cs-bob 4.5s ease-in-out infinite}
+@keyframes cs-bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+
+.cs-marquee:hover .cs-row{animation-play-state:paused}
+
+@media (prefers-reduced-motion:reduce){
+  .cs-row,.cs-bob{animation:none!important}
+}
