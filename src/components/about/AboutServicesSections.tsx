@@ -7,7 +7,6 @@ import {
   Rocket,
   Briefcase,
   Globe,
-  ArrowUpRight,
 } from "lucide-react";
 
 import { SectionLabel } from "../shared/SectionLabel";

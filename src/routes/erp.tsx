@@ -4,7 +4,6 @@ import { ERPDashboard } from "@/components/Erp/ERPDashboard";
 import { ERPFeatures } from "@/components/Erp/ERPFeatures";
 import { ERPHero } from "@/components/Erp/ERPHero";
 // import { ERPImplementation } from "@/components/Erp/ERPImplementation";
-import { ERPPromise } from "@/components/Erp/ERPPromise";
 import { ERPReports } from "@/components/Erp/ERPReports";
 import { ERPUserViews } from "@/components/Erp/ERPUserViews";
 import { ERPWorkflow } from "@/components/Erp/ERPWorkflow";
