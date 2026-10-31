@@ -31,12 +31,12 @@ function ServicesPage() {
 
       <ServicesStatsSection/>
       <ServiceDetailSection/>
-      <TaxConsultationSection/>
-      <AuditAssuranceSection/>
       <SoftwareSection/>
       <CustomSoftwareSection/>
       <ERPImplementationSection/>
       <EcommerceSolutionsSection/>
+      <TaxConsultationSection/>
+      <AuditAssuranceSection/>
       <ProcessSection/>
       <ServicesCTASection/>
       </main>

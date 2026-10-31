@@ -4,7 +4,7 @@ import { SectionLabel } from "../shared/SectionLabel";
 
 export function ServicesCTASection() {
   return (
-    <section className="bg-[hsl(var(--primary))] py-24 md:py-32">
+    <section className="bg-[hsl(var(--primary))] py-12 md:py-12">
       <div className="container-tajin">
         <div className="mx-auto max-w-5xl text-center">
           <SectionLabel light>GET IN TOUCH</SectionLabel>

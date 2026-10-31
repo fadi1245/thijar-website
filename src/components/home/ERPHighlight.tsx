@@ -7,7 +7,9 @@ import {
   Calculator,
   CheckCircle2,
   Cloud,
+  Download,
   FileText,
+  Globe,
   ShieldCheck,
   ShoppingCart,
   Users,
@@ -75,6 +77,10 @@ const highlights = [
     text: "A clean, familiar interface your team can start using without long training.",
   },
 ];
+
+// TODO: replace with your real links
+const DOWNLOAD_URL = "/downloads/thijar-erp-setup.exe";
+const WEB_APP_URL = "https://app.thijar.com";
 
 /* -------------------------------------------------------------------------- */
 /*  Scroll-reveal variants                                                    */
@@ -187,6 +193,39 @@ export function ERPHighlight() {
                       {item}
                     </motion.span>
                   ))}
+                </motion.div>
+
+                {/* desktop + web access */}
+                <motion.div
+                  className="mt-8 border-t border-white/10 pt-6"
+                  variants={fadeUp}
+                  initial="hidden"
+                  whileInView="show"
+                  viewport={viewport}
+                >
+                  <p className="text-[13px] leading-6 text-white/60">
+                    Use it as a Windows desktop app or on the web. Same account,
+                    same data.
+                  </p>
+                  <div className="mt-4 flex flex-wrap gap-3">
+                    <a
+                      href={DOWNLOAD_URL}
+                      download
+                      className="focus-ring inline-flex items-center gap-2 rounded-full bg-[hsl(var(--accent))] px-5 py-2.5 text-sm font-bold text-white transition hover:bg-[#36afc0]"
+                    >
+                      <Download className="h-4 w-4" />
+                      Download .exe
+                    </a>
+                    <a
+                      href={WEB_APP_URL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="focus-ring inline-flex items-center gap-2 rounded-full border border-white/20 px-5 py-2.5 text-sm font-semibold text-white/80 transition hover:border-white/40 hover:bg-white/[.06] hover:text-white"
+                    >
+                      <Globe className="h-4 w-4" />
+                      Open web app
+                    </a>
+                  </div>
                 </motion.div>
 
                 {/* <div className="mt-9 flex flex-wrap items-center gap-3">

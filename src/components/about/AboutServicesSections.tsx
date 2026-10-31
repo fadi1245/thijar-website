@@ -165,10 +165,10 @@ export function AboutServicesSection() {
                     {service.tag}
                   </span>
 
-                  <ArrowUpRight
+                  {/* <ArrowUpRight
                     className="h-3.5 w-3.5 text-[hsl(var(--accent))] transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
                     strokeWidth={2}
-                  />
+                  /> */}
                 </div>
               </motion.article>
             );

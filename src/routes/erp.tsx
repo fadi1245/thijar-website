@@ -8,6 +8,7 @@ import { ERPPromise } from "@/components/Erp/ERPPromise";
 import { ERPReports } from "@/components/Erp/ERPReports";
 import { ERPUserViews } from "@/components/Erp/ERPUserViews";
 import { ERPWorkflow } from "@/components/Erp/ERPWorkflow";
+import { InstallSection } from "@/components/Erp/InstallSection";
 import { PosSection } from "@/components/Erp/POSDetails";
 import { ZatcaSection } from "@/components/Erp/ZatcaSection";
 import { createFileRoute } from "@tanstack/react-router";
@@ -21,7 +22,8 @@ function ERPPage() {
     <main>
       <ERPHero />
       <ERPDashboard />
-      <ERPPromise />
+      <InstallSection/>
+      {/* <ERPPromise /> */}
       <ERPFeatures />
       <ERPWorkflow />
       <PosSection/>
