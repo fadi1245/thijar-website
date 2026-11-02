@@ -1,4 +1,4 @@
-import { useSyncExternalStore } from "react";
+import { useState, useSyncExternalStore } from "react";
 
 const MOBILE_QUERY = "(max-width: 1023px)";
 const REDUCED_QUERY = "(prefers-reduced-motion: reduce)";
@@ -26,14 +26,24 @@ export function useIsMobile(): boolean {
 
 export type MotionMode = "full" | "lite" | "none";
 
+function readMotionMode(): MotionMode {
+  if (window.matchMedia(REDUCED_QUERY).matches) return "none";
+  return window.matchMedia(MOBILE_QUERY).matches ? "lite" : "full";
+}
+
 /**
  * full -> desktop: keep the rich animations
  * lite -> mobile/tablet: opacity + small translateY only
  * none -> user prefers reduced motion: opacity only / no movement
+ *
+ * The mode is decided ONCE, when the component mounts, and never changes
+ * while it stays mounted. Framer Motion only reads `initial` on mount, so
+ * switching mode later (window resize, browser zoom, device toolbar,
+ * rotating a tablet) would leave elements stuck at their old starting
+ * offset (e.g. translateX(-100px)). It is re-read on the next mount, e.g.
+ * after navigating to another page or reloading.
  */
 export function useMotionMode(): MotionMode {
-  const isMobile = useMediaQuery(MOBILE_QUERY);
-  const reduced = useMediaQuery(REDUCED_QUERY);
-  if (reduced) return "none";
-  return isMobile ? "lite" : "full";
+  const [mode] = useState<MotionMode>(readMotionMode);
+  return mode;
 }
