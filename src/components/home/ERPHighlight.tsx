@@ -3,82 +3,15 @@ import { Link } from "@tanstack/react-router";
 import { MotionConfig, motion, type Variants } from "framer-motion";
 import {
   ArrowRight,
-  BarChart3,
-  Boxes,
-  Calculator,
   CheckCircle2,
-  Cloud,
   Download,
-  FileText,
   Globe,
-  ShieldCheck,
-  ShoppingCart,
-  Users,
-  Zap,
 } from "lucide-react";
 import { SectionLabel } from "../shared/SectionLabel";
 import erpDashboard from "../../assets/images/erpDashboard.png";
 import { RevealLeft, RevealRight } from "@/lib/revealAnimation";
 import { useMotionMode, type MotionMode } from "@/hooks/useMotionMode";
-
-const chips = ["Billing", "Accounting", "Inventory", "Reports"];
-
-const points = [
-  "One system for invoices, books, stock and reports",
-  "Live figures instead of end-of-month surprises",
-  "Built to grow as your business and team grow",
-];
-
-const modules = [
-  {
-    icon: FileText,
-    title: "Billing & Invoicing",
-    text: "Create professional invoices, record payments and keep track of what is still outstanding.",
-  },
-  {
-    icon: Calculator,
-    title: "Accounting",
-    text: "Receivables, payables and ledgers stay in sync, so your books are always ready for review.",
-  },
-  {
-    icon: Boxes,
-    title: "Inventory & Stock",
-    text: "Monitor your stock levels, track item movement, and get alerts before items run out.",
-  },
-  {
-    icon: ShoppingCart,
-    title: "Purchasing",
-    text: "Manage suppliers and purchase orders while keeping a close eye on incoming costs.",
-  },
-  {
-    icon: BarChart3,
-    title: "Reports & Analytics",
-    text: "Clear financial and operational reports on demand, from a quick snapshot to a full breakdown.",
-  },
-  {
-    icon: Users,
-    title: "Users & Roles",
-    text: "Give each team member the right level of access, with a clear record of who did what.",
-  },
-];
-
-const highlights = [
-  {
-    icon: Cloud,
-    title: "Cloud-based",
-    text: "Access your work securely from anywhere—office, home, or on the go, on any device.",
-  },
-  {
-    icon: ShieldCheck,
-    title: "Controlled access",
-    text: "Role-based permissions keep sensitive data with the right people.",
-  },
-  {
-    icon: Zap,
-    title: "Quick to adopt",
-    text: "A clean, familiar interface your team can start using without long training.",
-  },
-];
+import { mainPageERPeData } from "@/data/siteData";
 
 // TODO: replace with your real links
 const DOWNLOAD_URL = "/downloads/thijar-erp-setup.exe";
@@ -242,7 +175,7 @@ export function ERPHighlight() {
                   className="mt-7 space-y-3"
                   {...parent(0.15, 0.1)}
                 >
-                  {points.map((point) => (
+                  {mainPageERPeData.points.map((point) => (
                     <motion.li
                       key={point}
                       {...child(slideIn)}
@@ -259,7 +192,7 @@ export function ERPHighlight() {
                   className="mt-8 flex flex-wrap gap-3 text-xs font-semibold text-white/70"
                   {...parent(0.08, 0.5)}
                 >
-                  {chips.map((item) => (
+                  {mainPageERPeData.chips.map((item) => (
                     <motion.span
                       key={item}
                       {...child(popIn)}
@@ -421,7 +354,7 @@ export function ERPHighlight() {
               className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3"
               {...parent(0.1, 0, 0.1)}
             >
-              {modules.map(({ icon: Icon, title, text }) => (
+              {mainPageERPeData.modules.map(({ icon: Icon, title, text }) => (
                 <motion.article
                   key={title}
                   {...child(popIn)}
@@ -445,7 +378,7 @@ export function ERPHighlight() {
               className="mt-6 grid gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/10 md:grid-cols-3"
               {...parent(0.15)}
             >
-              {highlights.map(({ icon: Icon, title, text }) => (
+              {mainPageERPeData.highlights.map(({ icon: Icon, title, text }) => (
                 <motion.div
                   key={title}
                   {...child(fadeUp)}
