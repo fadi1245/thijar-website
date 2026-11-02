@@ -21,6 +21,7 @@ import {
   type KeyboardEvent,
 } from "react";
 import * as THREE from "three";
+import { useIsMobile } from "@/hooks/useMotionMode";
 
 /* -------------------------------------------------------------------------- */
 /*  Config                                                                    */
@@ -159,7 +160,7 @@ const pad = (n: number) => String(n).padStart(2, "0");
 
 // Shared by the live slide and its invisible height-reserving copies
 const EYEBROW =
-  "inline-flex items-center gap-2.5 rounded-full border border-white/20 bg-white/10 px-3.5 py-1.5 font-mono-brand text-[11px] tracking-[.18em] text-white/80 backdrop-blur-sm";
+  "inline-flex items-center gap-2.5 rounded-full border border-white/20 bg-white/10 px-3.5 py-1.5 font-mono-brand text-[11px] tracking-[.18em] text-white/80 lg:backdrop-blur-sm";
 const HEADING =
   "font-display mt-6 max-w-[760px] text-[clamp(2.1rem,min(4.8vw,7.5svh),4.5rem)] font-extrabold leading-[1.02] tracking-[-.02em]";
 const SUBHEADING =
@@ -205,6 +206,7 @@ const fadeUp: Variants = {
 /* -------------------------------------------------------------------------- */
 export function Hero() {
   const reduced = useReducedMotion();
+  const isMobile = useIsMobile();
   const [active, setActive] = useState(0);
   const [dir, setDir] = useState(1);
   const [paused, setPaused] = useState(false);
@@ -265,7 +267,7 @@ export function Hero() {
   useEffect(() => {
     const el = host.current;
     if (!el) return;
-
+    if (isMobile) return; // phones/tablets: no WebGL, a static CSS glow is used instead
     let renderer: THREE.WebGLRenderer;
     try {
       // No MSAA: the scene is a shader quad + soft points, and AA is costly on
@@ -578,7 +580,7 @@ export function Hero() {
       renderer.dispose();
       renderer.domElement.remove();
     };
-  }, []);
+  }, [isMobile]);
 
   /* ------------------------------- render ------------------------------ */
   const words = String(slide.heading).split(" ");
@@ -608,6 +610,12 @@ export function Hero() {
     >
       {/* 3D stage (background field + particle globe) */}
       <div ref={host} aria-hidden className="absolute inset-0" />
+      {isMobile && (
+  <div
+    aria-hidden
+    className="pointer-events-none absolute inset-0 [background:radial-gradient(circle_at_78%_28%,hsl(var(--accent)/.3),transparent_55%),radial-gradient(circle_at_20%_90%,hsl(var(--accent)/.12),transparent_50%)]"
+  />
+)}
       <div className="hero-grid pointer-events-none absolute inset-0 opacity-25" />
 
       <div className="container-tajin relative flex flex-1 flex-col">

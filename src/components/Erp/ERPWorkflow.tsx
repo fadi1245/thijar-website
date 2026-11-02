@@ -3,7 +3,9 @@ import { SectionLabel } from "../shared/SectionLabel";
 import { erpWorkflows } from "@/data/siteData";
 import { motion, type Variants } from "framer-motion";
 import { RevealLeft } from "@/lib/revealAnimation";
+import { useMotionMode } from "@/hooks/useMotionMode";
 
+// ---- Desktop (lg+) only: the original 3D card flip + tag stagger ----------
 const cardContainerVariants: Variants = {
   hidden: {},
   visible: {
@@ -44,11 +46,42 @@ const tagVariants: Variants = {
   },
 };
 
+const tagClass =
+  "rounded-full bg-[#eaf5f6] px-2.5 py-1.5 text-[11px] font-semibold text-[hsl(var(--primary))]";
+
 export function ERPWorkflow() {
+  const mode = useMotionMode();
+  const isFull = mode === "full";
+
+  // Desktop: parent-driven stagger. Mobile: no parent animation, each card
+  // reveals on its own as it enters the screen.
+  const containerMotion = isFull
+    ? {
+        variants: cardContainerVariants,
+        initial: "hidden",
+        whileInView: "visible",
+        viewport: { once: true, margin: "-100px" },
+      }
+    : {};
+
+  const cardMotion = isFull
+    ? {
+        variants: cardItemVariants,
+        style: { transformOrigin: "top center" },
+      }
+    : {
+        // simple opacity + small translateY: no rotateX, no perspective, no scale
+        initial: { opacity: 0, y: mode === "lite" ? 16 : 0 },
+        whileInView: { opacity: 1, y: 0 },
+        viewport: { once: true, amount: 0.1 },
+        transition: { duration: 0.4, ease: "easeOut" as const },
+      };
+
   return (
     <section
       className="container-tajin py-10 md:py-12"
-      style={{ perspective: 1200 }}
+      // perspective only on desktop: it promotes 3D layers, which hurts touch scrolling
+      style={isFull ? { perspective: 1200 } : undefined}
     >
       <div className="grid gap-10 md:grid-cols-[.75fr_1.25fr]">
         <RevealLeft>
@@ -66,16 +99,12 @@ export function ERPWorkflow() {
         </RevealLeft>
         <motion.div
           className="grid gap-4 sm:grid-cols-2"
-          variants={cardContainerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
+          {...containerMotion}
         >
           {erpWorkflows.map(({ title, text, tags }) => (
             <motion.article
               key={title}
-              variants={cardItemVariants}
-              style={{ transformOrigin: "top center" }}
+              {...cardMotion}
               className="group rounded-2xl border border-[hsl(var(--border))] bg-white p-6 transition-[border-color,box-shadow] hover:-translate-y-1 hover:border-[hsl(var(--accent)/.55)] hover:shadow-[var(--shadow-md)]"
             >
               <div className="flex items-center justify-end">
@@ -88,20 +117,32 @@ export function ERPWorkflow() {
               <p className="mt-3 text-sm leading-6 text-[hsl(var(--muted-foreground))]">
                 {text}
               </p>
-              <motion.div
-                className="mt-5 flex flex-wrap gap-2"
-                variants={tagContainerVariants}
-              >
-                {tags.map((tag) => (
-                  <motion.span
-                    key={tag}
-                    variants={tagVariants}
-                    className="rounded-full bg-[#eaf5f6] px-2.5 py-1.5 text-[11px] font-semibold text-[hsl(var(--primary))]"
-                  >
-                    {tag}
-                  </motion.span>
-                ))}
-              </motion.div>
+
+              {isFull ? (
+                <motion.div
+                  className="mt-5 flex flex-wrap gap-2"
+                  variants={tagContainerVariants}
+                >
+                  {tags.map((tag) => (
+                    <motion.span
+                      key={tag}
+                      variants={tagVariants}
+                      className={tagClass}
+                    >
+                      {tag}
+                    </motion.span>
+                  ))}
+                </motion.div>
+              ) : (
+                // mobile/tablet: tags are plain static elements that arrive with their card
+                <div className="mt-5 flex flex-wrap gap-2">
+                  {tags.map((tag) => (
+                    <span key={tag} className={tagClass}>
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              )}
             </motion.article>
           ))}
         </motion.div>

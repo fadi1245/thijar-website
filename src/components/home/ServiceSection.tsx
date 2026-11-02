@@ -5,7 +5,9 @@ import { Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { RevealLeft, RevealUp } from "@/lib/revealAnimation";
+import { useMotionMode } from "@/hooks/useMotionMode";
 
+// ---- Desktop (lg+) only: the original rich reveal -------------------------
 const tabContainerVariants = {
   hidden: {},
   visible: {
@@ -28,6 +30,9 @@ const tabItemVariants = {
 };
 
 export function ServiceSection() {
+  const mode = useMotionMode();
+  const isFull = mode === "full";
+
   const [activeService, setActiveService] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const hoveredIndexRef = useRef<number | null>(null);
@@ -57,6 +62,31 @@ export function ServiceSection() {
     }
   };
 
+  // Desktop: parent-driven stagger with clip-path + blur + Framer `layout`.
+  const containerMotion = isFull
+    ? {
+        variants: tabContainerVariants,
+        initial: "hidden",
+        whileInView: "visible",
+        viewport: { once: true, margin: "-100px" },
+      }
+    : {};
+
+  const itemMotion = isFull
+    ? {
+        layout: true as const,
+        variants: tabItemVariants,
+        transition: { layout: { duration: 0.5, ease: [0.22, 1, 0.36, 1] as const } },
+      }
+    : {
+        // Mobile/tablet: each row fades up on its own as it scrolls in.
+        // No clip-path, no blur filter, no layout measuring.
+        initial: { opacity: 0, y: mode === "lite" ? 16 : 0 },
+        whileInView: { opacity: 1, y: 0 },
+        viewport: { once: true, amount: 0.1 },
+        transition: { duration: 0.4, ease: "easeOut" as const },
+      };
+
   return (
     <section className="bg-[#eaf5f6] py-14 md:py-12">
       <div className="container-tajin">
@@ -77,10 +107,7 @@ export function ServiceSection() {
         </div>
         <motion.div
           className="mt-14 flex flex-col border-t border-[hsl(var(--primary)/.14)] md:h-[280px] md:flex-row"
-          variants={tabContainerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
+          {...containerMotion}
         >
           {services.map(
             ({ id, title, description, icon: Icon }, index) => {
@@ -89,10 +116,11 @@ export function ServiceSection() {
               return (
                 <motion.div
                   key={id}
-                  layout
-                  variants={tabItemVariants}
-                  transition={{ layout: { duration: 0.5, ease: [0.22, 1, 0.36, 1] } }}
-                  className={`overflow-hidden border-b border-[hsl(var(--primary)/.14)] md:min-w-0 md:border-b-0 md:border-r md:last:border-r-0 ${isActive ? "md:flex-[2]" : "md:flex-[1]"}`}
+                  {...itemMotion}
+                  className={`overflow-hidden border-b border-[hsl(var(--primary)/.14)] md:min-w-0 md:border-b-0 md:border-r md:last:border-r-0 ${isActive ? "md:flex-[2]" : "md:flex-[1]"} ${
+                    // tablets (no Framer layout): let CSS ease the flex change
+                    isFull ? "" : "md:transition-[flex-grow] md:duration-500"
+                  }`}
                 >
                   <Link
                     to={id === "erp" ? "/erp" : "/contact-us"}

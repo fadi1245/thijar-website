@@ -2,7 +2,7 @@ import { SectionLabel } from "../shared/SectionLabel";
 // import logo from "../../assets/logo/logo.jpeg";
 // import aboutImage from '../../assets/images/aboutImage.png'
 import { RevealLeft, RevealRight } from "@/lib/revealAnimation";
-import DeferredHeroAnimation from "@/styles/DefferedHeroAnimation";
+import AnimatedLogo from "../ui/AnimatedLogo";
 
 export function AboutOverviewSection() {
   return (
@@ -90,7 +90,7 @@ export function AboutOverviewSection() {
           {/* Visual: no box around it, the animation sits directly on the page */}
           <RevealRight>
             <div className="mx-auto h-[360px] w-full max-w-xl sm:h-[420px] md:h-[480px] lg:h-[560px] lg:max-w-none">
-              <DeferredHeroAnimation className="h-full w-full" />
+              <AnimatedLogo className="h-full w-full" />
             </div>
           </RevealRight>
         </div>

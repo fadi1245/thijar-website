@@ -11,7 +11,7 @@ import {
 export const slides = [
     {
       eyebrow: 'TAJIN / BUSINESS PARTNERS',
-      heading: 'Building Stronger Businesses Across Borders',
+      heading: 'Building Stronger Businesses Across Borders fix',
       subheading:
         'Professional accounting, auditing, taxation, and business advisory services backed by experienced teams across the Middle East and India.',
       button: 'Get Started',
