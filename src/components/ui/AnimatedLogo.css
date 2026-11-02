@@ -1,0 +1,28 @@
+/* logo card: gentle float + tilt */
+.lg-card{transform-box:fill-box;transform-origin:center;animation:lg-card 6s ease-in-out infinite}
+@keyframes lg-card{0%,100%{transform:translateY(0) rotate(-1.2deg)}50%{transform:translateY(-9px) rotate(1.2deg)}}
+
+/* glass squares + some particles */
+.lg-drift{transform-box:fill-box;transform-origin:center;animation:lg-drift 9s ease-in-out infinite}
+@keyframes lg-drift{0%,100%{transform:translate(0,0) rotate(-8deg)}50%{transform:translate(9px,-13px) rotate(10deg)}}
+
+/* small orbs */
+.lg-orb{transform-box:fill-box;transform-origin:center;animation:lg-orb 7s ease-in-out infinite}
+@keyframes lg-orb{0%,100%{transform:translate(0,0)}50%{transform:translate(6px,-12px)}}
+
+/* twinkling particles */
+.lg-twinkle{animation:lg-twinkle 4s ease-in-out infinite}
+@keyframes lg-twinkle{0%,100%{opacity:.2}50%{opacity:.85}}
+
+/* floor glow pulse */
+.lg-glow{transform-box:fill-box;transform-origin:center;animation:lg-glow 5s ease-in-out infinite}
+@keyframes lg-glow{0%,100%{transform:scale(1);opacity:.85}50%{transform:scale(1.12);opacity:1}}
+
+/* off-screen or reduced motion (set by AnimatedLogo.tsx): freeze everything */
+.lg-wrap[data-paused="true"] *{animation-play-state:paused!important}
+/* phones/tablets: freeze the decorative extras, keep card float + orbit bead */
+.lg-wrap[data-lite="true"] .lg-extra{animation-play-state:paused!important}
+
+@media (prefers-reduced-motion:reduce){
+  .lg-card,.lg-drift,.lg-orb,.lg-twinkle,.lg-glow{animation:none!important}
+}

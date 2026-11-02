@@ -12,6 +12,8 @@ import {
 } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { motion } from "framer-motion";
+// Adjust this path to wherever you put the hook file
+import { useMotionMode } from "../../hooks/useMotionMode";
 
 const pillars = [
   {
@@ -47,27 +49,50 @@ const services = [
   "ERP & Technology",
 ];
 
-const fadeUp = {
-  hidden: { opacity: 0, y: 28 },
-  show: (i: number = 0) => ({
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.5, delay: i * 0.08 },
-  }),
-};
-
 export function AboutSection() {
+  const mode = useMotionMode();
+  const isFull = mode === "full"; // desktop only: keeps the original rich animation
+
+  // Shared fade-up variants. Mobile: small shift, no stagger delay
+  // (each card reveals on its own when it enters the viewport).
+  const fadeUp = {
+    hidden: { opacity: 0, y: isFull ? 28 : mode === "lite" ? 16 : 0 },
+    show: (i: number = 0) => ({
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: isFull ? 0.5 : 0.4,
+        delay: isFull ? i * 0.08 : 0,
+      },
+    }),
+  };
+
+  // Intro columns: big horizontal slides on desktop, simple fade-up elsewhere.
+  const introInitial = (dir: -1 | 1) =>
+    isFull
+      ? { opacity: 0, x: 100 * dir }
+      : { opacity: 0, y: mode === "lite" ? 20 : 0 };
+  const introShow = isFull ? { opacity: 1, x: 0 } : { opacity: 1, y: 0 };
+  const introTransition = { duration: isFull ? 0.6 : 0.4 };
+
+  // Lower threshold on mobile so tall stacked blocks reliably trigger.
+  const amount = isFull ? 0.2 : 0.1;
+
+  // The CSS .reveal keyframe used to run inside the Framer wrapper (two
+  // animations on one subtree). Keep it on desktop only.
+  const rv = (extra = "") => (isFull ? `reveal ${extra}`.trim() : "");
+
   return (
     <section className="container-tajin py-24 md:py-32">
       {/* ------------------------------ intro ------------------------------ */}
       <div className="grid gap-14 md:grid-cols-[.8fr_1.2fr]">
         <motion.div
-          initial={{ opacity: 0, x: -100 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.6 }}
+          initial={introInitial(-1)}
+          whileInView={introShow}
+          viewport={{ once: true, amount }}
+          transition={introTransition}
         >
-          <div className="reveal">
+          <div className={rv()}>
             <span className="inline-flex items-center rounded-full bg-[hsl(var(--accent)/.12)] px-3 py-1 font-mono-brand text-[11px] font-semibold tracking-[.16em] text-[hsl(var(--accent))]">
               THE THIJAR APPROACH
             </span>
@@ -78,12 +103,12 @@ export function AboutSection() {
         </motion.div>
 
         <motion.div
-          initial={{ opacity: 0, x: 100 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.6 }}
+          initial={introInitial(1)}
+          whileInView={introShow}
+          viewport={{ once: true, amount }}
+          transition={introTransition}
         >
-          <div className="reveal reveal-delay-1">
+          <div className={rv("reveal-delay-1")}>
             <p className="max-w-[620px] text-xl leading-8 text-[hsl(var(--foreground)/.78)]">
             THIJAR brings experts together—financial pros who know the numbers and tech teams who build real solutions.
             </p>
@@ -110,7 +135,7 @@ export function AboutSection() {
             variants={fadeUp}
             initial="hidden"
             whileInView="show"
-            viewport={{ once: true, amount: 0.2 }}
+            viewport={{ once: true, amount }}
             className="group rounded-2xl border border-[hsl(var(--primary)/.12)] bg-white p-6 shadow-sm transition duration-200 hover:-translate-y-1 hover:border-[hsl(var(--accent)/.5)] hover:shadow-md"
           >
             <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-[hsl(var(--accent)/.12)] text-[hsl(var(--accent))] transition group-hover:bg-[hsl(var(--accent))] group-hover:text-white">
@@ -134,7 +159,7 @@ export function AboutSection() {
         variants={fadeUp}
         initial="hidden"
         whileInView="show"
-        viewport={{ once: true, amount: 0.3 }}
+        viewport={{ once: true, amount: isFull ? 0.3 : 0.1 }}
         className="mt-10 flex flex-col gap-5 rounded-2xl border border-[hsl(var(--primary)/.12)] bg-white px-6 py-6 md:flex-row md:items-center md:gap-8 md:px-8"
       >
         <span className="shrink-0 font-mono-brand text-[11px] font-semibold tracking-[.16em] text-[hsl(var(--accent))]">

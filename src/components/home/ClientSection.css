@@ -6,6 +6,10 @@
 
 .cs-marquee:hover .cs-row{animation-play-state:paused}
 
+/* pause everything while the section is off-screen (set by ClientSection.tsx) */
+.cs-marquee[data-offscreen="true"] .cs-row,
+.cs-marquee[data-offscreen="true"] .cs-bob{animation-play-state:paused}
+
 @media (prefers-reduced-motion:reduce){
   .cs-row,.cs-bob{animation:none!important}
 }

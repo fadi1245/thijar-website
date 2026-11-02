@@ -27,9 +27,11 @@ export function Header() {
 
   return (
     <header
-      className={`fixed py-3 inset-x-0 top-0 z-50 border-b transition-all duration-300 ${
+      className={`fixed py-3 inset-x-0 top-0 z-50 border-b transition-[background-color,border-color,box-shadow] duration-300 ${
         solid
-          ? "border-white/10 bg-[hsl(var(--primary)/0.72)] shadow-[0_8px_30px_rgba(0,0,0,.12)] backdrop-blur-xl backdrop-saturate-150"
+          ? // Mobile/tablet: fully solid bar, light shadow, NO backdrop-filter (expensive while scrolling).
+            // Desktop (lg+): original frosted-glass look.
+            "border-white/10 bg-[hsl(var(--primary))] shadow-[0_2px_8px_rgba(0,0,0,0.15)] lg:bg-[hsl(var(--primary)/0.72)] lg:shadow-[0_8px_30px_rgba(0,0,0,.12)] lg:backdrop-blur-xl lg:backdrop-saturate-150"
           : "border-transparent bg-transparent"
       }`}
     >
@@ -90,7 +92,8 @@ export function Header() {
       {open && (
         <nav
           id="mobile-navigation"
-          className="mx-5 mb-4 rounded-2xl border border-white/15 bg-[hsl(var(--primary)/0.95)] p-3 shadow-2xl backdrop-blur-xl md:hidden"
+          // already 95% opaque, so the blur added cost but almost no visual value
+          className="mx-5 mb-4 rounded-2xl border border-white/15 bg-[hsl(var(--primary))] p-3 shadow-2xl md:hidden"
           aria-label="Mobile navigation"
         >
           {nav.map(([label, href]) => (

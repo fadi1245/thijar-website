@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import { Link } from "@tanstack/react-router";
 import { MotionConfig, motion, type Variants } from "framer-motion";
 import {
@@ -18,6 +19,7 @@ import {
 import { SectionLabel } from "../shared/SectionLabel";
 import erpDashboard from "../../assets/images/erpDashboard.png";
 import { RevealLeft, RevealRight } from "@/lib/revealAnimation";
+import { useMotionMode, type MotionMode } from "@/hooks/useMotionMode";
 
 const chips = ["Billing", "Accounting", "Inventory", "Reports"];
 
@@ -86,6 +88,8 @@ const WEB_APP_URL = "https://app.thijar.com";
 /*  Scroll-reveal variants                                                    */
 /* -------------------------------------------------------------------------- */
 const viewport = { once: true, amount: 0.2 } as const;
+// mobile: each element reveals on its own, a bit earlier
+const liteViewport = { once: true, amount: 0.1 } as const;
 
 // parent: staggers its children as it scrolls into view
 const stagger = (gap = 0.1, delay = 0): Variants => ({
@@ -93,57 +97,134 @@ const stagger = (gap = 0.1, delay = 0): Variants => ({
   show: { transition: { staggerChildren: gap, delayChildren: delay } },
 });
 
-// child: fade + rise
-const fadeUp: Variants = {
-  hidden: { opacity: 0, y: 28 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.55, ease: "easeOut" } },
-};
+/**
+ * full (desktop): original animations
+ * lite (mobile/tablet): opacity + small translateY only, no scale / x slides
+ * none (reduced motion): opacity only
+ */
+function makeVariants(mode: MotionMode) {
+  const isFull = mode === "full";
+  const dy = isFull ? 28 : mode === "lite" ? 16 : 0;
 
-// child: fade + slide in from the left (list rows)
-const slideIn: Variants = {
-  hidden: { opacity: 0, x: -24 },
-  show: { opacity: 1, x: 0, transition: { duration: 0.5, ease: "easeOut" } },
-};
+  // child: fade + rise
+  const fadeUp: Variants = {
+    hidden: { opacity: 0, y: dy },
+    show: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: isFull ? 0.55 : 0.4, ease: "easeOut" },
+    },
+  };
 
-// child: fade + scale up (cards, chips)
-const popIn: Variants = {
-  hidden: { opacity: 0, y: 24, scale: 0.94 },
-  show: {
-    opacity: 1,
-    y: 0,
-    scale: 1,
-    transition: { duration: 0.5, ease: "easeOut" },
-  },
-};
+  // child: fade + slide in from the left (list rows)
+  const slideIn: Variants = isFull
+    ? {
+        hidden: { opacity: 0, x: -24 },
+        show: { opacity: 1, x: 0, transition: { duration: 0.5, ease: "easeOut" } },
+      }
+    : {
+        hidden: { opacity: 0, y: mode === "lite" ? 12 : 0 },
+        show: { opacity: 1, y: 0, transition: { duration: 0.4, ease: "easeOut" } },
+      };
+
+  // child: fade + scale up (cards, chips)
+  const popIn: Variants = isFull
+    ? {
+        hidden: { opacity: 0, y: 24, scale: 0.94 },
+        show: {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          transition: { duration: 0.5, ease: "easeOut" },
+        },
+      }
+    : {
+        hidden: { opacity: 0, y: mode === "lite" ? 16 : 0 },
+        show: { opacity: 1, y: 0, transition: { duration: 0.4, ease: "easeOut" } },
+      };
+
+  return { fadeUp, slideIn, popIn };
+}
 
 export function ERPHighlight() {
+  const mode = useMotionMode();
+  const isFull = mode === "full";
+  const { fadeUp, slideIn, popIn } = useMemo(() => makeVariants(mode), [mode]);
+
+  // Desktop: parent drives a stagger. Mobile: no parent animation; every
+  // child reveals itself when IT enters the viewport (tall stacks don't
+  // animate off-screen while the user is still looking at the top).
+  const parent = (gap = 0.1, delay = 0, amount = 0.2) =>
+    isFull
+      ? {
+          variants: stagger(gap, delay),
+          initial: "hidden",
+          whileInView: "show",
+          viewport: { once: true, amount },
+        }
+      : {};
+
+  const child = (variants: Variants) =>
+    isFull
+      ? { variants }
+      : {
+          variants,
+          initial: "hidden",
+          whileInView: "show",
+          viewport: liteViewport,
+        };
+
+  // The CSS .reveal keyframe used to run inside the Framer wrappers
+  // (two animations on one subtree). Desktop only now.
+  const revealA = isFull ? "reveal" : "";
+  const revealB = isFull ? "reveal reveal-delay-1" : "";
+
   return (
     <section className="relative overflow-hidden bg-[hsl(var(--primary))] py-20 text-white md:py-28">
       {/* respects the visitor's "reduce motion" setting */}
       <MotionConfig reducedMotion="user">
         {/* background decoration */}
+        {/* dotted + masked layer: desktop only (mask-image on a huge layer is costly on phones) */}
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute inset-0 opacity-40 [background-image:radial-gradient(hsl(var(--accent)/.35)_1px,transparent_1px)] [background-size:26px_26px] [mask-image:radial-gradient(ellipse_at_70%_20%,black,transparent_70%)]"
+          className="pointer-events-none absolute inset-0 hidden opacity-40 lg:block [background-image:radial-gradient(hsl(var(--accent)/.35)_1px,transparent_1px)] [background-size:26px_26px] [mask-image:radial-gradient(ellipse_at_70%_20%,black,transparent_70%)]"
         />
-        <motion.div
-          aria-hidden="true"
-          className="pointer-events-none absolute -right-32 -top-32 h-96 w-96 rounded-full bg-[hsl(var(--accent)/.14)] blur-3xl"
-          animate={{ scale: [1, 1.15, 1], opacity: [0.8, 1, 0.8] }}
-          transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
-        />
-        <motion.div
-          aria-hidden="true"
-          className="pointer-events-none absolute -bottom-40 -left-24 h-96 w-96 rounded-full bg-[hsl(var(--accent)/.08)] blur-3xl"
-          animate={{ scale: [1, 1.2, 1], opacity: [0.7, 1, 0.7] }}
-          transition={{ duration: 11, repeat: Infinity, ease: "easeInOut" }}
-        />
+
+        {isFull ? (
+          <>
+            {/* desktop: animated blurred orbs */}
+            <motion.div
+              aria-hidden="true"
+              className="pointer-events-none absolute -right-32 -top-32 h-96 w-96 rounded-full bg-[hsl(var(--accent)/.14)] blur-3xl"
+              animate={{ scale: [1, 1.15, 1], opacity: [0.8, 1, 0.8] }}
+              transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
+            />
+            <motion.div
+              aria-hidden="true"
+              className="pointer-events-none absolute -bottom-40 -left-24 h-96 w-96 rounded-full bg-[hsl(var(--accent)/.08)] blur-3xl"
+              animate={{ scale: [1, 1.2, 1], opacity: [0.7, 1, 0.7] }}
+              transition={{ duration: 11, repeat: Infinity, ease: "easeInOut" }}
+            />
+          </>
+        ) : (
+          <>
+            {/* mobile/tablet: static soft gradients, no blur filter, no animation */}
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute -right-32 -top-32 h-96 w-96 rounded-full [background:radial-gradient(circle,hsl(var(--accent)/.2),transparent_70%)]"
+            />
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute -bottom-40 -left-24 h-96 w-96 rounded-full [background:radial-gradient(circle,hsl(var(--accent)/.12),transparent_70%)]"
+            />
+          </>
+        )}
 
         <div className="container-tajin relative">
           {/* ------------------------------ hero ------------------------------ */}
           <div className="grid gap-14 md:grid-cols-[.85fr_1.15fr] md:items-center">
             <RevealLeft>
-              <div className="reveal">
+              <div className={revealA}>
                 <SectionLabel light>THIJAR ERP</SectionLabel>
 
                 <h2 className="font-display mt-6 max-w-lg text-4xl font-extrabold leading-[1.02] tracking-[-.055em] md:text-6xl">
@@ -159,15 +240,12 @@ export function ERPHighlight() {
                 {/* benefit points: slide in one after another */}
                 <motion.ul
                   className="mt-7 space-y-3"
-                  variants={stagger(0.15, 0.1)}
-                  initial="hidden"
-                  whileInView="show"
-                  viewport={viewport}
+                  {...parent(0.15, 0.1)}
                 >
                   {points.map((point) => (
                     <motion.li
                       key={point}
-                      variants={slideIn}
+                      {...child(slideIn)}
                       className="flex items-start gap-3 text-[15px] leading-6 text-white/75"
                     >
                       <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-[hsl(var(--accent))]" />
@@ -179,15 +257,12 @@ export function ERPHighlight() {
                 {/* chips: pop in */}
                 <motion.div
                   className="mt-8 flex flex-wrap gap-3 text-xs font-semibold text-white/70"
-                  variants={stagger(0.08, 0.5)}
-                  initial="hidden"
-                  whileInView="show"
-                  viewport={viewport}
+                  {...parent(0.08, 0.5)}
                 >
                   {chips.map((item) => (
                     <motion.span
                       key={item}
-                      variants={popIn}
+                      {...child(popIn)}
                       className="rounded-full border border-white/15 bg-white/[.06] px-3 py-2"
                     >
                       {item}
@@ -198,10 +273,14 @@ export function ERPHighlight() {
                 {/* desktop + web access */}
                 <motion.div
                   className="mt-8 border-t border-white/10 pt-6"
-                  variants={fadeUp}
-                  initial="hidden"
-                  whileInView="show"
-                  viewport={viewport}
+                  {...(isFull
+                    ? {
+                        variants: fadeUp,
+                        initial: "hidden",
+                        whileInView: "show",
+                        viewport,
+                      }
+                    : child(fadeUp))}
                 >
                   <p className="text-[13px] leading-6 text-white/60">
                     Use it as a Windows desktop app or on the web. Same account,
@@ -247,16 +326,27 @@ export function ERPHighlight() {
             </RevealLeft>
 
             <RevealRight>
-              <div className="reveal reveal-delay-1 relative">
-                <div className="absolute -inset-4 rounded-[28px] bg-[hsl(var(--accent)/.14)] blur-2xl" />
+              <div className={`${revealB} relative`}>
+                {/* blurred glow behind the dashboard: desktop only */}
+                <div className="absolute -inset-4 hidden rounded-[28px] bg-[hsl(var(--accent)/.14)] blur-2xl lg:block" />
 
-                {/* dashboard: scales up gently as it arrives */}
+                {/* dashboard: scales up gently as it arrives (desktop); simple fade-up on mobile */}
                 <motion.div
-                  className="relative overflow-hidden rounded-2xl border border-white/15 bg-white/10 p-2 shadow-[0_22px_60px_rgba(0,0,0,.2)]"
-                  initial={{ opacity: 0, scale: 0.92 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={viewport}
-                  transition={{ duration: 0.8, delay: 0.15, ease: "easeOut" }}
+                  className="relative overflow-hidden rounded-2xl border border-white/15 bg-white/10 p-2 shadow-[0_10px_30px_rgba(0,0,0,.2)] lg:shadow-[0_22px_60px_rgba(0,0,0,.2)]"
+                  initial={
+                    isFull
+                      ? { opacity: 0, scale: 0.92 }
+                      : { opacity: 0, y: mode === "lite" ? 16 : 0 }
+                  }
+                  whileInView={
+                    isFull ? { opacity: 1, scale: 1 } : { opacity: 1, y: 0 }
+                  }
+                  viewport={isFull ? viewport : liteViewport}
+                  transition={
+                    isFull
+                      ? { duration: 0.8, delay: 0.15, ease: "easeOut" }
+                      : { duration: 0.5, ease: "easeOut" }
+                  }
                 >
                   <img
                     src={erpDashboard}
@@ -305,22 +395,19 @@ export function ERPHighlight() {
             {/* heading block */}
             <motion.div
               className="mx-auto max-w-2xl text-center"
-              variants={stagger(0.12)}
-              initial="hidden"
-              whileInView="show"
-              viewport={viewport}
+              {...parent(0.12)}
             >
-              <motion.div variants={fadeUp}>
+              <motion.div {...child(fadeUp)}>
                 <SectionLabel light>WHAT&apos;S INSIDE</SectionLabel>
               </motion.div>
               <motion.h3
-                variants={fadeUp}
+                {...child(fadeUp)}
                 className="font-display mt-6 text-3xl font-extrabold leading-[1.05] tracking-[-.05em] md:text-5xl"
               >
                 Every part of your operations, connected.
               </motion.h3>
               <motion.p
-                variants={fadeUp}
+                {...child(fadeUp)}
                 className="mt-5 text-[15px] leading-7 text-white/60"
               >
                 Each module works on the same live data, so a sale, a purchase
@@ -329,18 +416,15 @@ export function ERPHighlight() {
               </motion.p>
             </motion.div>
 
-            {/* module cards: staggered pop-in */}
+            {/* module cards: staggered pop-in (desktop) / individual fade-up (mobile) */}
             <motion.div
               className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3"
-              variants={stagger(0.1)}
-              initial="hidden"
-              whileInView="show"
-              viewport={{ once: true, amount: 0.1 }}
+              {...parent(0.1, 0, 0.1)}
             >
               {modules.map(({ icon: Icon, title, text }) => (
                 <motion.article
                   key={title}
-                  variants={popIn}
+                  {...child(popIn)}
                   className="group rounded-2xl border border-white/10 bg-white/[.05] p-6 transition duration-200 hover:-translate-y-1 hover:border-[hsl(var(--accent)/.5)] hover:bg-white/[.08]"
                 >
                   <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-[hsl(var(--accent)/.15)] text-[hsl(var(--accent))] transition group-hover:bg-[hsl(var(--accent))] group-hover:text-white">
@@ -359,15 +443,12 @@ export function ERPHighlight() {
             {/* ---------------------------- highlights --------------------------- */}
             <motion.div
               className="mt-6 grid gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/10 md:grid-cols-3"
-              variants={stagger(0.15)}
-              initial="hidden"
-              whileInView="show"
-              viewport={viewport}
+              {...parent(0.15)}
             >
               {highlights.map(({ icon: Icon, title, text }) => (
                 <motion.div
                   key={title}
-                  variants={fadeUp}
+                  {...child(fadeUp)}
                   className="flex items-start gap-4 bg-[hsl(var(--primary))] p-6"
                 >
                   <Icon className="mt-0.5 h-6 w-6 shrink-0 text-[hsl(var(--accent))]" />
@@ -384,10 +465,16 @@ export function ERPHighlight() {
             {/* -------------------------------- CTA ------------------------------ */}
             <motion.div
               className="mt-10 flex flex-col items-start justify-between gap-6 rounded-3xl border border-white/10 bg-gradient-to-r from-white/[.08] to-white/[.03] p-7 md:flex-row md:items-center md:p-10"
-              initial={{ opacity: 0, y: 40, scale: 0.97 }}
-              whileInView={{ opacity: 1, y: 0, scale: 1 }}
-              viewport={{ once: true, amount: 0.4 }}
-              transition={{ duration: 0.6, ease: "easeOut" }}
+              initial={
+                isFull
+                  ? { opacity: 0, y: 40, scale: 0.97 }
+                  : { opacity: 0, y: mode === "lite" ? 16 : 0 }
+              }
+              whileInView={
+                isFull ? { opacity: 1, y: 0, scale: 1 } : { opacity: 1, y: 0 }
+              }
+              viewport={{ once: true, amount: isFull ? 0.4 : 0.1 }}
+              transition={{ duration: isFull ? 0.6 : 0.4, ease: "easeOut" }}
             >
               <div className="max-w-xl">
                 <h4 className="font-display text-2xl font-extrabold tracking-[-.04em] md:text-3xl">
