@@ -2,7 +2,6 @@ import { SectionLabel } from "../shared/SectionLabel";
 // import logo from "../../assets/logo/logo.jpeg";
 // import aboutImage from '../../assets/images/aboutImage.png'
 import { RevealLeft, RevealRight } from "@/lib/revealAnimation";
-import DeferredHeroAnimation from "@/styles/DefferedHeroAnimation";
 import AnimatedLogo from "../ui/AnimatedLogo";
 
 export function AboutOverviewSection() {
