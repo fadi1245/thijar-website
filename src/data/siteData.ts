@@ -14,9 +14,6 @@ import {
   Cloud,
   Zap,
   Cpu,
-  LifeBuoy,
-  Rocket,
-  Search,
 } from "lucide-react";
 
 export const slides = [
