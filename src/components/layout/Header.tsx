@@ -5,6 +5,7 @@ import logo from "../../assets/logo/logo.jpeg";
 
 // `as const` keeps the paths literal so <Link to> type-checks them
 const nav = [
+  ["Home", "/"],
   ["About us", "/about-us"],
   ["ERP & software", "/erp"],
   ["Services", "/service"],
@@ -101,8 +102,7 @@ export function Header() {
               key={href}
               to={href}
               onClick={() => setOpen(false)}
-              className="focus-ring block rounded-xl px-4 py-3 text-sm font-medium text-white/80 hover:bg-white/10 hover:text-white"
-              data-testid={`link-mobile-${href.slice(1).replace("-", "")}`}
+              className="focus-ring block rounded-xl px-4 py-3 text-sm font-medium text-white/80 transition-colors hover:bg-white/10 hover:text-white [&.active]:bg-white/15 [&.active]:text-white [&.active]:font-semibold [&.active]:border-l-2 [&.active]:border-[hsl(var(--accent))]"              data-testid={`link-mobile-${href.slice(1).replace("-", "")}`}
             >
               {label}
             </Link>

@@ -1,53 +1,11 @@
-import {
-  ArrowUpRight,
-  Calculator,
-  // CheckCircle2,
-  // ClipboardList,
-  Cpu,
-  // LifeBuoy,
-  // Rocket,
-  // Search,
-  ShieldCheck,
-  Users,
-} from "lucide-react";
+import {ArrowUpRight,} from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 // Adjust this path to wherever you put the hook file
 import { useMotionMode } from "../../hooks/useMotionMode";
-
-const pillars = [
-  {
-    icon: Calculator,
-    title: "Financial specialists",
-    text: "Accountants, auditors and tax professionals who care about the detail, so your numbers are always audit-ready.",
-  },
-  {
-    icon: Cpu,
-    title: "Technology teams",
-    text: "Engineers and ERP consultants who turn finance and operations into systems that actually work.",
-  },
-  {
-    icon: ShieldCheck,
-    title: "Accountable delivery",
-    text: "Clear goals. strict timelines, and a single team that takes full ownership of the result.",
-  },
-  {
-    icon: Users,
-    title: "A team that stays close",
-    text: "Direct access to the experts doing the work, from day one and long after launch.",
-  },
-];
+import { mainPageAboutUsData } from "@/data/siteData";
 
 
-const services = [
-  "Accounting",
-  "Taxation",
-  "Auditing",
-  "Company Formation",
-  "Compliance",
-  "Business Consulting",
-  "ERP & Technology",
-];
 
 export function AboutSection() {
   const mode = useMotionMode();
@@ -128,7 +86,7 @@ export function AboutSection() {
 
       {/* ----------------------------- pillars ----------------------------- */}
       <div className="mt-16 grid gap-4 sm:grid-cols-2 lg:grid-cols-4 md:mt-20">
-        {pillars.map(({ icon: Icon, title, text }, i) => (
+        {mainPageAboutUsData.pillars.map(({ icon: Icon, title, text }, i) => (
           <motion.article
             key={title}
             custom={i}
@@ -166,7 +124,7 @@ export function AboutSection() {
           ONE TEAM, MANY DISCIPLINES
         </span>
         <div className="flex flex-wrap gap-2">
-          {services.map((service) => (
+          {mainPageAboutUsData.services.map((service) => (
             <span
               key={service}
               className="rounded-full bg-[hsl(var(--primary)/.06)] px-3.5 py-1.5 text-[13px] font-semibold text-[hsl(var(--primary))]"

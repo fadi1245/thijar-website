@@ -1,9 +1,32 @@
 import { useEffect, useRef, useState } from "react";
 import { RevealUp } from "@/lib/revealAnimation";
-import clientLogo from "../../assets/logo/clientlogo.png";
 import "./ClientSection.css";
+import { sanity } from "@/lib/sanity";
+
+interface ClientLogo {
+  _id: string;
+  name: string;
+  logoUrl: string;
+}
+
+const CLIENT_QUERY = `*[_type == "client" && isActive == true && defined(logo.asset)]
+  | order(order asc) {
+    _id,
+    name,
+    "logoUrl": logo.asset->url
+  }`;
+
 
 export function ClientSection() {
+
+  const [clients, setClients] = useState<ClientLogo[]>([]);
+
+useEffect(() => {
+  sanity.fetch<ClientLogo[]>(CLIENT_QUERY)
+    .then(setClients)
+    .catch((error) => console.error("Failed to fetch client logos:", error));
+}, []);
+
   const marqueeRef = useRef<HTMLDivElement>(null);
   const [inView, setInView] = useState(false);
 
@@ -59,8 +82,8 @@ export function ClientSection() {
         <div
           className="cs-row relative flex w-max items-center gap-8 py-8 pr-8 md:gap-12 md:py-10 md:pr-12"
         >
-          {[...Array(2)].flatMap((_, loopIndex) =>
-            [...Array(8)].map((__, logoIndex) => (
+            {[...Array(2)].flatMap((_, loopIndex) =>
+              clients.map((client, logoIndex) => (
               <div
                 key={`${loopIndex}-${logoIndex}`}
                 // bob animation is a desktop extra: 16 independently animating
@@ -69,14 +92,10 @@ export function ClientSection() {
                 style={{ animationDelay: `${-logoIndex * 0.55}s` }}
               >
                 <div className="grid h-24 w-24 place-items-center rounded-3xl bg-white p-3 shadow-[0_6px_16px_hsl(var(--primary)/.12)] transition duration-300 hover:scale-105 hover:shadow-[0_20px_48px_hsl(var(--accent)/.35)] sm:h-32 sm:w-32 md:h-40 md:w-40 lg:shadow-[0_12px_32px_hsl(var(--primary)/.12)]">
-                  <img
-                    src={clientLogo}
-                    alt={
-                      loopIndex === 0 && logoIndex === 0
-                        ? "Client partner logo"
-                        : ""
-                    }
-                    aria-hidden={loopIndex !== 0 || logoIndex !== 0}
+                <img
+                    src={client.logoUrl}
+                    alt={loopIndex === 0 ? `${client.name} logo` : ""}
+                    aria-hidden={loopIndex !== 0}
                     className="h-full w-full rounded-2xl object-cover"
                   />
                 </div>

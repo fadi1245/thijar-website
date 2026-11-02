@@ -1,57 +1,9 @@
 import { RevealLeft, RevealRight } from "@/lib/revealAnimation";
 import { SectionLabel } from "../shared/SectionLabel";
 import { motion, type Variants } from "framer-motion";
+import { aboutPageTimelineData } from "@/data/siteData";
 
-const milestones = [
-  {
-    year: "2011",
-    title: "Foundation",
-    description:
-      "Established in Wayanad, India as a Software Distribution Company.",
-    tag: "INITIAL PHASE",
-    active: false,
-  },
-  {
-    year: "2012",
-    title: "Expansion",
-    description:
-      "Added Accounting and Auditing Services.",
-    tag: "ADVISORY CORE",
-    active: false,
-  },
-  {
-    year: "2020",
-    title: "Transformation",
-    description:
-      "Focused on Business Structuring and Automations, driving efficiency and innovation.",
-    tag: "AUTOMATION",
-    active: false,
-  },
-  {
-    year: "2022",
-    title: "Global Reach",
-    description:
-      "Expanded operations to the GCC region, marking international presence.",
-    tag: "GCC FOOTPRINT",
-    active: false,
-  },
-  {
-    year: "2023",
-    title: "Innovation",
-    description:
-      "Began in-house Software Development, creating tailored solutions for clients.",
-    tag: "TAJIN KERNEL",
-    active: false,
-  },
-  {
-    year: "2024",
-    title: "Incorporation",
-    description:
-      "Officially registered as THIJAR PVT LTD, establishing identity.",
-    tag: "CORPORATE ENTITY",
-    active: false,
-  },
-];
+
 
 const LINE_DURATION = 1.8;
 
@@ -80,7 +32,7 @@ const timelineItemVariants: Variants = {
     transition: {
       duration: 0.5,
       ease: [0.22, 1, 0.36, 1] as const,
-      delay: (index / (milestones.length - 1)) * LINE_DURATION,
+      delay: (index / (aboutPageTimelineData.milestones.length - 1)) * LINE_DURATION,
     },
   }),
 };
@@ -93,9 +45,34 @@ const timelineDotVariants: Variants = {
     transition: {
       duration: 0.35,
       ease: [0.22, 1, 0.36, 1] as const,
-      delay: (index / (milestones.length - 1)) * LINE_DURATION,
+      delay: (index / (aboutPageTimelineData.milestones.length - 1)) * LINE_DURATION,
     },
   }),
+};
+
+const mobileTimelineItemVariants: Variants = {
+  hidden: { opacity: 0, y: 16 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.65,
+      ease: [0.22, 1, 0.36, 1] as const,
+      delay: 0,
+    },
+  },
+};
+
+const mobileTimelineDotVariants: Variants = {
+  hidden: { opacity: 0, scale: 0.3 },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    transition: {
+      duration: 0.45,
+      delay: 0,
+    },
+  },
 };
 
 export function TimelineMilestonesSection() {
@@ -138,7 +115,7 @@ export function TimelineMilestonesSection() {
           />
 
           <div className="grid grid-cols-6 gap-8">
-            {milestones.map((item, index) => (
+            {aboutPageTimelineData.milestones.map((item, index) => (
               <div key={item.year}>
                 <motion.div
                   custom={index}
@@ -211,11 +188,11 @@ export function TimelineMilestonesSection() {
           />
 
           <div className="space-y-10">
-            {milestones.map((item, index) => (
+            {aboutPageTimelineData.milestones.map((item, index) => (
               <div key={item.year} className="relative pl-12">
                 <motion.div
                   custom={index}
-                  variants={timelineDotVariants}
+                  variants={mobileTimelineDotVariants}
                   initial="hidden"
                   whileInView="visible"
                   viewport={{ once: true, margin: "-100px" }}
@@ -236,7 +213,7 @@ export function TimelineMilestonesSection() {
 
                 <motion.div
                   custom={index}
-                  variants={timelineItemVariants}
+                  variants={mobileTimelineItemVariants}
                   initial="hidden"
                   whileInView="visible"
                   viewport={{ once: true, margin: "-100px" }}
