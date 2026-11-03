@@ -37,7 +37,6 @@ function ServicesPage() {
         illustration={<ServicesIllustration/>}
       />
 
-      <ServicesStatsSection/>
       <ServiceDetailSection/>
       <SoftwareSection/>
       <CustomSoftwareSection/>
@@ -46,6 +45,7 @@ function ServicesPage() {
       <TaxConsultationSection/>
       <AuditAssuranceSection/>
       <ProcessSection/>
+      <ServicesStatsSection/>
       <ServicesCTASection/>
       </main>
     </>

@@ -32,7 +32,7 @@ function ERPPage() {
       <InstallSection/>
       {/* <ERPPromise /> */}
       <ERPFeatures />
-      <ERPWorkflow />
+      {/* <ERPWorkflow /> */}
       <PosSection/>
       <ERPReports />
       <ZatcaSection />

@@ -138,22 +138,23 @@ export function PosSection() {
           </div>
         </RevealLeft>
 
-        {/* Features: 2 columns on mobile, 2 on sm, 3 on lg.
-              No reveal wrapper, so nothing can stay hidden. */}
-        <ul className="mt-6 grid grid-cols-2 gap-2.5 sm:gap-4 lg:grid-cols-3">
+        {/* Features: 1 column on mobile, 2 on sm, 3 on lg.
+              Mobile now uses the same card sizing as desktop so it matches
+              the rest of the site. No reveal wrapper, so nothing can stay hidden. */}
+        <ul className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {features.map(({ icon: Icon, title, text }, i) => (
             <RevealCard
               key={title}
               index={i}
-              className="rounded-xl border border-[hsl(var(--primary)/0.1)] bg-white p-3 sm:rounded-2xl sm:p-6"
+              className="rounded-2xl border border-[hsl(var(--primary)/0.1)] bg-white p-6"
             >
-              <span className="grid h-8 w-8 place-items-center rounded-lg bg-[hsl(var(--primary))] text-[hsl(var(--accent))] sm:h-10 sm:w-10 sm:rounded-xl">
-                <Icon className="h-4 w-4 sm:h-5 sm:w-5" strokeWidth={1.6} />
+              <span className="grid h-10 w-10 place-items-center rounded-xl bg-[hsl(var(--primary))] text-[hsl(var(--accent))]">
+                <Icon className="h-5 w-5" strokeWidth={1.6} />
               </span>
-              <h3 className="font-display mt-3 text-[13px] font-extrabold leading-tight tracking-[-.02em] text-[hsl(var(--primary))] sm:mt-5 sm:text-base">
+              <h3 className="font-display mt-5 text-base font-extrabold leading-tight tracking-[-.02em] text-[hsl(var(--primary))]">
                 {title}
               </h3>
-              <p className="mt-1.5 text-xs leading-[1.45] text-[hsl(var(--muted-foreground))] sm:mt-2 sm:text-sm sm:leading-6">
+              <p className="mt-2 text-sm leading-6 text-[hsl(var(--muted-foreground))]">
                 {text}
               </p>
             </RevealCard>

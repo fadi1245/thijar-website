@@ -57,7 +57,10 @@ export function Header() {
           <span className="text-3xl font-extrabold text-white">THIJAR</span>
         </Link>
 
-        <nav className="hidden items-center gap-8 md:flex" aria-label="Primary navigation">
+        <nav
+          className="hidden items-center gap-8 md:flex"
+          aria-label="Primary navigation"
+        >
           {nav.map(([label, href]) => (
             <Link
               key={href}
@@ -70,7 +73,7 @@ export function Header() {
           ))}
           <Link
             to="/contact-us"
-            className="focus-ring group inline-flex items-center gap-2 rounded-full border border-white/25 px-4 py-2.5 text-[13px] font-semibold text-white transition-all hover:border-white/65 hover:bg-white/10"
+            className="focus-ring group inline-flex items-center gap-2 rounded-full border border-white/25 px-4 py-2.5 text-[13px] font-semibold text-white transition-all hover:border-white/65 hover:bg-white/10 [&.active]:border-white [&.active]:bg-white/15"
             data-testid="link-nav-contact"
           >
             Start a conversation{" "}
@@ -102,7 +105,8 @@ export function Header() {
               key={href}
               to={href}
               onClick={() => setOpen(false)}
-              className="focus-ring block rounded-xl px-4 py-3 text-sm font-medium text-white/80 transition-colors hover:bg-white/10 hover:text-white [&.active]:bg-white/15 [&.active]:text-white [&.active]:font-semibold [&.active]:border-l-2 [&.active]:border-[hsl(var(--accent))]"              data-testid={`link-mobile-${href.slice(1).replace("-", "")}`}
+              className="focus-ring block rounded-xl px-4 py-3 text-sm font-medium text-white/80 transition-colors hover:bg-white/10 hover:text-white [&.active]:bg-white/15 [&.active]:text-white [&.active]:font-semibold [&.active]:border-l-2 [&.active]:border-[hsl(var(--accent))]"
+              data-testid={`link-mobile-${href.slice(1).replace("-", "")}`}
             >
               {label}
             </Link>
@@ -110,7 +114,7 @@ export function Header() {
           <Link
             to="/contact-us"
             onClick={() => setOpen(false)}
-            className="focus-ring mt-2 block rounded-xl bg-[hsl(var(--accent))] px-4 py-3 text-center text-sm font-semibold text-white"
+            className="focus-ring mt-2 block rounded-xl bg-[hsl(var(--accent))] px-4 py-3 text-center text-sm font-semibold text-white [&.active]:ring-2 [&.active]:ring-white/70"
             data-testid="link-mobile-contact"
           >
             Start a conversation
