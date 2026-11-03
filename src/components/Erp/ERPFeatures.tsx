@@ -1,5 +1,7 @@
+import type { ComponentType } from "react";
+import { Workflow } from "lucide-react";
 import { SectionLabel } from "../shared/SectionLabel";
-import { erpFeatureGroups } from "@/data/siteData";
+import { erpFeatureGroups, erpWorkflows } from "@/data/siteData";
 import { motion, type Variants } from "framer-motion";
 import { useMotionMode } from "@/hooks/useMotionMode";
 
@@ -44,6 +46,31 @@ const pillVariants: Variants = {
   },
 };
 
+// Feature groups + workflows, shown together in the same card style.
+// Workflows have no icon in the data, so they get the lucide `Workflow` icon
+// (swap it for another icon, or add an `icon` to erpWorkflows, if you prefer).
+type Item = {
+  icon: ComponentType<{ className?: string; strokeWidth?: number }>;
+  title: string;
+  text: string;
+  tags: readonly string[];
+};
+
+const items: Item[] = [
+  ...erpFeatureGroups.map(({ icon, title, text, features }) => ({
+    icon,
+    title,
+    text,
+    tags: features,
+  })),
+  ...erpWorkflows.map(({ title, text, tags }) => ({
+    icon: Workflow,
+    title,
+    text,
+    tags,
+  })),
+];
+
 const pillClass =
   "rounded-full border border-[hsl(var(--primary)/.14)] bg-white/65 px-3 py-1.5 text-xs font-semibold text-[hsl(var(--primary))]";
 
@@ -87,9 +114,9 @@ export function ERPFeatures() {
           className="mt-8 grid gap-px overflow-hidden rounded-2xl border border-[hsl(var(--primary)/.14)] bg-[hsl(var(--primary)/.14)] md:grid-cols-2"
           {...containerMotion}
         >
-          {erpFeatureGroups.map(({ icon: Icon, title, text, features }) => (
+          {items.map(({ icon: Icon, title, text, tags }, index) => (
             <motion.article
-              key={title}
+              key={`${title}-${index}`}
               {...cardMotion}
               className="bg-[#eaf5f6] p-6 md:p-7"
             >
@@ -107,13 +134,13 @@ export function ERPFeatures() {
                   className="mt-5 flex flex-wrap gap-2"
                   variants={pillContainerVariants}
                 >
-                  {features.map((feature) => (
+                  {tags.map((tag) => (
                     <motion.span
-                      key={feature}
+                      key={tag}
                       variants={pillVariants}
                       className={pillClass}
                     >
-                      {feature}
+                      {tag}
                     </motion.span>
                   ))}
                 </motion.div>
@@ -121,9 +148,9 @@ export function ERPFeatures() {
                 // mobile/tablet: ~20 pills are plain static elements that
                 // simply arrive with their card (no per-pill animation)
                 <div className="mt-5 flex flex-wrap gap-2">
-                  {features.map((feature) => (
-                    <span key={feature} className={pillClass}>
-                      {feature}
+                  {tags.map((tag) => (
+                    <span key={tag} className={pillClass}>
+                      {tag}
                     </span>
                   ))}
                 </div>

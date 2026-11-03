@@ -101,7 +101,7 @@ export const offices = [
 ];
 
 export const successMetrics = [
-  { value: 7, label: "Countries", suffix: "" },
+  { value: 5, label: "Countries", suffix: "" },
   { value: 50, label: "Clients served", suffix: "+" },
   { value: 98, label: "Customer satisfaction", suffix: "%" },
   { value: 50, label: "Personnel", suffix: "+" },

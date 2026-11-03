@@ -5,7 +5,7 @@ import { Check, ArrowRight } from "lucide-react";
 // PASTE YOUR GOOGLE APPS SCRIPT WEB APP URL HERE
 // Deploy → New deployment → Web app → "Anyone" access → copy /exec URL
 // ─────────────────────────────────────────────────────────────
-const GOOGLE_SHEET_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzI7P7fVYVWEDLNIeDQooqWvHtMeYyqqF_o84_J8xKYQKqKeEpGiXJb1yrgtc1EuvWD/exec";
+const GOOGLE_SHEET_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzN7bexgQu8mHfs5gvc3CBmwFBBmdIesyTGnI52mDtV9NNRANgwbTrv7JrGuNT3iqH_/exec";
 
 type Status = "idle" | "sending" | "sent" | "error";
 type Field = "fullName" | "email" | "phone" | "message";

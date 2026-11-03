@@ -6,7 +6,6 @@ import { ERPHero } from "@/components/Erp/ERPHero";
 // import { ERPImplementation } from "@/components/Erp/ERPImplementation";
 import { ERPReports } from "@/components/Erp/ERPReports";
 import { ERPUserViews } from "@/components/Erp/ERPUserViews";
-import { ERPWorkflow } from "@/components/Erp/ERPWorkflow";
 import { InstallSection } from "@/components/Erp/InstallSection";
 import { PosSection } from "@/components/Erp/POSDetails";
 import { ZatcaSection } from "@/components/Erp/ZatcaSection";
@@ -32,7 +31,7 @@ function ERPPage() {
       <InstallSection/>
       {/* <ERPPromise /> */}
       <ERPFeatures />
-      <ERPWorkflow />
+      {/* <ERPWorkflow /> */}
       <PosSection/>
       <ERPReports />
       <ZatcaSection />
