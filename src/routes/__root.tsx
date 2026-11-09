@@ -1,18 +1,22 @@
-
 import { useEffect } from "react";
 import { HeadContent, Outlet, createRootRoute } from "@tanstack/react-router";
 import { MotionConfig } from "framer-motion";
 
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { useRouterState } from "@tanstack/react-router";
 
 function RootLayout() {
+  const isAdmin = useRouterState({
+    select: (s) => s.location.pathname.startsWith("/admin"),
+  });
+
   useEffect(() => {
     let cancelled = false;
 
     const waitForImages = async () => {
       const images = Array.from(document.images).filter(
-        (img) => img.loading !== "lazy"
+        (img) => img.loading !== "lazy",
       );
 
       await Promise.all(
@@ -43,7 +47,7 @@ function RootLayout() {
           if (img.naturalWidth > 0 && img.decode) {
             await img.decode().catch(() => {});
           }
-        })
+        }),
       );
     };
 
@@ -54,9 +58,7 @@ function RootLayout() {
 
       // Minimum display time, fonts and initial images.
       await Promise.all([
-        new Promise<void>((resolve) =>
-          window.setTimeout(resolve, 1350)
-        ),
+        new Promise<void>((resolve) => window.setTimeout(resolve, 1350)),
         document.fonts.ready.catch(() => {}),
         waitForImages(),
       ]);
@@ -81,15 +83,17 @@ function RootLayout() {
 
   return (
     <MotionConfig reducedMotion="user">
-      <HeadContent />
-
-      <Header />
-
-      <main>
+      {isAdmin ? (
         <Outlet />
-      </main>
-
-      <Footer />
+      ) : (
+        <>
+          <Header />
+          <main>
+            <Outlet />
+          </main>
+          <Footer />
+        </>
+      )}
     </MotionConfig>
   );
 }

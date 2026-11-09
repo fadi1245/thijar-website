@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutUsRouteImport } from './routes/about-us'
+import { Route as AdminRouteImport } from './routes/admin'
 import { Route as CareersRouteImport } from './routes/careers'
 import { Route as ContactUsRouteImport } from './routes/contact-us'
 import { Route as ErpRouteImport } from './routes/erp'
@@ -24,6 +25,11 @@ const IndexRoute = IndexRouteImport.update({
 const AboutUsRoute = AboutUsRouteImport.update({
   id: '/about-us',
   path: '/about-us',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CareersRoute = CareersRouteImport.update({
@@ -50,6 +56,7 @@ const ServiceRoute = ServiceRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about-us': typeof AboutUsRoute
+  '/admin': typeof AdminRoute
   '/careers': typeof CareersRoute
   '/contact-us': typeof ContactUsRoute
   '/erp': typeof ErpRoute
@@ -58,6 +65,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about-us': typeof AboutUsRoute
+  '/admin': typeof AdminRoute
   '/careers': typeof CareersRoute
   '/contact-us': typeof ContactUsRoute
   '/erp': typeof ErpRoute
@@ -67,6 +75,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about-us': typeof AboutUsRoute
+  '/admin': typeof AdminRoute
   '/careers': typeof CareersRoute
   '/contact-us': typeof ContactUsRoute
   '/erp': typeof ErpRoute
@@ -75,13 +84,27 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    '/' | '/about-us' | '/careers' | '/contact-us' | '/erp' | '/service'
+    | '/'
+    | '/about-us'
+    | '/admin'
+    | '/careers'
+    | '/contact-us'
+    | '/erp'
+    | '/service'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about-us' | '/careers' | '/contact-us' | '/erp' | '/service'
+  to:
+    | '/'
+    | '/about-us'
+    | '/admin'
+    | '/careers'
+    | '/contact-us'
+    | '/erp'
+    | '/service'
   id:
     | '__root__'
     | '/'
     | '/about-us'
+    | '/admin'
     | '/careers'
     | '/contact-us'
     | '/erp'
@@ -91,6 +114,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutUsRoute: typeof AboutUsRoute
+  AdminRoute: typeof AdminRoute
   CareersRoute: typeof CareersRoute
   ContactUsRoute: typeof ContactUsRoute
   ErpRoute: typeof ErpRoute
@@ -111,6 +135,13 @@ declare module '@tanstack/react-router' {
       path: '/about-us'
       fullPath: '/about-us'
       preLoaderRoute: typeof AboutUsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/careers': {
@@ -147,6 +178,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutUsRoute: AboutUsRoute,
+  AdminRoute: AdminRoute,
   CareersRoute: CareersRoute,
   ContactUsRoute: ContactUsRoute,
   ErpRoute: ErpRoute,
